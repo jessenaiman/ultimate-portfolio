@@ -23,6 +23,10 @@ export const home = {
       title: "Ready to Hire",
       description: "🚀 Pre-built components for each framework",
     },
+    {
+      title: "Pretrained Nerd",
+      description: "🎉 Ready to learn new frameworks",
+    }
   ],
   stats: [
     {
@@ -41,5 +45,10 @@ export const home = {
 }
 
 export const cred = {
-  github: "https://github.com/ontariodungeons/HireMe"
+  name: "Jesse Naiman",
+  github: "https://github.com/ontariodungeons",
+  email: "jessenaiman@gmail.com",
+  telegram: "https://t.me/dicewizard",
+  GITHUB_USER: 'ontariodungeons',
+  REPO_NAME: 'UltimateAstroTemplate',
 }

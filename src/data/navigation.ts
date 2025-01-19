@@ -11,4 +11,5 @@ export const frameworks: Framework[] = [
     { name: 'vuejs', displayName: 'Vue', path: '/vue', color: '#4FC08D' },
     { name: 'svelte', displayName: 'Svelte', path: '/svelte', color: '#FF3E00' },
     { name: 'solidjs', displayName: 'Solid', path: '/solid', color: '#2C4F7C' },
+    { name: 'resume', displayName: 'Resume', path: '/resume', color: '#FF5D01' }
 ];

@@ -1,5 +1,6 @@
 ---
 import { frameworks } from '../../data/navigation';
+import { cred } from '../../data/site';
 import GitHubButton from './GitHubButton.astro';
 
 const currentPath = Astro.url.pathname;
@@ -11,10 +12,7 @@ const isActivePath = (path: string) => {
         : normalizedCurrent.endsWith(normalizedPath);
 };
 
-const GITHUB_USER = 'Marve10s';
-const REPO_NAME = 'UltimateAstroTemplate';
-
-const stars = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}`)
+const stars = await fetch(`https://api.github.com/repos/${cred.GITHUB_USER}/${cred.REPO_NAME}`)
     .then(res => res.ok ? res.json() : Promise.reject('Failed to fetch'))
     .then(data => data.stargazers_count)
     .catch(() => 0);
@@ -55,7 +53,7 @@ const stars = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NA
             {/* GitHub Links */}
             <div class="flex justify-end items-center gap-3 lg:gap-4 xl:gap-6">
                 <a
-                    href={`https://github.com/${GITHUB_USER}`}
+                    href={`https://github.com/${cred.GITHUB_USER}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="p-1.5 lg:p-2 text-gray-400 hover:text-white bg-gray-900/50 backdrop-blur-md rounded-full border border-gray-800/50 transition-all duration-300 hover:scale-110 flex items-center"
@@ -75,8 +73,8 @@ const stars = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NA
                 </a>
 
                 <GitHubButton 
-                    GITHUB_USER={GITHUB_USER}
-                    REPO_NAME={REPO_NAME}
+                    GITHUB_USER=${cred.GITHUB_USER}
+                    REPO_NAME=${cred.REPO_NAME}
                     stars={stars}
                 />
             </div>
@@ -134,7 +132,7 @@ const stars = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NA
 
                         <div class="mt-6 flex flex-col gap-4">
                             <a
-                                href={`https://github.com/${GITHUB_USER}`}
+                                href={`https://github.com/${cred.GITHUB_USER}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800/50 transition-all duration-200"
@@ -146,7 +144,7 @@ const stars = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NA
                             </a>
 
                             <a 
-                                href={`https://github.com/${GITHUB_USER}/${REPO_NAME}`}
+                                href={`https://github.com/${cred.GITHUB_USER}/${cred.REPO_NAME}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-blue-600/30 to-purple-600/30 hover:from-blue-600/40 hover:to-purple-600/40 text-blue-300 rounded-lg transition-all duration-200 border border-blue-500/20"

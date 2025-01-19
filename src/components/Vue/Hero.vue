@@ -199,9 +199,9 @@ const count = ref(0);
 const doubled = computed(() => count.value * 2);
 const hue = ref(180);
 const tasks = ref([
-  { text: 'Learn Vue', done: true },
-  { text: 'Master Astro', done: false },
-  { text: 'Build awesome apps', done: false }
+  { text: 'Showcase Vue', done: true },
+  { text: 'Wow and Impress Employers', done: false },
+  { text: 'Get hired at the best company ever', done: false }
 ]);
 
 const scrollToFeatures = () => {
