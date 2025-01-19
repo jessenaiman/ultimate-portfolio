@@ -1,6 +1,63 @@
 <script>
   import { onMount } from 'svelte';
   import { fade, slide } from 'svelte/transition';
+  import { create, all } from 'mathjs';
+  import Chart from 'chart.js/auto';
+
+  let equation = 'x^2 + 2*x + 1';
+  let chart;
+
+  const math = create(all);
+
+function plotEquation() {
+    const expr = math.compile(equation);
+    const derivative = math.derivative(equation, 'x').toString();
+
+    const xValues = [];
+    const yValues = [];
+    const dyValues = [];
+    for (let x = -10; x <= 10; x += 0.1) {
+      xValues.push(x);
+      yValues.push(expr.evaluate({ x }));
+      dyValues.push(math.evaluate(derivative, { x }));
+    }
+
+    const ctx = document.getElementById('chart').getContext('2d');
+    if (chart) {
+      chart.destroy();
+    }
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: xValues,
+        datasets: [
+          {
+            label: 'Equation Plot',
+            data: yValues,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: true, // Fill the area under the curve
+            backgroundColor: 'rgba(75, 192, 192, 0.2)'
+          },
+          {
+            label: 'Derivative Plot',
+            data: dyValues,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  }
 
   let mounted = false;
   let activeTab = 'state';
@@ -35,6 +92,7 @@
 
   onMount(() => {
     mounted = true;
+    plotEquation();
   });
 </script>
 
@@ -69,6 +127,16 @@
             on:click={() => activeTab = 'todo'}
           >
             Todo App
+          </button>
+          <button
+            class={`px-4 py-3 text-sm font-medium transition-colors duration-200 ${
+              activeTab === 'chart'
+                ? 'text-orange-400 border-b-2 border-orange-400'
+                : 'text-gray-400 hover:text-white'
+            }`}
+            on:click={() => activeTab = 'chart'}
+          >
+            Math Chart
           </button>
         </div>
 
@@ -165,6 +233,13 @@ $: doubledCount = count * 2;
                   </div>
                 {/each}
               </div>
+            </div>
+          {:else if activeTab === 'chart'}
+            <div>
+              <h1>Equation Plotter</h1>
+              <input type="text" bind:value={equation} placeholder="Enter equation, e.g., x^2 + 2*x + 1" />
+              <button on:click={plotEquation}>Plot</button>
+              <canvas id="chart" width="400" height="400"></canvas>
             </div>
           {/if}
         </div>

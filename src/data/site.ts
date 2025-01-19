@@ -1,18 +1,18 @@
 // Only for Astro page
 
 export const siteConfig = {
-  title: "Ultimate Astro",
-  description: "The Ultimate Multi-Framework Astro Template",
-};
+  title: "My Ultimate Portofolio",
+  description: "This simple site demonstrates my abliity to adapt and learn new technologies.",
+}
 
 export const home = {
-  title: "One Template\nEvery Framework",
-  subtitle: "Ultimate Astro Template",
+  title: "One Developer\nEvery Framework",
+  subtitle: "The ultimate full stack developer",
   description:
-    "Discover the power of multi-framework development with our ultimate Astro template. From React to Vue, Svelte to Solid - experience them all in one blazing-fast website.",
+    "I evolve and continue to learn, taking all the best lessons from each iteration. From React to Vue, Svelte to Solid - experience them all in one blazing-fast website.",
   features: [
     {
-      title: "All Frameworks",
+      title: "A Bunch of Modern Frameworks",
       description: "🎭 React, Vue, Svelte, Solid - use them all together",
     },
     {
@@ -20,7 +20,7 @@ export const home = {
       description: "✨ Modern design patterns & optimized performance",
     },
     {
-      title: "Ready to Use",
+      title: "Ready to Hire",
       description: "🚀 Pre-built components for each framework",
     },
   ],
@@ -37,5 +37,9 @@ export const home = {
       value: "99",
       label: "Performance Score",
     },
-  ],
-};
+  ]
+}
+
+export const cred = {
+  github: "https://github.com/ontariodungeons/HireMe"
+}

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 
 interface Message {
   id: number;
@@ -21,7 +22,7 @@ const InteractiveShowcase: React.FC = () => {
     },
     {
       id: 3,
-      content: "AI version of developer Ibrahim Elkamali",
+      content: "AI version of developer Jesse Naiman",
       sender: "assistant"
     },
     {
@@ -57,7 +58,7 @@ const InteractiveShowcase: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
 
@@ -70,17 +71,43 @@ const InteractiveShowcase: React.FC = () => {
     setMessages(prev => [...prev, userMessage]);
     setNewMessage('');
 
-    // Only send the prepared message once after the first user input
-    if (!hasRespondedToFirstMessage) {
-      setTimeout(() => {
-        const assistantMessage: Message = {
-          id: messages.length + 2,
-          content: "Ha, I think I'm too lazy to implement AI chat bot but if you want to chat - take a look on GitHub.",
-          sender: 'assistant'
-        };
-        setMessages(prev => [...prev, assistantMessage]);
-        setHasRespondedToFirstMessage(true);
-      }, 1000);
+    // Call the chat API
+    try {
+      const result = await axios.post('https://chatapi.akash.network/api/v1/chat/completions', {
+        model: "Meta-Llama-3-1-8B-Instruct-FP8",
+        messages: [
+          {
+            "role": "user",
+            "content": newMessage
+          }
+        ]
+      }, {
+        headers: {
+          'Authorization': 'Bearer sk-q_0D8kIK7WlIknAWcquS5g', // Replace with your actual API key
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Assuming the response structure matches Python's OpenAI response
+      let content = result.data.choices[0].message.content;
+
+      // Simulating textwrap.fill behavior in JS
+      const wrappedText = content.match(/.{1,50}/g)?.join('\n') || content;
+
+      const assistantMessage: Message = {
+        id: messages.length + 2,
+        content: wrappedText,
+        sender: 'assistant'
+      };
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Error fetching chat response:', error);
+      const errorMsg: Message = {
+        id: messages.length + 2,
+        content: 'An error occurred while fetching the response.',
+        sender: 'assistant'
+      };
+      setMessages(prev => [...prev, errorMsg]);
     }
   };
 
@@ -94,13 +121,13 @@ const InteractiveShowcase: React.FC = () => {
               <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
                 <img
                   className="aspect-square h-full w-full"
-                  alt="Ibrahim Elkamali"
+                  alt="Jesse Naiman"
                   src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23a855f7'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='40' fill='white' text-anchor='middle' dominant-baseline='middle'%3EI%3C/text%3E%3C/svg%3E"
                 />
               </span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <h3 className="font-semibold text-gray-100">Ibrahim Elkamali</h3>
+              <h3 className="font-semibold text-gray-100">Jesse Naiman</h3>
               <p className="text-xs text-gray-400">@astroisthebest</p>
             </div>
           </div>
