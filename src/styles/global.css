@@ -2,15 +2,176 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-200 inline-flex items-center justify-center;
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-600 hover:bg-secondary-700 text-white;
+  }
+
+  .btn-outline {
+    @apply border-2 border-white/20 hover:bg-white/10;
+  }
+
+  .card {
+    @apply bg-gray-800 rounded-lg p-6 shadow-lg transition-all duration-300;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass {
+    @apply backdrop-blur-md bg-white/10 border border-white/20;
+  }
+
+  .input {
+    @apply bg-gray-800 border border-gray-700 rounded-md px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 to-secondary-400;
+  }
+
+  .nav-link {
+    @apply relative px-3 py-2 text-gray-300 hover:text-white transition-colors duration-200;
+  }
+
+  .list-modern {
+    @apply space-y-2;
+  }
+
+  .list-modern li {
+    @apply flex items-start;
+  }
 }
 
+:root {
+  color-scheme: dark;
+  
+  /* Modern Color Palette */
+  --color-primary: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  --color-secondary: #8b5cf6;
+  --color-accent: #f59e0b;
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  
+  /* Background Colors */
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  
+  /* Text Colors */
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-tertiary: #9ca3af;
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+}
+
+/* Base Styles */
 body {
-  @apply text-white;
+  @apply text-white bg-gray-900;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
 .font-cal {
   font-family: 'Cal Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Card Hover Effect */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Navigation Underline Effect */
+.nav-link::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary-500 transition-all duration-200;
+}
+
+.nav-link:hover::after {
+  @apply w-full;
+}
+
+/* List Arrow */
+.list-modern li::before {
+  content: '→';
+  @apply mr-2 text-primary-500;
+}
+
+/* Modern Grid */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-md);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-cal tracking-tight;
+}
+
+h1 { @apply text-4xl md:text-5xl lg:text-6xl font-bold; }
+h2 { @apply text-3xl md:text-4xl lg:text-5xl font-bold; }
+h3 { @apply text-2xl md:text-3xl lg:text-4xl font-semibold; }
+h4 { @apply text-xl md:text-2xl lg:text-3xl font-semibold; }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Focus Styles */
+:focus {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-gray-900;
+}
+
+/* Selection */
+::selection {
+  @apply bg-primary-500/30 text-white;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
 }
