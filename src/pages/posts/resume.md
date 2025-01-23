@@ -5,6 +5,7 @@ description: 'Senior Developer with nearly two decades of experience in web deve
 ---
 
 # Jesse Naiman
+
 ## Senior Developer / Community Support
 
 **Location:** Aurora, ON L4G 4S1  

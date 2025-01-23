@@ -18,7 +18,7 @@ const stars = await fetch(`https://api.github.com/repos/${cred.GITHUB_USER}/${cr
     .catch(() => 0);
 ---
 
-<header class="top-0 left-0 right-0 z-50">
+<header class="top-0 left-0 right-0 z-50 header-content">
     <nav class="container mx-auto px-4 py-6">
         {/* Desktop Navigation */}
         <div class="hidden lg:grid grid-cols-[0.5fr_auto_0.5fr] xl:grid-cols-[1fr_auto_1fr] items-center">
@@ -26,28 +26,44 @@ const stars = await fetch(`https://api.github.com/repos/${cred.GITHUB_USER}/${cr
             
             {/* Navigation Links */}
             <div class="bg-gray-900/50 backdrop-blur-md px-2 lg:px-3 xl:px-6 py-2 lg:py-2.5 rounded-full border border-gray-800/50">
-                {frameworks.map((framework, index) => (
-                    <>
-                        {index !== 0 && <span class="mx-1.5 lg:mx-2 xl:mx-4 text-gray-600">|</span>}
-                        <a
-                            href={framework.path}
-                            class:list={[
-                                'relative px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 text-[11px] lg:text-xs xl:text-sm transition-all duration-300 font-medium font-sans',
-                                isActivePath(framework.path)
-                                    ? 'text-white bg-gray-800/80 rounded-lg border border-gray-700/50 shadow-[0_0_15px_rgba(0,0,0,0.3)]'
-                                    : 'text-gray-400 hover:text-white'
-                            ]}
-                        >
-                            <span class="relative z-10">{framework.displayName}</span>
-                            {isActivePath(framework.path) && (
-                                <span 
-                                    class="absolute bottom-0 left-0 h-[2px] w-full"
-                                    style={`background-color: ${framework.color}`}
-                                />
-                            )}
-                        </a>
-                    </>
-                ))}
+                {frameworks.map((framework, index) => {
+                    const isActive = isActivePath(framework.path);
+                    const linkStyle = `
+                        transition-all duration-300 
+                        relative 
+                        ${isActive ? 'text-white' : 'text-gray-400'} 
+                        after:content-[''] 
+                        after:absolute 
+                        after:bottom-0 
+                        after:left-0 
+                        after:w-full 
+                        after:h-[2px] 
+                        after:transition-all 
+                        after:duration-300
+                        after:transform
+                        after:scale-x-0
+                        hover:after:scale-x-100
+                        after:origin-left
+                    `;
+                    const linkColor = `after:bg-[${framework.color}]`;
+                    return (
+                        <>
+                            {index !== 0 && <span class="mx-1.5 lg:mx-2 xl:mx-4 text-gray-600">|</span>}
+                            <a
+                                href={framework.path}
+                                class={`${linkStyle} ${linkColor} ${isActive ? 'font-medium' : ''}`}
+                                style={`
+                                    ${isActive ? `color: ${framework.color};` : ''}
+                                    --framework-color: ${framework.color};
+                                `}
+                                onmouseenter={`this.style.color = '${framework.color}'`}
+                                onmouseleave={`this.style.color = ${isActive ? `'${framework.color}'` : "''"}`}
+                            >
+                                {framework.displayName}
+                            </a>
+                        </>
+                    );
+                })}
             </div>
 
             {/* GitHub Links */}

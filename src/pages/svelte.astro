@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Hero from "../components/Svelte/Hero.svelte";
-import DevTools from "../components/Svelte/DevTools.svelte";
+import MathTools from "../components/Svelte/MathTools.svelte";
+import TodoTools from "../components/Svelte/TodoTools.svelte";
 ---
 
 <Layout 
@@ -10,8 +10,7 @@ import DevTools from "../components/Svelte/DevTools.svelte";
   secondaryBallColor="#FF5D01"  
 >
   <main>
-    <Hero client:only="svelte" />
-    <DevTools client:only="svelte" />
+    <MathTools client:only="svelte" />
+    <TodoTools client:only="svelte" />
   </main>
 </Layout>
-

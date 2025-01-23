@@ -1,13 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import * as greatPost from './posts/great-post.md';
+import * as resume from './posts/resume.md';
 const posts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
 ---
 
-<Layout>
+<Layout 
+title="Resume" 
+primaryBallColor="#61DAFB"  
+secondaryBallColor="#282c34" 
+>
   <main>
-    <p>{greatPost.frontmatter.title}</p>
-    <p>Written by: {greatPost.frontmatter.author}</p>
+    <p>{resume.frontmatter.title}</p>
+    <p>Written by: {resume.frontmatter.author}</p>
 
     <p>Post Archive:</p>
     <ul>

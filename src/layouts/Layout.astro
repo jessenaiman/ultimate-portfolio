@@ -29,13 +29,16 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
     <meta name="generator" content={Astro.generator} />
+    <meta name="view-transition" content="same-origin" />
     <SEO
-      title={title}
+      title={`${title} - Ultimate Astro Template`}
       titleTemplate="%s - Astro Framework Theme"
       description="Your comprehensive guide to building modern websites with Astro Framework"
       canonical="https://ultimate-astro-template.vercel.app/"
@@ -114,6 +117,38 @@ const {
       rel="stylesheet"
     />
     <Analytics />
+    <style is:global>
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes slide-from-right {
+        from { transform: translateX(30px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      
+      @keyframes slide-from-top {
+        from { transform: translateY(-30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+
+      ::view-transition-old(root) {
+        animation: fade-out 0.5s ease-out both;
+      }
+      
+      ::view-transition-new(root) {
+        animation: fade-in 0.5s ease-out both;
+      }
+      
+      .page-content {
+        animation: slide-from-right 0.5s ease-out;
+      }
+      
+      .header-content {
+        animation: slide-from-top 0.5s ease-out;
+      }
+    </style>
   </head>
   <body
     class="m-0 min-h-screen relative font-sans"
