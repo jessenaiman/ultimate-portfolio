@@ -4,6 +4,13 @@ export default {
 	theme: {
 		extend: {
 			colors: {
+				background: 'var(--background)',
+				foreground: 'var(--foreground)',
+				muted: 'var(--muted)',
+				'muted-foreground': 'var(--muted-foreground)',
+				accent: 'var(--accent)',
+				'accent-foreground': 'var(--accent-foreground)',
+				border: 'var(--border)',
 				primary: {
 					50: '#f0f9ff',
 					100: '#e0f2fe',
@@ -44,7 +51,6 @@ export default {
 					from: { height: 'var(--radix-accordion-content-height)' },
 					to: { height: 0 },
 				},
-				
 			},
 			animation: {
 				slideDown: 'slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)',

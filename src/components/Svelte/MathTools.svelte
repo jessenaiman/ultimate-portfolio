@@ -18,6 +18,9 @@
   let tangentPoint = 0;
   let mounted = false;
 
+  let calculatorDisplay = '';
+  let lastAnswer = null;
+
   const predefinedEquations = [
     { category: 'Linear', equations: [
       { name: 'Basic Line', value: '2*x + 1' },
@@ -209,6 +212,46 @@
     }
   }
 
+  function handleInput(value) {
+    switch(value) {
+      case '=':
+        try {
+          const result = math.evaluate(calculatorDisplay);
+          lastAnswer = result;
+          calculatorDisplay = result.toString();
+        } catch (error) {
+          calculatorDisplay = 'Error';
+        }
+        break;
+      case 'ans':
+        calculatorDisplay += lastAnswer !== null ? lastAnswer : '';
+        break;
+      case '123':
+      case 'f(x)':
+      case 'ABC':
+      case '#':
+        // Toggle between different input modes (can be implemented later)
+        break;
+      case 'x²':
+        calculatorDisplay += '^2';
+        break;
+      case '√':
+        calculatorDisplay += 'sqrt(';
+        break;
+      case '|x|':
+        calculatorDisplay += 'abs(';
+        break;
+      case '×':
+        calculatorDisplay += '*';
+        break;
+      case 'π':
+        calculatorDisplay += 'pi';
+        break;
+      default:
+        calculatorDisplay += value;
+    }
+  }
+
   $: if (equation && mounted) {
     renderMathPreview();
     plotEquation();
@@ -228,6 +271,54 @@
     {#if mounted}
       <div in:slide={{ duration: 800, delay: 200 }} class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-gray-800/50 overflow-hidden shadow-xl">
         <div class="space-y-6 max-w-4xl mx-auto p-6">
+          <!-- Calculator Interface -->
+          <div class="calculator-container bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-gray-800/50 overflow-hidden shadow-xl p-4 mb-6">
+            <div class="display bg-gray-800 p-4 rounded-lg mb-4">
+              <input type="text" bind:value={calculatorDisplay} class="w-full bg-transparent text-right text-2xl text-white" readonly />
+            </div>
+            
+            <div class="grid grid-cols-4 gap-2">
+              <!-- Special Functions Row -->
+              <button class="calc-btn" on:click={() => handleInput('123')}>123</button>
+              <button class="calc-btn" on:click={() => handleInput('f(x)')}>f(x)</button>
+              <button class="calc-btn" on:click={() => handleInput('ABC')}>ABC</button>
+              <button class="calc-btn" on:click={() => handleInput('#')}>#{'\u266F'}</button>
+
+              <!-- Variables Row -->
+              <button class="calc-btn" on:click={() => handleInput('x')}>x</button>
+              <button class="calc-btn" on:click={() => handleInput('y')}>y</button>
+              <button class="calc-btn" on:click={() => handleInput('π')}>π</button>
+              <button class="calc-btn" on:click={() => handleInput('e')}>e</button>
+
+              <!-- Function Row -->
+              <button class="calc-btn" on:click={() => handleInput('x²')}>x²</button>
+              <button class="calc-btn" on:click={() => handleInput('√')}>√</button>
+              <button class="calc-btn" on:click={() => handleInput('[]')}>[&nbsp;]</button>
+              <button class="calc-btn" on:click={() => handleInput('|x|')}>|x|</button>
+
+              <!-- Numbers and Operations -->
+              <button class="calc-btn" on:click={() => handleInput('7')}>7</button>
+              <button class="calc-btn" on:click={() => handleInput('8')}>8</button>
+              <button class="calc-btn" on:click={() => handleInput('9')}>9</button>
+              <button class="calc-btn" on:click={() => handleInput('×')}>×</button>
+
+              <button class="calc-btn" on:click={() => handleInput('4')}>4</button>
+              <button class="calc-btn" on:click={() => handleInput('5')}>5</button>
+              <button class="calc-btn" on:click={() => handleInput('6')}>6</button>
+              <button class="calc-btn" on:click={() => handleInput('+')}>+</button>
+
+              <button class="calc-btn" on:click={() => handleInput('1')}>1</button>
+              <button class="calc-btn" on:click={() => handleInput('2')}>2</button>
+              <button class="calc-btn" on:click={() => handleInput('3')}>3</button>
+              <button class="calc-btn" on:click={() => handleInput('-')}>-</button>
+
+              <button class="calc-btn" on:click={() => handleInput('ans')}>ans</button>
+              <button class="calc-btn" on:click={() => handleInput('0')}>0</button>
+              <button class="calc-btn" on:click={() => handleInput('.')}>.</button>
+              <button class="calc-btn" on:click={() => handleInput('=')}>=</button>
+            </div>
+          </div>
+
           <!-- Top Controls -->
           <div class="bg-gray-800 p-4 rounded-lg space-y-4">
             <div class="flex flex-col space-y-2">
@@ -378,3 +469,19 @@
     {/if}
   </div>
 </div>
+
+<style>
+  .calculator-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .calc-btn {
+    @apply bg-gray-800 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors;
+    min-height: 2.5rem;
+  }
+
+  .display input {
+    font-family: monospace;
+  }
+</style>

@@ -18,7 +18,7 @@ export default defineConfig({
     }),
     icon(),
     react({
-      include: ["**/React/**/*.{jsx,tsx}"],
+      include: ["**/React|Remix/**/*.{jsx,tsx}"],
     }),
     svelte(),
     vue(),
