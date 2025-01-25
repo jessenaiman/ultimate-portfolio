@@ -6,42 +6,44 @@ interface Props {
   bgColor?: string;
 }
 
-const {
-  title,
-  bgColor = "#0F1115",
-} = Astro.props;
+const { title, bgColor = "#0F1115" } = Astro.props;
 ---
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+    crossorigin="anonymous"
+  />
   <meta name="generator" content={Astro.generator} />
   <meta name="view-transition" content="same-origin" />
   <link rel="stylesheet" href="@radix-ui/themes/styles.css" />
   <SEO
-    title={`${title} - Ultimate Astro Template`}
-    titleTemplate="%s - Astro Framework Theme"
+    title={`${title} - Ultimate Forward Stack Developer`}
+    titleTemplate="%s - Future Forward Development"
     description="Your comprehensive guide to building modern websites with Astro Framework"
     canonical="https://ultimate-astro-template.vercel.app/"
     noindex={false}
     nofollow={false}
     openGraph={{
       basic: {
-        title: title || "Astro Framework Theme",
+        title: title || "Jesse's Portfolio",
         type: "website",
         image: "/astro-template.png",
         url: "https://ultimate-astro-template.vercel.app/",
       },
       optional: {
         locale: "en_US",
-        siteName: "Astro Framework Theme",
+        siteName: "Jesse's Portfolio",
         description:
           "Discover the power of multi-framework development with our ultimate Astro template. From React to Vue, Svelte to Solid - experience them all in one blazing-fast website.",
       },
       image: {
-        alt: "Astro Framework Theme Preview",
+        alt: "Theme Preview",
         width: 1200,
         height: 630,
         type: "image/png",
