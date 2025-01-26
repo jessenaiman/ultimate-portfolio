@@ -1,34 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { RemixCounter } from '../components/Remix/RemixCounter';
-import { AlertDialogDemo } from '../components/Remix/AlertDialogDemo';
-import { DropdownMenuDemo } from '../components/Remix/DropdownMenuDemo';
-import { TabsDemo } from '../components/Remix/TabsDemo';
+import { RemixTabs } from '../components/Remix/RemixTabs';
 ---
 
 <Layout title="Remix Demo">
   <main>
     <h1>Welcome to <span class="text-gradient">Remix</span> in Astro</h1>
     <div class="instructions">
-      <div class="demo-section">
-        <h2>Counter Demo</h2>
-        <RemixCounter client:load />
-      </div>
-      
-      <div class="demo-section">
-        <h2>Alert Dialog Demo</h2>
-        <AlertDialogDemo client:load />
-      </div>
-      
-      <div class="demo-section">
-        <h2>Dropdown Menu Demo</h2>
-        <DropdownMenuDemo client:load />
-      </div>
-      
-      <div class="demo-section">
-        <h2>Tabs Demo</h2>
-        <TabsDemo client:load />
-      </div>
+      <RemixTabs client:load />
     </div>
   </main>
 </Layout>
@@ -43,13 +22,6 @@ import { TabsDemo } from '../components/Remix/TabsDemo';
     font-size: 20px;
     line-height: 1.6;
   }
-  h1 {
-    font-size: 4rem;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    margin-bottom: 1em;
-  }
   .text-gradient {
     background-image: var(--accent-gradient);
     -webkit-background-clip: text;
@@ -63,19 +35,5 @@ import { TabsDemo } from '../components/Remix/TabsDemo';
     background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
     padding: 1.5rem;
     border-radius: 8px;
-  }
-  .demo-section {
-    margin-bottom: 2rem;
-    padding: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .demo-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--accent-light);
   }
 </style>

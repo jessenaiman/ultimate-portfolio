@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Header from '../Header';
+import Header from '../Menu';
 
 describe('Header Component', () => {
   beforeEach(() => {
@@ -27,9 +27,9 @@ describe('Header Component', () => {
 
   it('renders navigation links', () => {
     render(<Header />);
-    expect(screen.getByText('React')).toBeInTheDocument();
-    expect(screen.getByText('Vue')).toBeInTheDocument();
-    expect(screen.getByText('Svelte')).toBeInTheDocument();
+    expect(screen.getByText('Chat with AI: React')).toBeInTheDocument();
+    expect(screen.getByText('Color Picker:Vue')).toBeInTheDocument();
+    expect(screen.getByText('Math Lab:Svelte')).toBeInTheDocument();
   });
 
   it('toggles theme when theme button is clicked', () => {
@@ -38,7 +38,7 @@ describe('Header Component', () => {
     
     fireEvent.click(themeButton);
     
-    expect(localStorage.setItem).toHaveBeenCalledWith('theme', 'light');
+    expect(localStorage.setItem).toHaveBeenCalledWith('theme', 'dark');
   });
 
   it('toggles mobile menu when hamburger button is clicked', () => {

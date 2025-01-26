@@ -1,61 +1,20 @@
-import { createSignal, createEffect, Show } from 'solid-js';
+import { createSignal, createEffect, Show, onMount, onCleanup } from 'solid-js';
+import * as monaco from 'monaco-editor';
 
 const Features = () => {
+  let editorContainer;
+  let editor;
+  let previewContainer;
   const [activeTab, setActiveTab] = createSignal('playground');
-  const [code, setCode] = createSignal(`<div class="max-w-md mx-auto p-4">
-  <header class="text-center mb-4">
-    <h1 class="text-2xl font-bold text-gradient">Welcome to Coding!</h1>
-    <p class="text-gray-400 text-sm">Edit this code to see live changes</p>
-  </header>
-
-  <div class="bg-gray-800 rounded-lg p-4 mb-4">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] rounded-full flex items-center justify-center">
-        <span class="text-white text-lg">🚀</span>
-      </div>
-      <div>
-        <h2 class="text-lg font-semibold text-white">Interactive Demo</h2>
-        <p class="text-gray-400 text-sm">Try editing this code!</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-2 gap-2 mb-4">
-    <div class="flex items-center text-green-400 text-sm">
-      <span class="mr-1">✓</span> Responsive
-    </div>
-    <div class="flex items-center text-green-400 text-sm">
-      <span class="mr-1">✓</span> Modern UI
-    </div>
-    <div class="flex items-center text-green-400 text-sm">
-      <span class="mr-1">✓</span> Live Preview
-    </div>
-    <div class="flex items-center text-green-400 text-sm">
-      <span class="mr-1">✓</span> Easy to Edit
-    </div>
-  </div>
-
-  <button class="w-full py-2 px-4 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] text-white rounded-lg hover:opacity-90 transition-opacity">
-    Click Me!
-  </button>
-</div>`);
+  const [code, setCode] = createSignal(defaultTemplate);
   const [error, setError] = createSignal(null);
-  const [theme, setTheme] = createSignal('dark');
+  const [theme, setTheme] = createSignal('vs-dark');
   const [previewCount, setPreviewCount] = createSignal(0);
   const [selectedColor, setSelectedColor] = createSignal('#00DC82');
+  const [isMobile, setIsMobile] = createSignal(false);
 
-  // Sanitize and render HTML safely
-  const renderPreview = (htmlContent) => {
-    try {
-      return htmlContent;
-    } catch (e) {
-      setError(e.message);
-      return '';
-    }
-  };
-
-  const defaultExample = () => {
-    const template = `<div class="max-w-md mx-auto p-4">
+  // Default template
+  const defaultTemplate = `<div class="max-w-md mx-auto p-4">
   <header class="text-center mb-4">
     <h1 class="text-2xl font-bold text-gradient">Welcome to Coding!</h1>
     <p class="text-gray-400 text-sm">Edit this code to see live changes</p>
@@ -92,11 +51,82 @@ const Features = () => {
     Click Me!
   </button>
 </div>`;
-    setCode(template);
+
+  // Initialize Monaco Editor
+  onMount(() => {
+    // Check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    // Initialize editor
+    editor = monaco.editor.create(editorContainer, {
+      value: code(),
+      language: 'html',
+      theme: theme(),
+      minimap: { enabled: !isMobile() },
+      fontSize: 14,
+      lineNumbers: 'on',
+      roundedSelection: true,
+      scrollBeyondLastLine: false,
+      automaticLayout: true,
+      wordWrap: 'on',
+      suggestOnTriggerCharacters: true,
+      snippetSuggestions: 'on',
+      formatOnPaste: true,
+      formatOnType: true,
+      tabSize: 2,
+      folding: true,
+      glyphMargin: true,
+      lightbulb: { enabled: true },
+    });
+
+    // Set up event listeners
+    editor.onDidChangeModelContent(() => {
+      setCode(editor.getValue());
+    });
+
+    // Handle theme changes
+    const handleThemeChange = (e) => {
+      const newTheme = e.detail?.theme === 'dark' ? 'vs-dark' : 'vs-light';
+      setTheme(newTheme);
+      monaco.editor.setTheme(newTheme);
+    };
+    window.addEventListener('themeChange', handleThemeChange);
+
+    // Cleanup
+    onCleanup(() => {
+      editor.dispose();
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('themeChange', handleThemeChange);
+    });
+  });
+
+  // Update editor layout on mobile/desktop switch
+  createEffect(() => {
+    if (editor) {
+      editor.updateOptions({
+        minimap: { enabled: !isMobile() },
+        lineNumbers: isMobile() ? 'off' : 'on',
+      });
+    }
+  });
+
+  // Sanitize and render HTML safely
+  const renderPreview = (htmlContent) => {
+    try {
+      return htmlContent;
+    } catch (e) {
+      setError(e.message);
+      return '';
+    }
   };
 
-  const counterExample = () => {
-    const template = `
+  const examples = {
+    default: defaultTemplate,
+    counter: `
     <div class="max-w-md mx-auto p-4">
       <div class="text-center mb-4">
         <h2 class="text-2xl font-bold text-gradient">Interactive Counter</h2>
@@ -134,191 +164,83 @@ const Features = () => {
           </div>
         </div>
       </div>
-      
-      <div class="mt-4 text-center">
-        <p class="text-sm text-gray-400">
-          Click the buttons to see smooth animations!
-        </p>
-      </div>
-    </div>`;
-    setCode(template);
+    </div>`,
+    colorPalette: () => {
+      const colors = ['#00DC82', '#36E4DA', '#4C7AF0', '#FF5D01', '#FF3E00'];
+      return `
+      <div class="text-center space-y-4">
+        <h2 class="text-2xl text-gradient">Interactive Color Palette</h2>
+        <div class="grid grid-cols-5 gap-3">
+          ${colors.map(color => `
+            <button 
+              class="color-block p-8 rounded-lg transition-transform hover:scale-105 ${color === selectedColor() ? 'ring-2 ring-white' : ''}" 
+              style="background: ${color}"
+              data-color="${color}"
+            ></button>
+          `).join('')}
+        </div>
+        <div class="mt-4">
+          <p class="text-lg">Selected Color: <span class="font-mono">${selectedColor()}</span></p>
+        </div>
+      </div>`;
+    }
   };
-
-  const colorPaletteExample = () => {
-    const colors = ['#00DC82', '#36E4DA', '#4C7AF0', '#FF5D01' , '#FF3E00'];  
-    const template = `
-    <div class="text-center space-y-4">
-      <h2 class="text-2xl text-gradient">Interactive Color Palette</h2>
-      <div class="grid grid-cols-5 gap-3">
-        ${colors.map(color => `
-          <button 
-            class="color-block p-8 rounded-lg transition-transform hover:scale-105 ${color === selectedColor() ? 'ring-2 ring-white' : ''}" 
-            style="background: ${color}"
-            data-color="${color}"
-          ></button>
-        `).join('')}
-      </div>
-      <div class="mt-4">
-        <p class="text-lg">Selected Color: <span class="font-mono">${selectedColor()}</span></p>
-      </div>
-    </div>`;
-    setCode(template);
-  };
-
-  // Add custom styles
-  createEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = `
-      .text-gradient {
-        background: linear-gradient(to right, #00DC82, #36E4DA);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      .preview-area {
-        height: 300px;
-        overflow-y: auto;
-        transition: background-color 0.3s ease;
-      }
-      .preview-area.light {
-        background: #ffffff;
-        color: #1a1a1a;
-      }
-      .preview-area.dark {
-        background: #1a1a1a;
-        color: #ffffff;
-      }
-      .color-block {
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      .color-block:hover {
-        transform: scale(1.05);
-      }
-      @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-      }
-      .counter-change {
-        animation: bounce 0.5s ease;
-      }
-    `;
-    document.head.appendChild(style);
-  });
-
-  // Handle preview interactions
-  createEffect(() => {
-    const preview = document.querySelector('.preview-area');
-    if (!preview) return;
-
-    const handleClick = (e) => {
-      const target = e.target.closest('button');
-      if (!target) return;
-
-      // Handle counter buttons
-      if (target.id === 'increment' || target.matches('#increment *')) {
-        setPreviewCount(c => c + 1);
-        counterExample();
-        // Add animation class
-        const numberElement = document.querySelector('.counter-number');
-        if (numberElement) {
-          numberElement.classList.remove('counter-change');
-          void numberElement.offsetWidth; // Trigger reflow
-          numberElement.classList.add('counter-change');
-        }
-      } else if (target.id === 'decrement' || target.matches('#decrement *')) {
-        setPreviewCount(c => c - 1);
-        counterExample();
-        // Add animation class
-        const numberElement = document.querySelector('.counter-number');
-        if (numberElement) {
-          numberElement.classList.remove('counter-change');
-          void numberElement.offsetWidth; // Trigger reflow
-          numberElement.classList.add('counter-change');
-        }
-      }
-
-      // Handle color palette
-      if (target.classList.contains('color-block')) {
-        const color = target.dataset.color;
-        if (color) {
-          setSelectedColor(color);
-          colorPaletteExample();
-        }
-      }
-    };
-
-    preview.addEventListener('click', handleClick);
-    return () => preview.removeEventListener('click', handleClick);
-  });
 
   return (
-    <section class="interactive-playground py-10 px-2">
-      <div class="max-w-[90vw] mx-auto space-y-8">
-        <div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-gray-800/50 overflow-hidden shadow-xl">
-          <div class="border-b border-gray-800/50 p-3">
-            <h2 class="text-2xl font-semibold text-white">Interactive Code Playground</h2>
-            <p class="text-gray-400 mt-1">Edit HTML and see it update in real-time</p>
-          </div>
-
-          <div class="p-4 space-y-4">
-            <div class="flex justify-end space-x-2">
-              <button
-                onClick={defaultExample}
-                class="px-3 py-1 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-              >
-                Default Example
-              </button>
-              <button
-                onClick={counterExample}
-                class="px-3 py-1 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-              >
-                Counter Example
-              </button>
-              <button
-                onClick={colorPaletteExample}
-                class="px-3 py-1 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-              >
-                Color Palette
-              </button>
-              <button
-                onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
-                class="px-3 py-1 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-              >
-                Toggle {theme() === 'light' ? 'Dark' : 'Light'} Mode
-              </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Code Editor */}
-              <div class="space-y-2 flex-1">
-                <h3 class="text-lg font-medium text-white">Editor</h3>
-                <textarea
-                  value={code()}
-                  onInput={(e) => setCode(e.target.value)}
-                  class="w-full h-[calc(100vh-400px)] min-h-[400px] p-4 rounded-lg bg-gray-800/50 border border-gray-700 text-white font-mono text-sm focus:outline-none focus:border-indigo-500/50 resize-y"
-                  placeholder="Enter your HTML code here..."
-                />
-              </div>
-
-              {/* Live Preview */}
-              <div class="space-y-2 flex-1">
-                <h3 class="text-lg font-medium text-white">Preview</h3>
-                <div 
-                  class={`preview-area ${theme()} p-4 rounded-lg border border-gray-700 overflow-auto h-[calc(100vh-400px)] min-h-[400px]`}
-                  innerHTML={renderPreview(code())}
-                />
-              </div>
-            </div>
-
-            <Show when={error()}>
-              <div class="text-red-400 text-sm mt-2">
-                Error: {error()}
-              </div>
-            </Show>
+    <div class={`w-full ${isMobile() ? 'flex flex-col' : 'grid grid-cols-2'} gap-4`}>
+      <div class="flex flex-col h-full">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex space-x-2">
+            <button
+              class={`px-3 py-1 rounded ${activeTab() === 'playground' ? 'bg-accent text-white' : 'bg-card hover:bg-accent/10'}`}
+              onClick={() => {
+                setActiveTab('playground');
+                editor.setValue(examples.default);
+              }}
+            >
+              Playground
+            </button>
+            <button
+              class={`px-3 py-1 rounded ${activeTab() === 'counter' ? 'bg-accent text-white' : 'bg-card hover:bg-accent/10'}`}
+              onClick={() => {
+                setActiveTab('counter');
+                editor.setValue(examples.counter);
+              }}
+            >
+              Counter
+            </button>
+            <button
+              class={`px-3 py-1 rounded ${activeTab() === 'colors' ? 'bg-accent text-white' : 'bg-card hover:bg-accent/10'}`}
+              onClick={() => {
+                setActiveTab('colors');
+                editor.setValue(examples.colorPalette());
+              }}
+            >
+              Colors
+            </button>
           </div>
         </div>
+        
+        <div 
+          ref={editorContainer} 
+          class="flex-grow min-h-[400px] border border-card rounded-lg overflow-hidden"
+        />
       </div>
-    </section>
+
+      <div class="flex flex-col h-full">
+        <h3 class="text-lg font-semibold mb-2">Preview</h3>
+        <div
+          ref={previewContainer}
+          class={`preview-area flex-grow p-4 border border-card rounded-lg ${theme() === 'vs-dark' ? 'dark' : 'light'}`}
+          innerHTML={renderPreview(code())}
+        />
+        <Show when={error()}>
+          <div class="mt-2 p-2 bg-red-500/10 border border-red-500 rounded text-red-500 text-sm">
+            {error()}
+          </div>
+        </Show>
+      </div>
+    </div>
   );
 };
 
