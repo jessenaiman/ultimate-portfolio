@@ -4,7 +4,6 @@
   import Chart from 'chart.js/auto';
   import katex from 'katex';
   import 'katex/dist/katex.min.css';
-  import { Slider, Checkbox, Label, ToggleGroup } from 'radix-ui';
 
   // State
   let equation = 'x^2 + 2*x + 1';
@@ -19,6 +18,7 @@
   let showTangentLine = false;
   let tangentPoint = 0;
   let mounted = false;
+  let activeCategory = '';
 
   const math = create(all);
 
@@ -181,122 +181,128 @@
         console.error('KaTeX rendering error:', e);
       }
     }
-    const canvas = document.getElementById('mathChart');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        chart = new Chart(ctx, {
-          type: 'line',
-          data: { labels: [], datasets: [] },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 1,
-            animation: { duration: 1000 * animationSpeed },
-            scales: {
-              x: {
-                type: 'linear',
-                position: 'center',
-                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                min: xRange.min,
-                max: xRange.max,
-                title: { display: true, text: 'x', color: 'rgba(255, 255, 255, 0.7)' }
-              },
-              y: {
-                type: 'linear',
-                position: 'center',
-                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                min: yRange.min,
-                max: yRange.max,
-                title: { display: true, text: 'y', color: 'rgba(255, 255, 255, 0.7)' }
-              }
-            },
-            plugins: {
-              legend: { display: true, position: 'top', labels: { color: 'rgba(255, 255, 255, 0.7)' } },
-              zoom: { zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'xy' }, pan: { enabled: true, mode: 'xy' } }
-            }
-          }
-        });
-      } else {
-        console.error('Canvas context not available');
-      }
-    } else {
-      console.error('Canvas element not found');
-    }
-  });
-
-  onMount(() => {
-    console.log('MathTools mounted'); // Debug mounting
+    plotEquation();
   });
 </script>
-<div class="math-tools-container" style="background-color: #0F0F0F; padding: 20px; border-radius: 8px;">
-  <h2>Math Tools</h2>
-<div class="py-16 px-4 sm:px-6">
-  <div class="max-w-4xl mx-auto">
+
+<div class="card w-full bg-base-200 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title">Math Tools</h2>
     {#if mounted}
-      <div class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-gray-800/50 overflow-hidden shadow-xl">
-        <div class="space-y-6 p-6">
-          <!-- Equation Preview -->
-          <div class="bg-gray-800 p-4 rounded-lg">
-            <div class="text-center text-lg text-white">
-              <div bind:this={mathPreview}></div>
+      <div class="space-y-6">
+        <!-- Equation Preview -->
+        <div class="card bg-base-300">
+          <div class="card-body">
+            <div class="text-center text-lg" bind:this={mathPreview}></div>
+          </div>
+        </div>
+
+        <!-- Predefined Equations -->
+        <div class="card bg-base-300">
+          <div class="card-body">
+            <h3 class="card-title text-sm opacity-70">Predefined Equations</h3>
+            <div class="tabs tabs-boxed">
+              {#each predefinedEquations as category}
+                <a
+                  class="tab {activeCategory === category.category ? 'tab-active' : ''}"
+                  on:click={() => activeCategory = category.category}
+                >
+                  {category.category}
+                </a>
+              {/each}
+            </div>
+            <div class="mt-4">
+              {#each predefinedEquations as category}
+                {#if activeCategory === category.category}
+                  <div class="grid grid-cols-2 gap-2">
+                    {#each category.equations as eq}
+                      <button
+                        class="btn btn-outline btn-sm"
+                        on:click={() => equation = eq.value}
+                      >
+                        {eq.name}
+                      </button>
+                    {/each}
+                  </div>
+                {/if}
+              {/each}
             </div>
           </div>
+        </div>
 
-          <!-- Predefined Equations -->
-          <div class="bg-gray-800 p-4 rounded-lg">
-            <Label class="text-sm text-gray-400 mb-2 block">Predefined Equations</Label>
-            <ToggleGroup type="single" class="grid grid-cols-2 gap-2">
-              {#each predefinedEquations as category}
-                <div class="space-y-2">
-                  <h3 class="text-lg font-semibold text-white mb-2">{category.category}</h3>
-                  {#each category.equations as eq}
-                    <ToggleGroupItem value={eq.value} on:click={() => equation = eq.value} class="w-full text-left px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm text-white">
-                      {eq.name}
-                    </ToggleGroupItem>
-                  {/each}
-                </div>
-              {/each}
-            </ToggleGroup>
-          </div>
-
-          <!-- Chart Display -->
-          <div class="bg-gray-800 p-6 rounded-lg">
+        <!-- Chart Display -->
+        <div class="card bg-base-300">
+          <div class="card-body">
             <div class="w-full aspect-square max-w-2xl mx-auto">
               <canvas id="mathChart"></canvas>
             </div>
           </div>
+        </div>
 
-          <!-- Controls -->
-          <div class="bg-gray-800 p-4 rounded-lg space-y-4">
+        <!-- Controls -->
+        <div class="card bg-base-300">
+          <div class="card-body space-y-4">
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <Label class="text-xs text-gray-400 mb-1 block">Animation Speed</Label>
-                <Slider bind:value={animationSpeed} min="0.1" max="2" step="0.1" />
-                <div class="text-xs text-gray-400 text-right">{animationSpeed}x</div>
+                <label class="label">
+                  <span class="label-text">Animation Speed</span>
+                  <span class="label-text-alt">{animationSpeed}x</span>
+                </label>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="2"
+                  step="0.1"
+                  class="range range-primary range-sm"
+                  bind:value={animationSpeed}
+                />
               </div>
               <div>
-                <Label class="text-xs text-gray-400 mb-1 block">Grid Lines</Label>
-                <Slider bind:value={gridLines} min="5" max="50" step="5" />
-                <div class="text-xs text-gray-400 text-right">{gridLines} lines</div>
+                <label class="label">
+                  <span class="label-text">Grid Lines</span>
+                  <span class="label-text-alt">{gridLines} lines</span>
+                </label>
+                <input
+                  type="range"
+                  min="5"
+                  max="50"
+                  step="5"
+                  class="range range-primary range-sm"
+                  bind:value={gridLines}
+                />
               </div>
             </div>
 
             <div class="space-y-4">
               <div class="flex flex-wrap gap-4">
-                <Checkbox bind:checked={showDerivative} />
-                <Label class="text-sm text-gray-400">Show Derivative</Label>
-                <Checkbox bind:checked={showIntegral} />
-                <Label class="text-sm text-gray-400">Show Integral</Label>
-                <Checkbox bind:checked={showTangentLine} />
-                <Label class="text-sm text-gray-400">Show Tangent</Label>
+                <label class="label cursor-pointer">
+                  <span class="label-text mr-2">Show Derivative</span>
+                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showDerivative} />
+                </label>
+                <label class="label cursor-pointer">
+                  <span class="label-text mr-2">Show Integral</span>
+                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showIntegral} />
+                </label>
+                <label class="label cursor-pointer">
+                  <span class="label-text mr-2">Show Tangent</span>
+                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showTangentLine} />
+                </label>
               </div>
 
               {#if showTangentLine}
                 <div>
-                  <Label class="text-xs text-gray-400 mb-1 block">Tangent Point</Label>
-                  <Slider bind:value={tangentPoint} min={xRange.min} max={xRange.max} step="0.1" />
-                  <div class="text-xs text-gray-400 text-right">x = {tangentPoint}</div>
+                  <label class="label">
+                    <span class="label-text">Tangent Point</span>
+                    <span class="label-text-alt">x = {tangentPoint}</span>
+                  </label>
+                  <input
+                    type="range"
+                    min={xRange.min}
+                    max={xRange.max}
+                    step="0.1"
+                    class="range range-primary range-sm"
+                    bind:value={tangentPoint}
+                  />
                 </div>
               {/if}
             </div>
@@ -307,16 +313,8 @@
   </div>
 </div>
 
-
-  <!-- Add your math tools content here -->
-</div>
-
 <style>
-  .math-tools-container {
-    width: 100%;
-    min-height: 400px;
-    padding: 2rem;
-    background: #0F0F0F;
-    margin: 2rem 0;
+  :global(.katex) {
+    color: var(--tw-prose-invert);
   }
 </style>

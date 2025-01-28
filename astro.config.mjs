@@ -14,7 +14,7 @@ export default defineConfig({
   output: "static",
   integrations: [
     tailwind({
-      applyBaseStyles: true,
+      applyBaseStyles: false,
     }),
     icon(),
     react({

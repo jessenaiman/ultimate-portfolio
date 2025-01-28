@@ -5,10 +5,7 @@ import Background from "../components/ui/Background.astro";
 import Footer from "../components/ui/Footer.astro";
 import Header from "../components/ui/Menu";
 import Head from "../components/core/Head.astro";
-import { Theme } from "@radix-ui/themes";
-import "@radix-ui/themes/styles.css";
 import "../styles/global.css";
-import "@radix-ui/themes/styles.css";
 
 interface Props {
   title: string;
@@ -34,60 +31,56 @@ const theme = Astro.cookies.get("theme")?.value || "dark";
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-theme="dark">
   <Head title={title} bgColor={bgColor} />
-  <body>
-    <Theme appearance={theme}>
-      <ClientRouter />
-      <Analytics />
-      <Background
-        bgColor={bgColor}
-        primaryBallColor={primaryBallColor}
-        secondaryBallColor={secondaryBallColor}
-        gridColor={gridColor}
-        diagonalColor={diagonalColor}
-        vignetteColor={vignetteColor}
-      />
-      <Header client:load />
-      <main class="page-content">
-        <slot />
-      </main>
-      <Footer />
-    </Theme>
-
-    <script>
-      function handleThemeChange() {
-        const theme = localStorage.getItem("theme") || "dark";
-        document.documentElement.setAttribute("data-theme", theme);
-        document
-          .querySelector("html")
-          ?.setAttribute("class", `${theme}-theme scroll-smooth`);
-        document.cookie = `theme=${theme};path=/;max-age=31536000`;
-      }
-
-      // Initial setup
-      handleThemeChange();
-
-      // Listen for theme changes
-      window.addEventListener("storage", (e) => {
-        if (e.key === "theme") {
-          handleThemeChange();
-        }
-      });
-
-      window.addEventListener("themeChange", () => {
-        handleThemeChange();
-      });
-
-      // Handle theme persistence during page transitions
-      document.addEventListener("astro:after-swap", () => {
-        handleThemeChange();
-      });
-    </script>
+  <body class="min-h-screen bg-base-100 text-base-content">
+    <ClientRouter />
+    <Analytics />
+    <Background
+      bgColor={bgColor}
+      primaryBallColor={primaryBallColor}
+      secondaryBallColor={secondaryBallColor}
+      gridColor={gridColor}
+      diagonalColor={diagonalColor}
+      vignetteColor={vignetteColor}
+    />
+    <Header client:load />
+    <main class="page-content">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
 
 <style is:global>
+  :root {
+    --accent: 136, 58, 234;
+    --accent-light: 224, 204, 250;
+    --accent-dark: 49, 10, 101;
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      rgb(var(--accent-light)) 30%,
+      white 60%
+    );
+  }
+  html {
+    font-family: system-ui, sans-serif;
+    background: #13151a;
+    background-size: 224px;
+  }
+  code {
+    font-family:
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
+
   @keyframes fade-in {
     from {
       opacity: 0;
@@ -135,11 +128,6 @@ const theme = Astro.cookies.get("theme")?.value || "dark";
     animation: slide-from-top 0.5s ease-out;
   }
 
-  /* Radix UI Theme Overrides */
-  .radix-themes {
-    --default-font-family: "Inter", system-ui, -apple-system, sans-serif;
-  }
-
   /* Base theme colors */
   :root {
     --background: #ffffff;
@@ -162,3 +150,33 @@ const theme = Astro.cookies.get("theme")?.value || "dark";
     color: var(--foreground);
   }
 </style>
+
+<script>
+  function handleThemeChange() {
+    const theme = localStorage.getItem("theme") || "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    document
+      .querySelector("html")
+      ?.setAttribute("class", `${theme}-theme scroll-smooth`);
+    document.cookie = `theme=${theme};path=/;max-age=31536000`;
+  }
+
+  // Initial setup
+  handleThemeChange();
+
+  // Listen for theme changes
+  window.addEventListener("storage", (e) => {
+    if (e.key === "theme") {
+      handleThemeChange();
+    }
+  });
+
+  window.addEventListener("themeChange", () => {
+    handleThemeChange();
+  });
+
+  // Handle theme persistence during page transitions
+  document.addEventListener("astro:after-swap", () => {
+    handleThemeChange();
+  });
+</script>

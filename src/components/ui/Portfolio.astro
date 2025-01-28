@@ -1,0 +1,102 @@
+---
+// src/components/Portfolio.astro
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {}
+---
+<div class="min-h-screen bg-gradient-to-b from-base-100 to-base-200">
+  <div class="container mx-auto px-4 py-12 space-y-12">
+    <!-- Hero Section -->
+    <header class="space-y-4">
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-focus">
+        Future Stack Developer
+      </h1>
+      <p class="max-w-[700px] text-lg text-base-content/70">
+        Bridging Two Decades of Development with the Cutting Edge
+      </p>
+    </header>
+
+    <!-- Introduction -->
+    <section class="prose prose-base-content dark:prose-invert max-w-none">
+      <p class="text-lg leading-relaxed">
+        Hi, I'm a developer who thrives on the dynamic interplay between robust,
+        time-tested practices and the exhilarating possibilities of emerging
+        technologies. With nearly twenty years of experience building software
+        solutions, I bring a unique perspective that bridges the gap between the
+        familiar and the cutting edge.
+      </p>
+    </section>
+
+    <!-- Experience Highlights -->
+    <section class="grid gap-6 md:grid-cols-2">
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <h3 class="card-title">Enterprise to Open Source</h3>
+          <p class="text-base-content/70">
+            My journey spans diverse projects, from architecting career
+            recruitment platforms and streamlining healthcare systems to
+            managing the online presence of major political parties and diving
+            deep into the world of Web3.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge badge-primary">Ruby on Rails</span>
+            <span class="badge badge-primary">Astro</span>
+            <span class="badge badge-primary">SolidJS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <h3 class="card-title">AI Revolution</h3>
+          <p class="text-base-content/70">
+            While I've harnessed the power of cloud-based AI APIs from leading
+            providers like Google and OpenAI, I'm particularly intrigued by the
+            potential of local AI to revolutionize development workflows and
+            deliver substantial cost savings.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge badge-primary">LLaMA</span>
+            <span class="badge badge-primary">Gemini</span>
+            <span class="badge badge-primary">Local AI</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Experience -->
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight mb-6">Work Experience</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="card bg-base-200 shadow-xl">
+          <div class="card-body">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="card-title">ASP.NET / SQL Web Developer</h3>
+                <p class="text-sm text-base-content/70 mt-1">GRF-E</p>
+              </div>
+              <span class="text-sm text-base-content/70">2006-08-31</span>
+            </div>
+            <p class="text-base-content/70">
+              Worked on real estate and video sharing sites.
+            </p>
+          </div>
+        </div>
+
+        <!-- Add more work experience cards here -->
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+      <a href="/resume" class="btn btn-primary btn-lg">View Resume</a>
+      <a href="/dice-games" class="btn btn-outline btn-lg">Dice Games</a>
+    </section>
+  </div>
+</div>
+
+<style>
+  :global(.prose) {
+    max-width: none;
+  }
+</style>

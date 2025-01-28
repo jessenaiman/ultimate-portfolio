@@ -14,11 +14,9 @@ Aurora, ON L4G 4S1
 
 Driven by a passion for innovation and a deep understanding of both established and emerging technologies, I bring nearly two decades of experience to the forefront as a Future Stack Developer. My career has been marked by a commitment to continuous learning and adaptability, enabling me to master new frameworks and methodologies with exceptional speed. I thrive on solving complex problems, and I am adept at integrating the best tools, whether they are cutting-edge or tried-and-true. Beyond my technical prowess, I am a dedicated community supporter with a proven track record of technical leadership, mentorship, and effective communication. I am eager to contribute a fresh perspective and expertise in modern technologies to your team, helping drive success and innovation.
 
-**Willing to relocate:** Anywhere
-
 ## Work Experience
 
-### Manager
+### Optical Survey Equipment Technician
 **A.N. Survey Equipment** - Aurora, ON  
 *April 2018 to Present*
 - Repaired and calibrated precision survey equipment, including lasers and theodolites
@@ -27,7 +25,7 @@ Driven by a passion for innovation and a deep understanding of both established 
 - Helped with sales and inventory management
 - Provided friendly customer service support
 
-### Social Media Support and Advertising
+### Technical and Social Media Support
 **Marinade Finance** - Web 3  
 *September 2021 to August 2022*
 - Responded and advertised the benefits of using Marinade to stake Solana
@@ -200,5 +198,3 @@ BA in Creative Writing
 **AI/ML:**
 - Large Language Models: ChatGPT, Claude 3.5, Deepseek, Gemini, LLaMa, Phi, Qwen, Mixtral
 - Local AI Tools: Ollama, Jan 
-
-

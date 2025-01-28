@@ -1,5 +1,5 @@
 ---
-title: "Manager at A.N. Survey Equipment"
+title: "Future Stack Developer"
 description: "Managed precision survey equipment and provided customer service."
 date: "2018-04-01"
 ---
