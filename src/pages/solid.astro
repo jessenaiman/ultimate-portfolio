@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import CodeEditor from "../components/Solid/CodeEditor";
+import Hero from "../components/Solid/Hero";
+import Features from "../components/Solid/Features";
 ---
 
 <Layout 
@@ -9,6 +10,7 @@ import CodeEditor from "../components/Solid/CodeEditor";
   secondaryBallColor="#818cf8"
 >
   <main>
-    <CodeEditor client:only="solid-js" />
+    <Hero client:only="solid-js"/>
+    <Features client:only="solid-js" />
   </main>
 </Layout>

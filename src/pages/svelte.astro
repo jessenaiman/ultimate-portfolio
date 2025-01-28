@@ -1,16 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import MathTools from "../components/Svelte/MathTools.svelte";
-import TodoTools from "../components/Svelte/TodoTools.svelte";
 ---
 
-<Layout 
+<Layout
   title="Svelte + Astro"
-  primaryBallColor="#FF3E00"  
-  secondaryBallColor="#FF5D01"  
+  primaryBallColor="#FF3E00"
+  secondaryBallColor="#FF5D01"
 >
-  <main>
+  <main class="container">
     <MathTools client:only="svelte" />
-    <TodoTools client:only="svelte" />
   </main>
 </Layout>

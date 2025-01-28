@@ -10,7 +10,14 @@ export default function Menu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
+    const getCookie = (name: string) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()?.split(';').shift();
+      return null;
+    };
+
+    const savedTheme = getCookie('theme') as 'light' | 'dark';
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     setTheme(initialTheme);
@@ -31,7 +38,7 @@ export default function Menu() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+    document.cookie = `theme=${newTheme};path=/;max-age=31536000`;
     window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme: newTheme } }));
   };
 
@@ -55,7 +62,7 @@ export default function Menu() {
           </NavigationMenu.Root>
 
           <IconButton
-            className="lg:hidden hover:bg-accent/10 transition-colors"
+            className="lg:hidden mobile-menu-button fixed right-4 top-4 z-50"
             variant="ghost"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
@@ -68,7 +75,7 @@ export default function Menu() {
               variant="ghost"
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="hover:bg-accent/10 transition-colors"
+              className="hover:bg-accent-10 transition-all duration-300 hover:scale-105"
             >
               {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
             </IconButton>
@@ -77,7 +84,7 @@ export default function Menu() {
               href={`https://github.com/${cred.GITHUB_USER}/${cred.REPO_NAME}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-accent-9 text-accent-contrast hover:opacity-90 transition-all duration-200 hover:scale-105 active:scale-95"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-gradient-to-r from-accent-foreground to-accent text-accent-contrast hover:opacity-90 transition-all duration-300 hover:scale-105 active:scale-95"
             >
               <svg
                 className="w-4 h-4 mr-2"
@@ -95,14 +102,15 @@ export default function Menu() {
       </Container>
 
       {isMobileMenuOpen && (
-        <Box className="lg:hidden border-t border-border/40">
+        <Box className="lg:hidden fixed inset-0 bg-background/95 backdrop-blur-lg z-40">
           <Container size="4">
-            <Flex direction="column" py="4" gap="2">
+            <Flex direction="column" py="8" gap="4" className="mt-16">
               {frameworks.map((item) => (
                 <a
                   key={item.path}
                   href={item.path}
-                  className="px-4 py-2 text-sm font-medium rounded-md hover:bg-accent/10 transition-colors"
+                  className="text-xl font-medium py-2 px-4 rounded-lg hover:bg-accent-10 transition-all duration-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.displayName}
                 </a>

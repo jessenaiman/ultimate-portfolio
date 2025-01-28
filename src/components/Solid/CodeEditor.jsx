@@ -12,6 +12,7 @@ const Features = () => {
   const [previewCount, setPreviewCount] = createSignal(0);
   const [selectedColor, setSelectedColor] = createSignal('#00DC82');
   const [isMobile, setIsMobile] = createSignal(false);
+  const [isEditorReady, setIsEditorReady] = createSignal(false);
 
   // Default template
   const defaultTemplate = `<div class="max-w-md mx-auto p-4">
@@ -52,69 +53,62 @@ const Features = () => {
   </button>
 </div>`;
 
-  // Initialize Monaco Editor
   onMount(() => {
-    // Check if mobile
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Initialize editor
-    editor = monaco.editor.create(editorContainer, {
-      value: code(),
-      language: 'html',
-      theme: theme(),
-      minimap: { enabled: !isMobile() },
-      fontSize: 14,
-      lineNumbers: 'on',
-      roundedSelection: true,
-      scrollBeyondLastLine: false,
-      automaticLayout: true,
-      wordWrap: 'on',
-      suggestOnTriggerCharacters: true,
-      snippetSuggestions: 'on',
-      formatOnPaste: true,
-      formatOnType: true,
-      tabSize: 2,
-      folding: true,
-      glyphMargin: true,
-      lightbulb: { enabled: true },
-    });
+    // Initialize Monaco Editor
+    if (!editor && editorContainer) {
+      editor = monaco.editor.create(editorContainer, {
+        value: code(),
+        language: 'html',
+        theme: theme(),
+        minimap: { enabled: !isMobile() },
+        fontSize: 14,
+        lineNumbers: 'on',
+        roundedSelection: true,
+        scrollBeyondLastLine: false,
+        automaticLayout: true,
+        wordWrap: 'on',
+        suggestOnTriggerCharacters: true,
+        snippetSuggestions: 'on',
+        formatOnPaste: true,
+        formatOnType: true,
+        tabSize: 2,
+        folding: true,
+        glyphMargin: true,
+        lightbulb: { enabled: true },
+      });
 
-    // Set up event listeners
-    editor.onDidChangeModelContent(() => {
-      setCode(editor.getValue());
-    });
+      editor.onDidChangeModelContent(() => {
+        setCode(editor.getValue());
+      });
 
-    // Handle theme changes
-    const handleThemeChange = (e) => {
-      const newTheme = e.detail?.theme === 'dark' ? 'vs-dark' : 'vs-light';
-      setTheme(newTheme);
-      monaco.editor.setTheme(newTheme);
-    };
-    window.addEventListener('themeChange', handleThemeChange);
+      setIsEditorReady(true);
+    }
 
     // Cleanup
     onCleanup(() => {
-      editor.dispose();
       window.removeEventListener('resize', checkMobile);
-      window.removeEventListener('themeChange', handleThemeChange);
+      if (editor) {
+        editor.dispose();
+      }
     });
   });
 
-  // Update editor layout on mobile/desktop switch
   createEffect(() => {
     if (editor) {
       editor.updateOptions({
         minimap: { enabled: !isMobile() },
         lineNumbers: isMobile() ? 'off' : 'on',
       });
+      monaco.editor.setTheme(theme());
     }
   });
 
-  // Sanitize and render HTML safely
   const renderPreview = (htmlContent) => {
     try {
       return htmlContent;
@@ -221,10 +215,14 @@ const Features = () => {
           </div>
         </div>
         
-        <div 
-          ref={editorContainer} 
-          class="flex-grow min-h-[400px] border border-card rounded-lg overflow-hidden"
-        />
+        <Show when={isEditorReady()}>
+          <div class="relative">
+            <div
+              ref={editorContainer}
+              class="flex-grow min-h-[400px] border border-card rounded-lg overflow-hidden"
+            />
+          </div>
+        </Show>
       </div>
 
       <div class="flex flex-col h-full">
