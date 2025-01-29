@@ -1,5 +1,6 @@
 ---
 interface Props {
+    bgColor?: string;
     primaryBallColor?: string;
     secondaryBallColor?: string;
     gridColor?: string;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const {
+    bgColor = '#000000',
     primaryBallColor = '#F97316',
     secondaryBallColor = '#A855F7',
     gridColor = 'rgba(255,255,255,0.05)',
@@ -16,7 +18,7 @@ const {
 } = Astro.props;
 ---
 
-<div class="fixed inset-0 -z-50">
+<div class="fixed inset-0 -z-50" style={`background-color: ${bgColor}`}>
     <!-- Main gradient orbs -->
     <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/30 rounded-full blur-3xl animate-float"></div>
     <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-500/30 rounded-full blur-3xl animate-float animation-delay-1000"></div>
