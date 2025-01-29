@@ -10,7 +10,6 @@ import "../styles/global.css";
 
 interface Props {
   title: string;
-  bgColor?: string;
   primaryBallColor?: string;
   secondaryBallColor?: string;
   gridColor?: string;
@@ -20,7 +19,6 @@ interface Props {
 
 const {
   title,
-  bgColor = "#0F1115",
   primaryBallColor,
   secondaryBallColor,
   gridColor,
@@ -30,23 +28,59 @@ const {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
-  <Head title={title} bgColor={bgColor} />
-  <title>{title}</title>
-  <ClientRouter />
-  <link rel="sitemap" href="/sitemap-index.xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
-  <link
-    href="https://api.fontshare.com/v2/css?f[]=cal-sans@400,500,600&display=swap"
-    rel="stylesheet"
-  />
-  <Analytics />
-  <body class="m-0 min-h-screen relative font-sans" style={`background-color: ${bgColor}`}>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ClientRouter />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=cal-sans@400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      (function() {
+        // Get initial theme from localStorage or system preference
+        function getTheme() {
+          const savedTheme = localStorage.getItem("theme");
+          if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+            return savedTheme;
+          }
+          return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+
+        // Set theme in localStorage and HTML
+        function setTheme(theme) {
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+        }
+
+        // Set initial theme as soon as possible
+        const theme = getTheme();
+        setTheme(theme);
+
+        // Handle system theme changes
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        mediaQuery.addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) {
+            setTheme(e.matches ? "dark" : "light");
+          }
+        });
+      })();
+    </script>
+    <Analytics />
+  </head>
+  <body class="m-0 min-h-screen relative font-sans">
     <Background
       primaryBallColor={primaryBallColor}
       secondaryBallColor={secondaryBallColor}

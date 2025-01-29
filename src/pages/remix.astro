@@ -1,13 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { RemixTabs } from '../components/Remix/RemixTabs';
+import { RemixTabsComponent } from '../components/Remix/RemixTabs';
 ---
 
 <Layout title="Remix Demo">
   <main>
     <h1>Welcome to <span class="text-gradient">Remix</span> in Astro</h1>
     <div class="instructions">
-      <RemixTabs client:load />
+      <RemixTabsComponent client:load />
     </div>
   </main>
 </Layout>

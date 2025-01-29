@@ -15,20 +15,8 @@ export default {
   plugins: [require('daisyui')],
   daisyui: {
     themes: [
-      {
-        light: {
-          ...require('daisyui/src/theming/themes')['light'],
-          primary: '#7c3aed',
-          secondary: '#f59e0b',
-          accent: '#10b981',
-        },
-        dark: {
-          ...require('daisyui/src/theming/themes')['dark'],
-          primary: '#8b5cf6',
-          secondary: '#fbbf24',
-          accent: '#34d399',
-        },
-      },
+      'light',
+      'dark'
     ],
     darkTheme: 'dark',
   },

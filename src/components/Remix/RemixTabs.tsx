@@ -21,18 +21,19 @@ const RemixTabs: React.FC<RemixTabsProps> = ({ tabs, defaultValue = tabs[0]?.val
 
   return (
     <div className={className}>
-      <div className="tabs tabs-lifted">
+      <div role="tablist" className="tabs tabs-lifted">
         {tabs.map((tab) => (
-          <a
+          <button
             key={tab.value}
+            role="tab"
             className={`tab ${activeTab === tab.value ? 'tab-active' : ''}`}
             onClick={() => setActiveTab(tab.value)}
           >
             {tab.label}
-          </a>
+          </button>
         ))}
       </div>
-      <div className="p-4 bg-base-200 rounded-b-box">
+      <div className="p-4 bg-base-200 rounded-b-box min-h-[200px]">
         {tabs.find(tab => tab.value === activeTab)?.content}
       </div>
     </div>
@@ -43,45 +44,25 @@ const tabs: TabItem[] = [
   {
     value: 'counter',
     label: 'Counter',
-    content: (
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Counter Demo</h2>
-        <RemixCounter />
-      </div>
-    ),
+    content: <RemixCounter />,
   },
   {
     value: 'alert',
     label: 'Alert Dialog',
-    content: (
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Alert Dialog Demo</h2>
-        <AlertDialogDemo />
-      </div>
-    ),
+    content: <AlertDialogDemo />,
   },
   {
     value: 'dropdown',
     label: 'Dropdown Menu',
-    content: (
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Dropdown Menu Demo</h2>
-        <DropdownMenuDemo />
-      </div>
-    ),
+    content: <DropdownMenuDemo />,
   },
   {
     value: 'tabs',
     label: 'Tabs',
-    content: (
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Tabs Demo</h2>
-        <TabsDemo />
-      </div>
-    ),
+    content: <TabsDemo />,
   },
 ];
 
-export const RemixTabsComponent = () => {
+export function RemixTabsComponent() {
   return <RemixTabs tabs={tabs} />;
-};
+}

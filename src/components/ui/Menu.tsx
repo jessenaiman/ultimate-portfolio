@@ -40,16 +40,23 @@ export default function Menu() {
   };
 
   return (
-    <div className="navbar sticky top-0 z-50 backdrop-blur-md bg-base-100/80 border-b border-base-300">
+    <div 
+      className="navbar sticky top-0 z-50 backdrop-blur-md bg-base-100/80 border-b border-base-300" 
+      data-testid="nav-bar"
+    >
       <div className="container mx-auto px-4">
         <div className="flex-1">
           <div className="hidden lg:flex">
-            <ul className="menu menu-horizontal px-1 gap-2">
+            <ul 
+              className="menu menu-horizontal px-1 gap-2" 
+              data-testid="nav-links"
+            >
               {frameworks.map((item) => (
                 <li key={item.path}>
                   <a
                     href={item.path}
                     className="text-base-content hover:text-primary transition-colors"
+                    data-testid={`nav-link-${item.path}`}
                   >
                     {item.displayName}
                   </a>
@@ -60,7 +67,10 @@ export default function Menu() {
         </div>
 
         <div className="flex-none gap-2">
-          <label className="swap swap-rotate">
+          <label 
+            className="swap swap-rotate" 
+            data-testid="theme-toggle"
+          >
             <input 
               type="checkbox" 
               className="theme-controller" 
@@ -76,6 +86,7 @@ export default function Menu() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary btn-sm gap-2"
+            data-testid="social-github"
           >
             <svg
               className="w-4 h-4"
@@ -90,7 +101,10 @@ export default function Menu() {
           </a>
 
           <div className="lg:hidden">
-            <label className="btn btn-ghost btn-circle swap swap-rotate">
+            <label 
+              className="btn btn-ghost btn-circle swap swap-rotate" 
+              data-testid="mobile-menu-toggle"
+            >
               <input 
                 type="checkbox"
                 checked={isMobileMenuOpen}
@@ -105,15 +119,22 @@ export default function Menu() {
 
       {/* Mobile menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-base-100">
+        <div 
+          className="lg:hidden fixed inset-0 z-50 bg-base-100" 
+          data-testid="mobile-menu"
+        >
           <div className="container mx-auto px-4 py-16">
-            <ul className="menu menu-lg w-full">
+            <ul 
+              className="menu menu-lg w-full" 
+              data-testid="mobile-nav-links"
+            >
               {frameworks.map((item) => (
                 <li key={item.path}>
                   <a
                     href={item.path}
                     className="text-xl py-4"
                     onClick={() => setIsMobileMenuOpen(false)}
+                    data-testid={`mobile-nav-link-${item.path}`}
                   >
                     {item.displayName}
                   </a>

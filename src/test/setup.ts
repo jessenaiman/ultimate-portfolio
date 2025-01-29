@@ -1,64 +1,43 @@
-import '@testing-library/jest-dom';
-import { vi } from 'vitest';
-import { fileURLToPath } from 'url';
-import path from 'path';
+/**
+ * Vitest Setup Configuration
+ * 
+ * This file configures the test environment for Astro components
+ * using jsdom and necessary test utilities.
+ */
 
-// Make Node.js URL imports work in tests
-globalThis.__filename = fileURLToPath(import.meta.url);
-globalThis.__dirname = path.dirname(__filename);
+import { beforeAll, afterAll, vi } from 'vitest';
+import { JSDOM } from 'jsdom';
+import '@testing-library/jest-dom/vitest';
 
-// Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation(query => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
-    removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
-  })),
+// Create a mock DOM environment
+const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>', {
+  url: 'http://localhost',
+  pretendToBeVisual: true,
 });
 
-// Mock localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  clear: vi.fn(),
-  removeItem: vi.fn(),
-  key: vi.fn(),
-  length: 0,
-};
-Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+// Add DOM globals
+global.window = dom.window as any;
+global.document = dom.window.document;
+global.navigator = dom.window.navigator;
 
-// Mock IntersectionObserver
-class IntersectionObserverMock {
-  observe = vi.fn();
-  disconnect = vi.fn();
-  unobserve = vi.fn();
-}
-
-Object.defineProperty(window, 'IntersectionObserver', {
-  writable: true,
-  configurable: true,
-  value: IntersectionObserverMock,
-});
-
-// Common test utilities
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
+// Mock Astro globals
+vi.mock('astro', () => ({
+  Astro: {
+    url: new URL('http://localhost'),
+    site: new URL('http://localhost'),
+    generator: 'Astro v3.0',
+    slots: {},
+    props: {},
+  },
 }));
 
-// Suppress console errors during tests
-console.error = vi.fn();
+// Mock content collections
+vi.mock('astro:content', () => ({
+  getCollection: vi.fn(),
+  getEntryBySlug: vi.fn(),
+}));
 
-// Reset all mocks after each test
-afterEach(() => {
-  vi.clearAllMocks();
-  localStorageMock.getItem.mockClear();
-  localStorageMock.setItem.mockClear();
+// Cleanup after tests
+afterAll(() => {
+  dom.window.close();
 });

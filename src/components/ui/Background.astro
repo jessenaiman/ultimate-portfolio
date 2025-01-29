@@ -9,16 +9,16 @@ interface Props {
 }
 
 const {
-    bgColor = '#000000',
+    bgColor = 'var(--bg-color)',
     primaryBallColor = '#F97316',
     secondaryBallColor = '#A855F7',
-    gridColor = 'rgba(255,255,255,0.05)',
-    diagonalColor = 'rgba(255,255,255,0.1)',
-    vignetteColor = 'rgba(0,0,0,0.4)'
+    gridColor = 'rgba(var(--grid-color), 0.05)',
+    diagonalColor = 'rgba(var(--grid-color), 0.1)',
+    vignetteColor = 'rgba(var(--vignette-color), 0.4)'
 } = Astro.props;
 ---
 
-<div class="fixed inset-0 -z-50" style={`background-color: ${bgColor}`}>
+<div class="fixed inset-0 -z-50 transition-colors duration-300" style={`background-color: ${bgColor}`}>
     <!-- Main gradient orbs -->
     <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/30 rounded-full blur-3xl animate-float"></div>
     <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-500/30 rounded-full blur-3xl animate-float animation-delay-1000"></div>
@@ -33,61 +33,50 @@ const {
 
     <!-- Main grid pattern -->
     <div 
-        class="absolute inset-0 bg-[length:64px_64px] opacity-20 backdrop-blur-[100px]"
+        class="absolute inset-0 bg-[length:64px_64px] opacity-20 backdrop-blur-[100px] transition-opacity duration-300"
         style={`background-image: linear-gradient(${gridColor} 1px, transparent 1px),
             linear-gradient(to right, ${gridColor} 1px, transparent 1px);`}
     ></div>
     
     <!-- Diagonal lines -->
     <div 
-        class="absolute inset-0 opacity-20"
+        class="absolute inset-0 opacity-20 transition-opacity duration-300"
         style={`background-image: repeating-linear-gradient(45deg, ${diagonalColor} 0, ${diagonalColor} 1px, transparent 0, transparent 48%);
             background-size: 48px 48px;`}
     ></div>
 
     <!-- Vignette effect -->
     <div 
-        class="absolute inset-0 pointer-events-none"
+        class="absolute inset-0 pointer-events-none transition-opacity duration-300"
         style={`background: radial-gradient(circle at center, transparent 0%, ${vignetteColor} 100%);`}
     ></div>
-    <div class="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/20"></div>
-
-    <!-- Bottom violet glow -->
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200px] h-[200px] rounded-full blur-[100px] opacity-30" style={`background-color: ${secondaryBallColor}`}></div>
-    
-    <!-- Small accent glow -->
-    <div class="absolute bottom-[20%] right-[20%] w-[100px] h-[100px] rounded-full blur-[80px] opacity-20" style={`background-color: ${primaryBallColor}`}></div>
-
-    <!-- Left side glow -->
-    <div class="absolute top-[40%] left-0 w-[150px] h-[150px] rounded-full blur-[90px] opacity-25" style={`background-color: ${primaryBallColor}`}></div>
 </div>
 
 <style>
+    :root[data-theme="light"] {
+        --bg-color: #ffffff;
+        --grid-color: 0, 0, 0;
+        --vignette-color: 0, 0, 0;
+    }
+
+    :root[data-theme="dark"] {
+        --bg-color: #0F1115;
+        --grid-color: 255, 255, 255;
+        --vignette-color: 0, 0, 0;
+    }
+
     @keyframes float {
-        0%, 100% { transform: translate(0, 0); }
-        50% { transform: translate(-10px, 10px); }
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
     }
 
     .animate-float {
-        animation: float 8s ease-in-out infinite;
-    }
-
-    .animate-pulse {
-        animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 0.2; }
-        50% { opacity: 0.5; }
+        animation: float 6s ease-in-out infinite;
     }
 
     .animation-delay-500 {
         animation-delay: 500ms;
-    }
-
-    .animation-delay-700 {
-        animation-delay: 700ms;
     }
 
     .animation-delay-1000 {

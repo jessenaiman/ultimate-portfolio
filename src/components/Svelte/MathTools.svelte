@@ -185,20 +185,20 @@
   });
 </script>
 
-<div class="card w-full bg-base-200 shadow-xl">
+<div class="card w-full bg-base-200 shadow-xl" data-testid="math-tools">
   <div class="card-body">
     <h2 class="card-title">Math Tools</h2>
     {#if mounted}
       <div class="space-y-6">
         <!-- Equation Preview -->
-        <div class="card bg-base-300">
+        <div class="card bg-base-300" data-testid="equation-preview">
           <div class="card-body">
-            <div class="text-center text-lg" bind:this={mathPreview}></div>
+            <div class="text-center text-lg" bind:this={mathPreview} data-testid="math-preview"></div>
           </div>
         </div>
 
         <!-- Predefined Equations -->
-        <div class="card bg-base-300">
+        <div class="card bg-base-300" data-testid="predefined-equations">
           <div class="card-body">
             <h3 class="card-title text-sm opacity-70">Predefined Equations</h3>
             <div class="tabs tabs-boxed">
@@ -206,6 +206,7 @@
                 <a
                   class="tab {activeCategory === category.category ? 'tab-active' : ''}"
                   on:click={() => activeCategory = category.category}
+                  data-testid="category-tab"
                 >
                   {category.category}
                 </a>
@@ -219,6 +220,7 @@
                       <button
                         class="btn btn-outline btn-sm"
                         on:click={() => equation = eq.value}
+                        data-testid="equation-button"
                       >
                         {eq.name}
                       </button>
@@ -231,16 +233,16 @@
         </div>
 
         <!-- Chart Display -->
-        <div class="card bg-base-300">
+        <div class="card bg-base-300" data-testid="chart-display">
           <div class="card-body">
             <div class="w-full aspect-square max-w-2xl mx-auto">
-              <canvas id="mathChart"></canvas>
+              <canvas id="mathChart" data-testid="math-chart"></canvas>
             </div>
           </div>
         </div>
 
         <!-- Controls -->
-        <div class="card bg-base-300">
+        <div class="card bg-base-300" data-testid="controls">
           <div class="card-body space-y-4">
             <div class="grid grid-cols-2 gap-4">
               <div>
@@ -255,6 +257,7 @@
                   step="0.1"
                   class="range range-primary range-sm"
                   bind:value={animationSpeed}
+                  data-testid="animation-speed"
                 />
               </div>
               <div>
@@ -269,6 +272,7 @@
                   step="5"
                   class="range range-primary range-sm"
                   bind:value={gridLines}
+                  data-testid="grid-lines"
                 />
               </div>
             </div>
@@ -277,15 +281,15 @@
               <div class="flex flex-wrap gap-4">
                 <label class="label cursor-pointer">
                   <span class="label-text mr-2">Show Derivative</span>
-                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showDerivative} />
+                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showDerivative} data-testid="show-derivative" />
                 </label>
                 <label class="label cursor-pointer">
                   <span class="label-text mr-2">Show Integral</span>
-                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showIntegral} />
+                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showIntegral} data-testid="show-integral" />
                 </label>
                 <label class="label cursor-pointer">
                   <span class="label-text mr-2">Show Tangent</span>
-                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showTangentLine} />
+                  <input type="checkbox" class="toggle toggle-primary" bind:checked={showTangentLine} data-testid="show-tangent" />
                 </label>
               </div>
 
@@ -302,6 +306,7 @@
                     step="0.1"
                     class="range range-primary range-sm"
                     bind:value={tangentPoint}
+                    data-testid="tangent-point"
                   />
                 </div>
               {/if}

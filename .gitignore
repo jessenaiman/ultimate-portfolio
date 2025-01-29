@@ -7,6 +7,7 @@ dist/
 
 # dependencies
 node_modules/
+src/content/astrojs-guide/
 
 # logs
 npm-debug.log*
