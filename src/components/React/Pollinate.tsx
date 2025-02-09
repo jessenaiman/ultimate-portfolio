@@ -1,118 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import { usePollinationsText } from '@pollinations/react';
-import ReactMarkdown from 'react-markdown';
+import React, { useState } from 'react';
 
-const Pollinate: React.FC = () => {
-  const [textModels, setTextModels] = useState<string[]>(['openai']);
+const APITester = () => {
+  const [activeTab, setActiveTab] = useState('generateImage');
+  const [inputValue, setInputValue] = useState('');
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
 
-  // Text Generation State
-  const [textState, setTextState] = useState({
-    prompt: 'Write a haiku about artificial intelligence',
-    systemPrompt: 'You are a helpful AI assistant.',
-    model: 'openai',
-    seed: 42
-  });
+  // API endpoints
+  const apiEndpoints = {
+    generateImage: `https://image.pollinations.ai/prompt/${inputValue}`,
+    listImageModels: 'https://image.pollinations.ai/models',
+    generateTextGet: `https://text.pollinations.ai/${inputValue}`,
+    generateTextPost: 'https://text.pollinations.ai/',
+    openaiCompatible: 'https://text.pollinations.ai/openai',
+    listTextModels: 'https://text.pollinations.ai/models',
+    imageFeed: 'https://image.pollinations.ai/feed',
+    textFeed: 'https://text.pollinations.ai/feed',
+  };
 
-  // Fetch available models on component mount
-  useEffect(() => {
-    console.log('Component mounted, fetching models...');
+  // Handle tab change
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setInputValue('');
+    setResult(null);
+    setError(null);
+  };
 
-    const fetchWithCORS = async (url: string) => {
-      try {
-        const response = await fetch(url, {
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json'
-          }
+  // Handle form submission
+  const handleSubmit = async () => {
+    try {
+      let response;
+      if (activeTab === 'generateTextPost' || activeTab === 'openaiCompatible') {
+        // POST requests
+        response = await fetch(apiEndpoints[activeTab], {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: inputValue }),
         });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        return await response.json();
-      } catch (error) {
-        console.error(`Error fetching from ${url}:`, error);
-        return [];
+      } else {
+        // GET requests
+        response = await fetch(apiEndpoints[activeTab]);
       }
-    };
 
-    // Fetch text models
-    fetchWithCORS('https://text.pollinations.ai/models')
-      .then(data => {
-        console.log('Text models data:', data);
-        setTextModels(data.length ? data : ['openai']);
-      });
-  }, []);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
 
-  // Text generation
-  const text = usePollinationsText(textState.prompt, {
-    seed: textState.seed,
-    model: textState.model,
-    systemPrompt: textState.systemPrompt
-  });
-
-  const handleTextSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+      const data = await response.json();
+      setResult(data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      setResult(null);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
-      <h2 className="text-xl font-semibold mb-2">Text Generation</h2>
-      <p className="text-gray-400 mb-4">Generate text using Pollinations' API</p>
+    <div className="p-4">
+      {/* Tabs */}
+      <div className="tabs tabs-boxed mb-4">
+        {Object.keys(apiEndpoints).map((tab) => (
+          <button
+            key={tab}
+            className={`tab ${activeTab === tab ? 'tab-active' : ''}`}
+            onClick={() => handleTabChange(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1).replace(/([A-Z])/g, ' $1')}
+          </button>
+        ))}
+      </div>
 
-      <form onSubmit={handleTextSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm mb-2">System Prompt</label>
-          <textarea
-            value={textState.systemPrompt}
-            onChange={(e) => setTextState({ ...textState, systemPrompt: e.target.value })}
-            className="w-full p-2 bg-gray-800 rounded"
-            rows={2}
-          />
+      {/* Description and Instructions */}
+      <div className="mb-4">
+        <h2 className="text-xl font-bold">
+          {activeTab.charAt(0).toUpperCase() + activeTab.slice(1).replace(/([A-Z])/g, ' $1')}
+        </h2>
+        <p className="text-sm text-gray-500">
+          {getTabDescription(activeTab)}
+        </p>
+      </div>
+
+      {/* Input and Submit Button */}
+      <div className="flex gap-2 mb-4">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Enter your input here"
+          className="input input-bordered w-full"
+          disabled={['listImageModels', 'listTextModels', 'imageFeed', 'textFeed'].includes(activeTab)}
+        />
+        <button
+          className="btn btn-primary"
+          onClick={handleSubmit}
+          disabled={!inputValue && !['listImageModels', 'listTextModels', 'imageFeed', 'textFeed'].includes(activeTab)}
+        >
+          Submit
+        </button>
+      </div>
+
+      {/* Result Display */}
+      {result && (
+        <div className="bg-base-200 p-4 rounded-lg">
+          <h3 className="text-lg font-bold">Result:</h3>
+          <pre className="overflow-auto">{JSON.stringify(result, null, 2)}</pre>
         </div>
+      )}
 
-        <div>
-          <label className="block text-sm mb-2">Prompt</label>
-          <textarea
-            value={textState.prompt}
-            onChange={(e) => setTextState({ ...textState, prompt: e.target.value })}
-            className="w-full p-2 bg-gray-800 rounded"
-            rows={2}
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
+      {/* Error Display */}
+      {error && (
+        <div className="alert alert-error shadow-lg">
           <div>
-            <label className="block text-sm mb-2">Model</label>
-            <select
-              value={textState.model}
-              onChange={(e) => setTextState({ ...textState, model: e.target.value })}
-              className="w-full p-2 bg-gray-800 rounded"
-            >
-              {textModels.map(model => (
-                <option key={model} value={model}>{model}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm mb-2">Seed</label>
-            <input
-              type="number"
-              value={textState.seed}
-              onChange={(e) => setTextState({ ...textState, seed: parseInt(e.target.value) })}
-              className="w-full p-2 bg-gray-800 rounded"
-            />
-          </div>
-        </div>
-      </form>
-
-      {text && (
-        <div className="mt-6">
-          <h3 className="text-lg font-medium mb-4">Generated Text:</h3>
-          <div className="bg-gray-800 p-4 rounded">
-            <ReactMarkdown>{text}</ReactMarkdown>
+            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <span>{error}</span>
           </div>
         </div>
       )}
@@ -120,4 +120,28 @@ const Pollinate: React.FC = () => {
   );
 };
 
-export default Pollinate;
+// Helper function to provide descriptions for each tab
+const getTabDescription = (tab) => {
+  switch (tab) {
+    case 'generateImage':
+      return 'Generates an image based on the provided prompt.';
+    case 'listImageModels':
+      return 'Lists all available image generation models.';
+    case 'generateTextGet':
+      return 'Generates text using a GET request with the provided prompt.';
+    case 'generateTextPost':
+      return 'Generates text using a POST request with the provided prompt.';
+    case 'openaiCompatible':
+      return 'Uses an OpenAI-compatible endpoint to generate text.';
+    case 'listTextModels':
+      return 'Lists all available text generation models.';
+    case 'imageFeed':
+      return 'Provides a real-time feed of generated images.';
+    case 'textFeed':
+      return 'Provides a real-time feed of generated text.';
+    default:
+      return 'Select a tab to view its description.';
+  }
+};
+
+export default APITester;

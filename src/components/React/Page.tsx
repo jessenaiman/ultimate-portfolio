@@ -1,4 +1,3 @@
-'use client'
 import React, { useState } from 'react'
 import TextTab from './TextTab';
 import ImageTab from './ImageTab';
