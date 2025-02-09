@@ -22,6 +22,7 @@
     "@astrojs/vue": "^5.0.5",
     "@babel/runtime": "^7.26.0",
     "@motionone/solid": "^10.16.4",
+    "@pollinations/react": "^2.0.7",
     "@remix-run/node": "^2.15.2",
     "@remix-run/react": "^2.15.2",
     "@remix-run/router": "^1.21.1",
