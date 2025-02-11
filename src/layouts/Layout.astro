@@ -4,7 +4,7 @@ import Analytics from "@vercel/analytics/astro";
 import { SEO } from "astro-seo";
 import Background from "../components/ui/Background.astro";
 import Footer from "../components/ui/Footer.astro";
-import Menu from "../components/ui/Header.astro";
+import Menu from "../components/ui/Menu.astro";
 import Head from "../components/core/Head.astro";
 import "../styles/global.css";
 
@@ -36,6 +36,7 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="view-transition" content="same-origin" />
     <ClientRouter />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,36 +50,24 @@ const {
       rel="stylesheet"
     />
     <script is:inline>
-      (function() {
-        // Get initial theme from localStorage or system preference
-        function getTheme() {
-          const savedTheme = localStorage.getItem("theme");
-          if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-            return savedTheme;
-          }
-          return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      // Get theme from localStorage or system preference
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
         }
-
-        // Set theme in localStorage and HTML
-        function setTheme(theme) {
-          document.documentElement.setAttribute("data-theme", theme);
-          localStorage.setItem("theme", theme);
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
         }
-
-        // Set initial theme as soon as possible
-        const theme = getTheme();
-        setTheme(theme);
-
-        // Handle system theme changes
-        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-        mediaQuery.addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme")) {
-            setTheme(e.matches ? "dark" : "light");
-          }
-        });
+        return 'light';
       })();
+
+      // Set theme immediately to prevent flash
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
     </script>
-    <Analytics />
   </head>
   <body class="m-0 min-h-screen relative font-sans">
     <Background
@@ -88,11 +77,12 @@ const {
       diagonalColor={diagonalColor}
       vignetteColor={vignetteColor}
     />
-    <Menu />
-    <slot />
     <div class="mb-32">
+      <Menu />
+      <slot />
       <Footer />
     </div>
+    <Analytics />
   </body>
 </html>
 
