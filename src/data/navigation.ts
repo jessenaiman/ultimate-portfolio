@@ -73,5 +73,11 @@ export const navigation: MenuItem[] = [
         path: '/resume', 
         color: '#FF5D01' 
     },
-
+    { 
+        name: 'blog', 
+        displayName: 'Blog', 
+        features: 'FutureStack', 
+        path: '/blog', 
+        color: '#FF5D01' 
+    },
 ];

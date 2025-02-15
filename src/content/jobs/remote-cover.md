@@ -5,9 +5,9 @@ description: "Employer for all things past, present and future"
 date: "2025-01-25"
 ---
 
-Greetings Future Amazing Employer,
+Greetings Future Employer,
 
-I have nearly two decades in web development, I’ve worked through technologies rise to necessity, only to be forgotten in code graveyard. My career has been a journey through an ever-changing landscape, adapting and thriving where many have stagnated. I bring rarity to the table: old man vibes with depth, versatility, and a relentless drive to innovate. 
+Over two decades of web development I’ve worked through technologies rise to necessity, only to be forgotten in code graveyard. My career has been a journey through an ever-changing landscape, adapting and thriving where many have stagnated. I bring rarity to the table: old man vibes with depth, versatility, and a relentless drive to innovate. 
 
 I have experitse that spans the early days of HTML, CSS, JavaScript, C#, asp.net, Git, responsive design, and old and modern frameworks, and I can connect all of it to modern AI and blockchain technologies.
 
