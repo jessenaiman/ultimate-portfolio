@@ -2,6 +2,7 @@
 layout: '../../layouts/Layout.astro'
 title: 'Jesse Naiman - Future Stack Developer'
 description: 'Future Stack Developer with nearly two decades of experience in web development, community support, and technical leadership'
+pubDate: 2025-02-16
 ---
 # Jesse Naiman
 

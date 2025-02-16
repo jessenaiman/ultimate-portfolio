@@ -1,3 +1,21 @@
+---
+layout: '../../layouts/Layout.astro'
+tag:
+  - Hire
+title: Hire The Dice Wizard Storyteller
+description: Create an interconnected, immersive gaming experience that keeps players coming back for more.
+intro: Elevate Your Store with a Resident Storyteller
+style:
+  template: split
+  card_template: grid
+  hero_template: image
+  container: md
+  hero_surface: surface-dark
+  hero_image_opacity: ""
+pubDate: 2024-04-03T12:14:12.256+02:00
+thumbnail: /src/assets/elven-dice-grove2.jpg
+---
+
 # A Guide for Web Developers Transitioning to Blockchain Development
 
 Congratulations! You've already learned about the core technologies and programming languages used in some of the most popular blockchain platforms. Now, it's time to take your knowledge to the next level by applying it in a professional setting. This guide is designed to help you bridge the gap between learning these technologies and working with them professionally.

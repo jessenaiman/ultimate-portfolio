@@ -1,0 +1,57 @@
+---
+const pageTitle = "About Me";
+
+const identity = {
+  firstName: "Jesse",
+  country: "Naiman",
+  occupation: "Senior Software Engineer",
+  hobbies: ["coding", "ttrpg", "music", "writing"],
+};
+
+const skills = ["nodejs", "gpt", "Python", "React", "Astro", "Communication", "Optimism"];
+
+const happy = true;
+const finished = false;
+const goal = 3;
+
+const skillColor = "navy";
+const textCase = "uppercase";
+const fontWeight = "bold";
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{pageTitle}</title>
+    <style define:vars={{skillColor, textCase, fontWeight}}>
+      h1 {
+        color: purple;
+        font-size: 4rem;
+      }
+      .skill {
+        color: var(--skillColor);
+        font-weight: var(--fontWeight);
+        text-transform: var(--textCase);
+    }
+    </style>
+  </head>
+  <body>
+    <h1>Here are a few facts about me:</h1>
+    <ul>
+        <li>My name is {identity.firstName}.</li>
+        <li>I live in {identity.country} and I work as a {identity.occupation}.</li>
+        {identity.hobbies.length >= 2 &&
+            <li>Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}</li>
+        }
+    </ul>
+    <p>My skills are:</p>
+    <ul>
+        {skills.map((skill) => <li class="skill">{skill}</li>)}
+    </ul>
+    {happy && <p>I am leaving the tutorial in the project so code gpt can reference</p>}
+
+    {finished && <p>This is a wrap-up message for the tutorial!</p>}
+
+    {goal === 3 ? <p>My goal is to be employed in 3 days.</p> : <p>My goal is not 3 days.</p>}
+  </body>
+</html>

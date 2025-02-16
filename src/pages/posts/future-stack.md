@@ -1,7 +1,9 @@
 ---
 title: "Future Stack Developer"
 description: "Managed precision survey equipment and provided customer service."
-date: "2018-04-01"
+pubDate: 2018-04-01
+author: 'Jesse Naiman'
+tags: ["astro", "blogging", "learning in public"]
 ---
 
 ## Bridging Two Decades of Development with the Cutting Edge

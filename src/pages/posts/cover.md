@@ -1,7 +1,7 @@
 ---
 title: "Manager at A.N. Survey Equipment"
 description: "Managed precision survey equipment and provided customer service."
-date: "2018-04-01"
+pubDate: 2018-04-01
 ---
 
 # Cover Letter

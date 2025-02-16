@@ -1,7 +1,7 @@
 ---
 title: "Web Programmer at Canwest"
 description: "Created tools for publishing online video content."
-date: "2007-08-01"
+pubDate: 2025-02-16
 ---
 # Web Programmer
 
