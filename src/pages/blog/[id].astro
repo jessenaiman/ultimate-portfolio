@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { id: post.slug || post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+// If no post is found, redirect to 404
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await post.render();
+
+// Format the publication date
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BlogPost title={post.data.title} description={post.data.description}>
+  <div class="mb-8 text-sm text-gray-500 dark:text-gray-400">
+    Published on {formattedDate}
+    {post.data.tags && post.data.tags.length > 0 && (
+      <div class="mt-2">
+        {post.data.tags.map((tag) => (
+          <span class="mr-2 px-2 py-1 text-xs rounded bg-base-200 dark:bg-base-300">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+  
+  <article class="prose dark:prose-invert max-w-none">
+    <Content />
+  </article>
+  
+  <div class="mt-12 pt-6 border-t border-base-300">
+    <a href="/blog" class="text-primary hover:underline">← Back to all posts</a>
+  </div>
+</BlogPost>

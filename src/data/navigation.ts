@@ -16,6 +16,13 @@ export const navigation: MenuItem[] = [
         color: '#FF5D01' 
     },
     { 
+        name: 'resume', 
+        displayName: 'Resume', 
+        features: 'Experience', 
+        path: '/resume', 
+        color: '#4F46E5' 
+    },
+    { 
         name: 'blockchain', 
         displayName: 'Blockchain Chat', 
         features: 'React', 

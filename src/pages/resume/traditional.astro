@@ -1,0 +1,64 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ResumeTabs from "../../components/resume/ResumeTabs.astro";
+
+// Set the page title and description
+const title = "Traditional Resume | Jesse Naiman";
+const description = "Download Jesse Naiman's traditional resume in PDF format.";
+---
+
+<Layout 
+  title={title}
+  description={description}
+  primaryBallColor="#4F46E5" 
+  secondaryBallColor="#1E1B4B"
+>
+  <main class="container mx-auto px-4 py-12 max-w-6xl">
+    <ResumeTabs activeTab="traditional" />
+    
+    <!-- Print button for traditional resume -->
+    <div class="mt-8 text-center print:hidden">
+      <button 
+        onclick="window.print()"
+        class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
+        </svg>
+        Print or Save as PDF
+      </button>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  @media print {
+    @page {
+      margin: 1cm;
+      size: A4;
+    }
+    
+    body {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      background: white !important;
+      color: black !important;
+      font-size: 11pt;
+      line-height: 1.4;
+    }
+    
+    .print\:hidden {
+      display: none !important;
+    }
+    
+    a {
+      color: #1a365d;
+      text-decoration: none;
+    }
+    
+    .prose a {
+      color: #1a365d;
+      text-decoration: underline;
+    }
+  }
+</style>

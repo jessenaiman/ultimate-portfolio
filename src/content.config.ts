@@ -1,30 +1,41 @@
-// 1. Import utilities from `astro:content`
 import { defineCollection, z } from 'astro:content';
 
-// 2. Import loader(s)
-import { glob, file } from 'astro/loaders';
-
-const job = defineCollection({
-  loader: glob({pattern: "**/*.md", base: './src/content/jobs'}),
-  schema: z.object({
-    title: z.string(),
-    employer: z.string(),
-    description: z.string(),
-    date: z.string(),
-  }),
-});
-
-const post = defineCollection({
+// Define the post collection
+const posts = defineCollection({
+  type: 'content',
   schema: z.object({
     title: z.string(),
     description: z.string(),
     pubDate: z.date(),
+    author: z.string().optional(),
     tags: z.array(z.string()).optional(),
   }),
 });
 
+// Define the job collection
+const jobs = defineCollection({
+  type: 'content',
+  schema: ({ image }) => z.object({
+    // Common fields for all job entries
+    title: z.string(),
+    employer: z.string(),
+    date: z.string(),
+    isTraditionalResume: z.boolean().default(false),
+    
+    // Optional fields for dynamic job entries
+    description: z.string().optional(),
+    endDate: z.string().optional(),
+    location: z.string().optional(),
+    employmentType: z.enum(['Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship']).optional(),
+    technologies: z.string().optional(),
+    logo: image().optional(),
+    achievements: z.array(z.string()).optional(),
+    skills: z.array(z.string()).optional(),
+    highlight: z.boolean().optional()
+  }),
+});
 
 export const collections = {
-  'jobs': job,
-  'posts': post,
+  'posts': posts,
+  'jobs': jobs,
 };

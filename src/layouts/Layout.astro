@@ -1,5 +1,5 @@
 ---
-import { ClientRouter } from "astro:transitions";
+import { ViewTransitions } from 'astro:transitions';
 import Analytics from "@vercel/analytics/astro";
 import Background from "../components/ui/Background.astro";
 import Footer from "../components/ui/Footer.astro";
@@ -35,7 +35,7 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="view-transition" content="same-origin" />
-    <ClientRouter />
+    <ViewTransitions />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

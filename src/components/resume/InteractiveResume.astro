@@ -1,0 +1,183 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+// Fetch all collections
+const [jobs, skills, personal] = await Promise.all([
+  getCollection('jobs'),
+  getCollection('skills'),
+  getCollection('personal')
+]);
+
+// Sort jobs by date (newest first)
+const sortedJobs = jobs.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// Group jobs by employer
+const jobsByEmployer = sortedJobs.reduce((acc, job) => {
+  const employer = job.data.employer;
+  if (!acc[employer]) {
+    acc[employer] = [];
+  }
+  acc[employer].push(job);
+  return acc;
+}, {} as Record<string, CollectionEntry<'jobs'>[]>);
+
+// Get all unique skills from jobs
+const allSkills = Array.from(new Set(
+  jobs.flatMap(job => [
+    ...(job.data.technologies?.split(',').map(t => t.trim()) || []),
+    ...(job.data.skills || [])
+  ]).filter(Boolean)
+));
+
+const personalInfo = personal[0]?.data;
+---
+
+<div class="interactive-resume">
+  <!-- Hero Section -->
+  <section class="hero-section text-center mb-12">
+    <h1 class="text-5xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent mb-4">
+      {personalInfo?.name || 'Your Name'}
+    </h1>
+    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+      {personalInfo?.title || 'Your Professional Title'}
+    </p>
+    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">
+      {personalInfo?.summary}
+    </p>
+  </section>
+
+  <!-- Skills Cloud -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-8 text-white text-center">Technical Expertise</h2>
+    <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+      {allSkills.map((skill) => (
+        <span class="px-4 py-2 bg-indigo-900/30 text-indigo-200 rounded-full text-sm font-medium hover:bg-indigo-800/50 transition-colors hover:scale-105 transform">
+          {skill}
+        </span>
+      ))}
+    </div>
+  </section>
+
+  <!-- Work Experience -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-8 text-white">Professional Experience</h2>
+    <div class="space-y-8">
+      {Object.entries(jobsByEmployer).map(([employer, positions]) => (
+        <div class="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-indigo-500/30 transition-all duration-300">
+          <div class="p-6 border-b border-white/10 bg-gradient-to-r from-indigo-900/20 to-purple-900/10">
+            <h3 class="text-2xl font-bold text-white">{employer}</h3>
+          </div>
+          <div class="divide-y divide-white/5">
+            {positions.map((job) => {
+              const startDate = new Date(job.data.date);
+              const endDate = job.data.endDate ? new Date(job.data.endDate) : 'Present';
+              const formattedDate = endDate === 'Present' 
+                ? `${startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - Present`
+                : `${startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
+              
+              return (
+                <div class="p-6 hover:bg-white/5 transition-colors">
+                  <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+                    <div>
+                      <h4 class="text-xl font-semibold text-white">{job.data.title}</h4>
+                      <div class="flex items-center mt-1 text-sm text-indigo-300">
+                        <span>{formattedDate}</span>
+                        {job.data.location && (
+                          <>
+                            <span class="mx-2">•</span>
+                            <span>{job.data.location}</span>
+                          </>
+                        )}
+                      </div>
+                      {job.data.technologies && (
+                        <div class="mt-3 flex flex-wrap gap-2">
+                          {job.data.technologies.split(',').map(tech => (
+                            <span class="px-2 py-1 bg-indigo-900/30 text-indigo-200 rounded text-xs">
+                              {tech.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {job.body && (
+                    <div class="mt-4 prose prose-invert max-w-none">
+                      <div set:html={job.body}></div>
+                    </div>
+                  )}
+                  
+                  {job.data.achievements && job.data.achievements.length > 0 && (
+                    <div class="mt-4">
+                      <h5 class="font-medium text-indigo-300 mb-2">Key Achievements:</h5>
+                      <ul class="list-disc pl-5 space-y-1 text-gray-300">
+                        {job.data.achievements.map(achievement => (
+                          <li>{achievement}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="text-center py-12 bg-gradient-to-br from-indigo-900/20 to-purple-900/10 rounded-2xl p-8">
+    <h2 class="text-3xl font-bold mb-6 text-white">Let's Build Something Amazing Together</h2>
+    <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+      I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+    </p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a 
+        href={`mailto:${personalInfo?.email || 'your.email@example.com'}`}
+        class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors"
+      >
+        Contact Me
+      </a>
+      <a 
+        href="/contact" 
+        class="px-6 py-3 bg-transparent border-2 border-indigo-500 text-indigo-400 hover:bg-indigo-900/30 rounded-lg font-medium transition-colors"
+      >
+        Send a Message
+      </a>
+    </div>
+  </section>
+</div>
+
+<style>
+  .interactive-resume {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .prose-invert {
+    --tw-prose-body: #e2e8f0;
+    --tw-prose-headings: #fff;
+    --tw-prose-links: #93c5fd;
+    --tw-prose-links-hover: #bfdbfe;
+    --tw-prose-bold: #fff;
+    --tw-prose-counters: #cbd5e1;
+    --tw-prose-bullets: #94a3b8;
+  }
+  
+  .prose-invert a {
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .prose-invert a:hover {
+    text-decoration: underline;
+  }
+</style>

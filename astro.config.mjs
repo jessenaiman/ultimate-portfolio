@@ -20,8 +20,21 @@ export default defineConfig({
     react({
       include: ["**/React|Remix/**/*.{jsx,tsx}"],
     }),
-    svelte(),
-    vue(),
+    svelte({
+      // Explicitly set the compiler options for Svelte 4
+      compilerOptions: {
+        hydratable: true,
+      },
+    }),
+    vue({
+      // Vue 3 specific options
+      template: {
+        compilerOptions: {
+          // Enable reactivity transform
+          reactivityTransform: true,
+        },
+      },
+    }),
     solidJs({
       include: ["**/Solid/**/*.{jsx,tsx}"],
     }),
@@ -29,16 +42,38 @@ export default defineConfig({
   ],
 
   build: {
-    inlineStylesheets: "auto",
+    // Enable modern browser builds for better performance
+    format: 'file',
+    inlineStylesheets: 'auto',
   },
 
+  // Improved Vite configuration
   vite: {
     optimizeDeps: {
-      include: ["react", "react-dom", "solid-js"],
-      exclude: ["@astrojs/solid-js/client.js"],
+      include: [
+        'react',
+        'react-dom',
+        'solid-js',
+        'svelte',
+        'vue',
+      ],
+      exclude: [
+        '@astrojs/solid-js/client.js',
+        '@astrojs/svelte/client.js',
+      ],
     },
     ssr: {
-      noExternal: ["@astrojs/*"],
+      noExternal: [
+        '@astrojs/*',
+        'daisyui',
+      ],
+    },
+    // Add build optimizations
+    build: {
+      target: 'esnext',
+      minify: 'esbuild',
+      cssMinify: true,
+      sourcemap: true,
     },
   },
 });

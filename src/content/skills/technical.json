@@ -1,0 +1,17 @@
+{
+  "category": "Technical Skills",
+  "items": [
+    { "name": "JavaScript/TypeScript", "level": 5, "years": 15 },
+    { "name": "Node.js", "level": 5, "years": 10 },
+    { "name": "React", "level": 5, "years": 8 },
+    { "name": "Angular", "level": 4, "years": 6 },
+    { "name": "Ruby on Rails", "level": 4, "years": 7 },
+    { "name": ".NET/C#", "level": 5, "years": 15 },
+    { "name": "SQL/NoSQL", "level": 5, "years": 15 },
+    { "name": "AWS/GCP", "level": 4, "years": 6 },
+    { "name": "Docker/Kubernetes", "level": 4, "years": 5 },
+    { "name": "CI/CD", "level": 5, "years": 8 },
+    { "name": "Git", "level": 5, "years": 12 },
+    { "name": "Agile/Scrum", "level": 5, "years": 10 }
+  ]
+}

@@ -1,0 +1,75 @@
+---
+import InteractiveResume from './InteractiveResume.astro';
+import TraditionalResume from './TraditionalResume.astro';
+
+interface Props {
+  activeTab?: 'interactive' | 'traditional';
+}
+
+const { activeTab = 'interactive' } = Astro.props;
+---
+
+<div class="resume-container">
+  <div class="tabs">
+    <a 
+      href="/resume" 
+      class:list={['tab', { 'tab-active': activeTab === 'interactive' }]}
+    >
+      Interactive Resume
+    </a>
+    <a 
+      href="/resume/traditional" 
+      class:list={['tab', { 'tab-active': activeTab === 'traditional' }]}
+    >
+      Traditional Resume
+    </a>
+  </div>
+
+  <div class="tab-content">
+    {activeTab === 'interactive' ? <InteractiveResume /> : <TraditionalResume />}
+  </div>
+</div>
+
+<style>
+  .resume-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid #2d3748;
+    margin-bottom: 2rem;
+  }
+  
+  .tab {
+    padding: 0.75rem 1.5rem;
+    margin-right: 0.5rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    color: #a0aec0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+  }
+  
+  .tab:hover {
+    background-color: #2d3748;
+    color: #fff;
+  }
+  
+  .tab-active {
+    background-color: #2d3748;
+    color: #4299e1;
+    border-bottom: 2px solid #4299e1;
+  }
+  
+  .tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
