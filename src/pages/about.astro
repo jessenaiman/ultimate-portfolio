@@ -1,57 +1,205 @@
 ---
-const pageTitle = "About Me";
+import Layout from '../layouts/Layout.astro';
 
-const identity = {
-  firstName: "Jesse",
-  country: "Naiman",
-  occupation: "Senior Software Engineer",
-  hobbies: ["coding", "ttrpg", "music", "writing"],
-};
+// Professional skills categorized
+const frontendSkills = [
+  { name: "JavaScript", level: 95 },
+  { name: "TypeScript", level: 90 },
+  { name: "React", level: 92 },
+  { name: "HTML5/CSS3", level: 95 },
+  { name: "Astro", level: 85 },
+];
 
-const skills = ["nodejs", "gpt", "Python", "React", "Astro", "Communication", "Optimism"];
+const backendSkills = [
+  { name: "Node.js", level: 90 },
+  { name: "C#/.NET", level: 88 },
+  { name: "Python", level: 80 },
+  { name: "SQL", level: 85 },
+  { name: "Ruby on Rails", level: 75 },
+];
 
-const happy = true;
-const finished = false;
-const goal = 3;
+const otherSkills = [
+  { name: "AI/GPT Integration", level: 90 },
+  { name: "Agile/Scrum", level: 85 },
+  { name: "DevOps", level: 75 },
+  { name: "UI/UX Design", level: 80 },
+  { name: "Technical Writing", level: 85 },
+];
 
-const skillColor = "navy";
-const textCase = "uppercase";
-const fontWeight = "bold";
+// Career highlights
+const careerHighlights = [
+  "Nearly two decades of software development experience across multiple industries",
+  "Led development teams in creating innovative web applications and services",
+  "Expertise in both frontend and backend technologies with a focus on modern JavaScript frameworks",
+  "Strong background in financial technology and secure application development",
+  "Passionate about AI integration and emerging technologies",
+];
+
+// Personal interests that showcase well-roundedness
+const personalInterests = ["Tabletop RPGs", "Music Production", "Creative Writing", "Open Source Contribution", "Community Building"];
 ---
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{pageTitle}</title>
-    <style define:vars={{skillColor, textCase, fontWeight}}>
-      h1 {
-        color: purple;
-        font-size: 4rem;
-      }
-      .skill {
-        color: var(--skillColor);
-        font-weight: var(--fontWeight);
-        text-transform: var(--textCase);
-    }
-    </style>
-  </head>
-  <body>
-    <h1>Here are a few facts about me:</h1>
-    <ul>
-        <li>My name is {identity.firstName}.</li>
-        <li>I live in {identity.country} and I work as a {identity.occupation}.</li>
-        {identity.hobbies.length >= 2 &&
-            <li>Two of my hobbies are: {identity.hobbies[0]} and {identity.hobbies[1]}</li>
-        }
-    </ul>
-    <p>My skills are:</p>
-    <ul>
-        {skills.map((skill) => <li class="skill">{skill}</li>)}
-    </ul>
-    {happy && <p>I am leaving the tutorial in the project so code gpt can reference</p>}
 
-    {finished && <p>This is a wrap-up message for the tutorial!</p>}
+<Layout title="About Jesse Naiman | Senior Software Engineer">
+  <main class="container mx-auto px-4 py-8 max-w-5xl">
+    <!-- Hero Section -->
+    <section class="hero bg-base-200 rounded-box p-8 mb-12">
+      <div class="hero-content flex-col lg:flex-row">
+        <div class="avatar">
+          <div class="w-48 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 shadow-lg">
+            <img src="https://picsum.photos/200" alt="Jesse Naiman" />
+          </div>
+        </div>
+        <div class="ml-0 lg:ml-8">
+          <h1 class="text-5xl font-bold mb-2">Jesse Naiman</h1>
+          <h2 class="text-2xl mb-4">Senior Software Engineer</h2>
+          <p class="text-lg mb-6">
+            I'm a versatile software engineer with nearly two decades of experience building web applications, 
+            services, and innovative solutions. My passion lies in creating efficient, maintainable code 
+            that solves complex problems and delivers exceptional user experiences.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <a href="mailto:jessenaiman@gmail.com" class="btn btn-primary">
+              Contact Me
+            </a>
+            <a href="/resume" class="btn btn-outline">
+              View Resume
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    {goal === 3 ? <p>My goal is to be employed in 3 days.</p> : <p>My goal is not 3 days.</p>}
-  </body>
-</html>
+    <!-- About Me Section -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6 border-l-4 border-primary pl-4">About Me</h2>
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+          <p class="mb-4">
+            Throughout my career, I've worked across diverse industries including financial technology, healthcare, e-commerce, 
+            and Web3. I specialize in building scalable web applications using modern JavaScript frameworks while maintaining 
+            expertise in backend technologies and system architecture.
+          </p>
+          <p class="mb-4">
+            My approach combines technical excellence with strong communication skills, allowing me to bridge the gap between 
+            complex technical concepts and business objectives. I thrive in collaborative environments where innovation is 
+            encouraged and continuous learning is valued.
+          </p>
+          <p>
+            Based in Aurora, Ontario, I'm open to remote opportunities and willing to relocate for the right position. 
+            I'm currently focused on projects that leverage AI integration, modern web frameworks, and emerging technologies 
+            to create impactful solutions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6 border-l-4 border-primary pl-4">Technical Skills</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Frontend Skills -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title text-xl mb-4">Frontend Development</h3>
+            <div class="space-y-4">
+              {frontendSkills.map((skill) => (
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="font-medium">{skill.name}</span>
+                    <span class="text-sm">{skill.level}%</span>
+                  </div>
+                  <div class="w-full bg-base-200 rounded-full h-2">
+                    <div class="bg-primary h-2 rounded-full" style={`width: ${skill.level}%`}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Backend Skills -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title text-xl mb-4">Backend Development</h3>
+            <div class="space-y-4">
+              {backendSkills.map((skill) => (
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="font-medium">{skill.name}</span>
+                    <span class="text-sm">{skill.level}%</span>
+                  </div>
+                  <div class="w-full bg-base-200 rounded-full h-2">
+                    <div class="bg-secondary h-2 rounded-full" style={`width: ${skill.level}%`}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Other Skills -->
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title text-xl mb-4">Specialized Skills</h3>
+            <div class="space-y-4">
+              {otherSkills.map((skill) => (
+                <div>
+                  <div class="flex justify-between mb-1">
+                    <span class="font-medium">{skill.name}</span>
+                    <span class="text-sm">{skill.level}%</span>
+                  </div>
+                  <div class="w-full bg-base-200 rounded-full h-2">
+                    <div class="bg-accent h-2 rounded-full" style={`width: ${skill.level}%`}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Career Highlights -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6 border-l-4 border-primary pl-4">Career Highlights</h2>
+      <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+          <ul class="list-disc pl-5 space-y-2">
+            {careerHighlights.map((highlight) => (
+              <li>{highlight}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personal Interests -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6 border-l-4 border-primary pl-4">Beyond Coding</h2>
+      <div class="flex flex-wrap gap-3">
+        {personalInterests.map((interest) => (
+          <div class="badge badge-lg badge-primary p-4">{interest}</div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="mb-12">
+      <div class="card bg-primary text-primary-content">
+        <div class="card-body text-center">
+          <h2 class="card-title text-2xl justify-center mb-4">Interested in working together?</h2>
+          <p class="mb-6">I'm always open to discussing new projects, opportunities, and collaborations.</p>
+          <div class="card-actions justify-center">
+            <a href="mailto:jessenaiman@gmail.com" class="btn btn-outline btn-lg">
+              Get in Touch
+            </a>
+            <a href="/portfolio" class="btn glass btn-lg">
+              View My Work
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

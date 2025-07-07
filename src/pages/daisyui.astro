@@ -1,0 +1,321 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+// Define types for our components
+interface ComponentExamples {
+  button: string;
+  card: string;
+  alert: string;
+  theme: string;
+}
+
+// Type for theme names
+type ThemeName = 'light' | 'dark' | 'cupcake' | 'bumblebee' | 'emerald' | 'corporate' |
+  'synthwave' | 'retro' | 'cyberpunk' | 'valentine' | 'halloween' |
+  'garden' | 'forest' | 'aqua' | 'lofi' | 'pastel' | 'fantasy' |
+  'wireframe' | 'black' | 'luxury' | 'dracula' | 'cmyk' | 'autumn' |
+  'business' | 'acid' | 'lemonade' | 'night' | 'coffee' | 'winter';
+
+// Get the DaisyUI markdown content
+const daisyContent = await getEntry('info', 'daisyui');
+
+// Component examples as constants with proper typing
+const components: ComponentExamples = {
+  button: `<!-- DaisyUI Buttons -->
+<button class="btn">Default</button>
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-accent">Accent</button>
+<button class="btn btn-ghost">Ghost</button>
+<button class="btn btn-link">Link</button>`,
+
+  card: `<!-- DaisyUI Card -->
+<div class="card w-96 bg-base-100 shadow-xl">
+  <figure><img src="/placeholder.jpg" alt="Example" /></figure>
+  <div class="card-body">
+    <h2 class="card-title">Card Title</h2>
+    <p>This is a DaisyUI card component with an image.</p>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary">Learn More</button>
+    </div>
+  </div>
+</div>`,
+
+  alert: `<!-- DaisyUI Alerts -->
+<div class="alert">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  </svg>
+  <span>This is an info alert</span>
+</div>
+<div class="alert alert-success">
+  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+  <span>Your purchase has been confirmed!</span>
+</div>`,
+
+  theme: `<!-- Theme Selector -->
+<select class="select select-bordered w-full max-w-xs" data-choose-theme>
+  <option value="light">Light</option>
+  <option value="dark">Dark</option>
+  <option value="cupcake">Cupcake</option>
+  <option value="bumblebee">Bumblebee</option>
+  <option value="synthwave">Synthwave</option>
+</select>`
+};
+
+// Available themes with proper typing
+const themes: ThemeName[] = [
+  'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate',
+  'synthwave', 'retro', 'cyberpunk', 'valentine', 'halloween',
+  'garden', 'forest', 'aqua', 'lofi', 'pastel', 'fantasy',
+  'wireframe', 'black', 'luxury', 'dracula', 'cmyk', 'autumn',
+  'business', 'acid', 'lemonade', 'night', 'coffee', 'winter'
+];
+---
+
+<Layout 
+  title="DaisyUI Showcase | Ultimate Astro Template"
+  primaryBallColor="hsl(220.9 39.3% 11%)"
+  secondaryBallColor="hsl(220.9 39.3% 18.8%)"
+  gridColor="hsl(0 0% 100% / 0.03)"
+  diagonalColor="hsl(0 0% 100% / 0.05)"
+  vignetteColor="hsl(0 0% 0% / 0.5)"
+>
+  <!-- Theme Switcher -->
+  <div class="fixed bottom-4 right-4 z-50">
+    <div class="dropdown dropdown-top dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-circle btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+        </svg>
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
+        {themes.slice(0, 5).map(theme => (
+          <li><a data-set-theme={theme} class="text-sm capitalize">{theme}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <main class="container mx-auto px-4 py-12 max-w-7xl">
+    <!-- Hero Section -->
+    <section class="text-center mb-16">
+      <div class="flex justify-center mb-6">
+        <div class="badge badge-primary badge-lg p-4 text-lg">Component Library</div>
+      </div>
+      <h1 class="text-5xl font-bold mb-6">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+          DaisyUI
+        </span>
+      </h1>
+      <p class="text-xl text-base-content/80 max-w-3xl mx-auto mb-8">
+        {daisyContent?.data.description || 'Beautiful, responsive components for Tailwind CSS'}
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a 
+          href="https://daisyui.com/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="btn btn-primary"
+        >
+          Get Started
+        </a>
+        <a 
+          href="https://github.com/saadeghi/daisyui" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="btn btn-outline"
+        >
+          GitHub
+        </a>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Buttons</h2>
+      <div class="flex flex-wrap gap-4 mb-8">
+        <button class="btn">Default</button>
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-accent">Accent</button>
+        <button class="btn btn-ghost">Ghost</button>
+        <button class="btn btn-link">Link</button>
+      </div>
+      <div class="mockup-code">
+        <pre><code>{components.button}</code></pre>
+      </div>
+    </section>
+
+    <!-- Card -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Card</h2>
+      <div class="flex justify-center mb-8">
+        <div class="card w-96 bg-base-100 shadow-xl">
+          <figure>
+            <img 
+              src="https://picsum.photos/400/200" 
+              alt="Example" 
+              class="w-full h-48 object-cover"
+              onerror="this.src='https://via.placeholder.com/400x200?text=Example+Image'"
+            />
+          </figure>
+          <div class="card-body">
+            <h3 class="card-title">Example Card</h3>
+            <p>This is a DaisyUI card component with an image.</p>
+            <div class="card-actions justify-end">
+              <button class="btn btn-primary">Learn More</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mockup-code">
+        <pre><code>{components.card}</code></pre>
+      </div>
+    </section>
+
+    <!-- Alert -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Alert</h2>
+      <div class="space-y-4 mb-8">
+        <div class="alert">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>This is an info alert</span>
+        </div>
+        <div class="alert alert-success">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Your purchase has been confirmed!</span>
+        </div>
+      </div>
+      <div class="mockup-code">
+        <pre><code>{components.alert}</code></pre>
+      </div>
+    </section>
+
+    <!-- Theme Selector -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">Theming</h2>
+      <div class="card bg-base-200 p-6 mb-8">
+        <div class="form-control w-full max-w-xs mx-auto">
+          <label class="label">
+            <span class="label-text">Select a theme</span>
+          </label>
+          <select class="select select-bordered" data-choose-theme>
+            {themes.slice(0, 5).map(theme => (
+              <option value={theme} class="capitalize">{theme}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div class="mockup-code">
+        <pre><code>{components.theme}</code></pre>
+      </div>
+    </section>
+
+    <!-- Additional Components Example -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-6">More Components</h2>
+      
+      <!-- Tabs -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">Tabs</h3>
+        <div class="tabs tabs-boxed mb-4">
+          <a class="tab tab-active">Tab 1</a> 
+          <a class="tab">Tab 2</a> 
+          <a class="tab">Tab 3</a>
+        </div>
+      </div>
+      
+      <!-- Progress -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">Progress</h3>
+        <div class="w-full bg-base-200 rounded-full h-4 mb-2">
+          <div class="bg-primary h-4 rounded-full" style="width: 65%"></div>
+        </div>
+        <div class="w-full bg-base-200 rounded-full h-4">
+          <div class="bg-secondary h-4 rounded-full" style="width: 90%"></div>
+        </div>
+      </div>
+      
+      <!-- Toggle -->
+      <div class="mb-8">
+        <h3 class="text-xl font-semibold mb-4">Toggle</h3>
+        <div class="flex items-center gap-4">
+          <input type="checkbox" class="toggle" checked />
+          <input type="checkbox" class="toggle toggle-primary" />
+          <input type="checkbox" class="toggle toggle-secondary" />
+          <input type="checkbox" class="toggle toggle-accent" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    // Theme switcher with proper TypeScript types
+    document.addEventListener('DOMContentLoaded', () => {
+      // Define ThemeName type for the script
+      /** @type {string[]} */
+      const themeNames = [
+        'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate',
+        'synthwave', 'retro', 'cyberpunk', 'valentine', 'halloween',
+        'garden', 'forest', 'aqua', 'lofi', 'pastel', 'fantasy',
+        'wireframe', 'black', 'luxury', 'dracula', 'cmyk', 'autumn',
+        'business', 'acid', 'lemonade', 'night', 'coffee', 'winter'
+      ];
+
+      // Theme dropdown elements
+      const themeSelect = document.querySelector('[data-choose-theme]');
+      const themeLinks = document.querySelectorAll('[data-set-theme]');
+      
+      // Set initial theme from localStorage or use default
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      // Update select element if it exists
+      if (themeSelect) {
+        themeSelect.value = savedTheme;
+        
+        // Handle theme change from select
+        themeSelect.addEventListener('change', (e) => {
+          const target = e.target;
+          if (target && 'value' in target) {
+            const theme = target.value;
+            if (themeNames.includes(theme)) {
+              setTheme(theme);
+            }
+          }
+        });
+      }
+      
+      // Handle theme change from dropdown links
+      themeLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const theme = link.getAttribute('data-set-theme');
+          if (theme && themeNames.includes(theme)) {
+            setTheme(theme);
+          }
+        });
+      });
+      
+      // Set theme function
+      function setTheme(theme) {
+        if (!themeNames.includes(theme)) return;
+        
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        // Update select if it exists
+        if (themeSelect) {
+          themeSelect.value = theme;
+        }
+      }
+    });
+  </script>
+</Layout>
