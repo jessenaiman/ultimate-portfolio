@@ -4,13 +4,19 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "dev:test": "start-server-and-test dev http://localhost:4321 test:e2e",
     "build": "astro build",
     "vercel-build": "npm install && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:e2e": "playwright test -c playwright.config.ts",
+    "test:e2e:dev": "playwright test -c playwright.config.dev.ts",
+    "test:e2e:ui": "playwright test --ui -c playwright.config.dev.ts",
+    "test:e2e:debug": "playwright test --debug -c playwright.config.dev.ts",
+    "test:e2e:update-snapshots": "playwright test --update-snapshots -c playwright.config.dev.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.0.0",
@@ -44,6 +50,7 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
     "react-syntax-highlighter": "^15.6.1",
+    "serve": "^14.2.1",
     "solid-js": "^1.9.7",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.8.3",
@@ -64,6 +71,7 @@
     "daisyui": "^5.0.43",
     "jest-axe": "^10.0.0",
     "jsdom": "^26.1.0",
+    "start-server-and-test": "^2.0.12",
     "svelte": "^5.35.2",
     "vitest": "^3.2.4"
   }
