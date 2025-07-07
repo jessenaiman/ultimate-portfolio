@@ -1,0 +1,120 @@
+---
+interface Props {
+  code: string;
+  language?: string;
+  showLineNumbers?: boolean;
+}
+
+const { code, language = 'astro', showLineNumbers = true } = Astro.props;
+
+// Simple syntax highlighting helper
+const highlightCode = (code: string, lang: string) => {
+  // This is a simplified version - in a real app, you'd want to use a proper syntax highlighter
+  // like Shiki or Prism.js
+  const keywords = ['import', 'export', 'const', 'let', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'class', 'extends', 'interface', 'type'];
+  const htmlTags = ['div', 'span', 'h1', 'h2', 'h3', 'p', 'a', 'button', 'section', 'main', 'header', 'footer', 'article'];
+  
+  let highlighted = code;
+  
+  // Highlight keywords
+  keywords.forEach(keyword => {
+    const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+    highlighted = highlighted.replace(regex, `<span class="text-purple-400">${keyword}</span>`);
+  });
+  
+  // Highlight HTML tags
+  htmlTags.forEach(tag => {
+    const regex = new RegExp(`(<|</)${tag}(>|\\s)`, 'g');
+    highlighted = highlighted.replace(regex, `$1<span class="text-blue-400">${tag}</span>$2`);
+  });
+  
+  // Highlight strings
+  highlighted = highlighted.replace(/('.*?'|".*?")/g, '<span class="text-green-400">$1</span>');
+  
+  // Highlight comments
+  highlighted = highlighted.replace(/(\/\/.*$)/gm, '<span class="text-gray-500">$1</span>');
+  
+  return highlighted;
+};
+---
+
+<div class="relative">
+  <div class="absolute top-2 right-2 flex gap-2">
+    <button class="btn btn-xs btn-ghost" onclick="navigator.clipboard.writeText(`{code}`)">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+        <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+      </svg>
+      Copy
+    </button>
+  </div>
+  <pre class="m-0 p-4 overflow-x-auto">
+    <code class={`language-${language}`} set:html={highlightCode(code, language)} />
+  </pre>
+</div>
+
+<style>
+  pre {
+    @apply bg-base-200 rounded-lg text-sm font-mono;
+    tab-size: 2;
+  }
+  
+  .language-astro {
+    @apply block whitespace-pre;
+  }
+  
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata {
+    @apply text-gray-500;
+  }
+  
+  .token.punctuation {
+    @apply text-gray-400;
+  }
+  
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.constant,
+  .token.symbol,
+  .token.deleted {
+    @apply text-blue-400;
+  }
+  
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted {
+    @apply text-green-400;
+  }
+  
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string {
+    @apply text-yellow-400;
+  }
+  
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword {
+    @apply text-purple-400;
+  }
+  
+  .token.function,
+  .token.class-name {
+    @apply text-pink-400;
+  }
+  
+  .token.regex,
+  .token.important,
+  .token.variable {
+    @apply text-orange-400;
+  }
+</style>

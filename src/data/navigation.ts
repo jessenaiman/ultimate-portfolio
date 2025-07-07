@@ -47,7 +47,7 @@ export const navigation: MenuItem[] = [
                 name: 'astro', 
                 displayName: 'AstroJS', 
                 features: 'Static Site', 
-                path: '/astro', 
+                path: '/astrojs', 
                 color: '#8B5CF6' 
             },
             { 
