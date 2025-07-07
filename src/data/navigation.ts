@@ -16,6 +16,13 @@ export const navigation: MenuItem[] = [
         color: '#FF5D01' 
     },
     { 
+        name: 'about', 
+        displayName: 'About', 
+        features: 'About Me', 
+        path: '/about', 
+        color: '#4F46E5' 
+    },
+    { 
         name: 'resume', 
         displayName: 'Resume', 
         features: 'Experience', 
@@ -23,26 +30,56 @@ export const navigation: MenuItem[] = [
         color: '#4F46E5' 
     },
     { 
-        name: 'blockchain', 
-        displayName: 'Blockchain Chat', 
-        features: 'React', 
-        path: '/react', 
-        color: '#61DAFB' 
-    },
-    { 
-        name: 'ml', 
-        displayName: 'Machine Learning', 
-        features: 'TensorFlow', 
-        path: '/machine', 
-        color: '#FF5D01' 
+        name: 'portfolio', 
+        displayName: 'Portfolio', 
+        features: 'My Work', 
+        path: '/blog',  // Keeping the existing blog path for now
+        color: '#10B981' 
     },
     {
-        name: 'tools',
-        displayName: 'Tools',
-        features: 'Various',
+        name: 'frameworks',
+        displayName: 'Frameworks',
+        features: 'Showcase',
+        path: '#',
+        color: '#8B5CF6',
+        children: [
+            { 
+                name: 'astro', 
+                displayName: 'AstroJS', 
+                features: 'Static Site', 
+                path: '/astro', 
+                color: '#8B5CF6' 
+            },
+            { 
+                name: 'tailwind', 
+                displayName: 'TailwindCSS', 
+                features: 'Styling', 
+                path: '/tailwind', 
+                color: '#38BDF8' 
+            },
+            { 
+                name: 'daisyui', 
+                displayName: 'DaisyUI', 
+                features: 'Components', 
+                path: '/daisyui', 
+                color: '#7C3AED' 
+            }
+        ]
+    },
+    {
+        name: 'demos',
+        displayName: 'Demos',
+        features: 'Interactive',
         path: '#',
         color: '#4FC08D',
         children: [
+            { 
+                name: 'blockchain', 
+                displayName: 'Blockchain Chat', 
+                features: 'React', 
+                path: '/react', 
+                color: '#61DAFB' 
+            },
             { 
                 name: 'color-picker', 
                 displayName: 'Color Picker', 
@@ -74,17 +111,10 @@ export const navigation: MenuItem[] = [
         ]
     },
     { 
-        name: 'resume', 
-        displayName: 'Resume', 
-        features: 'FutureStack', 
-        path: '/resume', 
-        color: '#FF5D01' 
-    },
-    { 
-        name: 'blog', 
-        displayName: 'Blog', 
-        features: 'FutureStack', 
-        path: '/blog', 
-        color: '#FF5D01' 
-    },
+        name: 'ml', 
+        displayName: 'Machine Learning', 
+        features: 'TensorFlow', 
+        path: '/machine', 
+        color: '#EC4899' 
+    }
 ];
