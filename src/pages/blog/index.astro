@@ -8,28 +8,28 @@ const posts = (await getCollection('posts'))
 ---
 
 <Layout title="Blog">
-  <div class="container mx-auto px-4 py-8">
+  <main class="container mx-auto px-4 py-8 max-w-5xl">
     <h1 class="text-4xl font-bold mb-8">Blog Posts</h1>
     
-    <div class="grid gap-8">
+    <div class="grid gap-6">
       {posts.map((post) => (
-        <article class="card bg-base-200 shadow-xl">
+        <article class="card">
           <div class="card-body">
             <h2 class="card-title text-2xl">
               <a href={`/blog/${post.slug}`} class="hover:underline">
                 {post.data.title}
               </a>
             </h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-2">
+            <p class="text-base-content/70 mb-2">
               {post.data.pubDate.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
               })}
             </p>
-            <p class="mb-4">{post.data.description}</p>
+            <p class="mb-4 text-base-content/90">{post.data.description}</p>
             <div class="card-actions">
-              <a href={`/blog/${post.slug}`} class="btn btn-primary">
+              <a href={`/blog/${post.slug}`} class="btn btn-primary btn-sm">
                 Read more
               </a>
             </div>

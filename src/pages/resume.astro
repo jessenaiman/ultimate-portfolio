@@ -1,76 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-
-// Define the job data type
-interface JobData {
-  title: string;
-  employer: string;
-  date: string;
-  endDate?: string;
-  location?: string;
-  technologies?: string;
-  achievements?: string[];
-  skills?: string[];
-  isTraditionalResume?: boolean;
-}
-
-// Extend the CollectionEntry type with our specific data structure
-type JobEntry = Omit<CollectionEntry<'jobs'>, 'data'> & {
-  data: JobData;
-};
-
-interface JobsByEmployer {
-  [key: string]: JobEntry[];
-}
+import { marked } from 'marked';
 
 // Set the page title and description
-const title = "Professional Resume | Jesse Naiman";
-const pageDescription = "View Jesse Naiman's professional resume with work experience, skills, and achievements.";
+const title = "Resume | Jesse Naiman";
+const pageDescription = "Jesse Naiman's professional resume and cover letter";
 
-// Get all job entries and separate traditional resume from job entries
-const jobEntries = (await getCollection('jobs')) as unknown as JobEntry[];
+// Load resume and cover letter markdown content
+const resumeEntries = await getCollection('resume');
+const resumeEntry = resumeEntries.find(entry => entry.slug === 'resume');
+const coverEntry = resumeEntries.find(entry => entry.slug === 'cover');
 
-// Find the traditional resume (either by filename or flag)
-const traditionalResume = jobEntries.find(job => 
-  job.id.endsWith('resume.md') || job.data.isTraditionalResume
-);
+// Parse markdown content to HTML
+const resumeHtml = resumeEntry ? marked.parse(resumeEntry.body) : '';
+const coverHtml = coverEntry ? marked.parse(coverEntry.body) : '';
 
-// Get all other jobs that aren't the traditional resume
-const dynamicJobs = jobEntries.filter(job => 
-  !job.id.endsWith('resume.md') && !job.data.isTraditionalResume
-);
-
-// Sort dynamic jobs by date (newest first)
-const sortedJobs = dynamicJobs.sort((a, b) => 
-  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
-
-// Group jobs by employer
-const jobsByEmployer = sortedJobs.reduce<JobsByEmployer>((acc, job) => {
-  const employer = job.data.employer;
-  if (!acc[employer]) {
-    acc[employer] = [];
-  }
-  acc[employer].push(job);
-  return acc;
-}, {});
-
-// Get all unique skills from jobs
-const allSkills = Array.from(new Set(
-  sortedJobs.flatMap(job => {
-    const techSkills = job.data.technologies 
-      ? job.data.technologies.split(',').map((tech: string) => tech.trim())
-      : [];
-    const additionalSkills = job.data.skills || [];
-    return [...techSkills, ...additionalSkills].filter(Boolean);
-  })
-));
-
-// Get the current path to determine the active view
-const { url } = Astro;
-const isTraditionalView = url.pathname.endsWith('/traditional');
+// Handle print functionality
+const printResume = "window.print();";
 ---
 
 <Layout 
@@ -79,173 +26,120 @@ const isTraditionalView = url.pathname.endsWith('/traditional');
   secondaryBallColor="#1E1B4B"
 >
   <Fragment set:html={`<meta name="description" content="${pageDescription}" />`} />
-  <main class="container mx-auto px-4 py-12 max-w-6xl">
-    {isTraditionalView ? (
-      <!-- Traditional Resume View -->
-      <article class="prose prose-invert max-w-none">
-        {traditionalResume && (
-          <div set:html={traditionalResume.body} />
-        )}
-        {!traditionalResume && (
-          <p class="text-center text-gray-400">Traditional resume not found. Please check your content files.</p>
-        )}
-      </article>
-    ) : (
-      <!-- Interactive Resume View -->
-      <div class="space-y-12">
-        <!-- Skills Cloud -->
-        <section class="mb-16">
-          <h2 class="text-3xl font-bold mb-8 text-white text-center">Technical Expertise</h2>
-          <div class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-            {allSkills.map((skill) => (
-              <span class="px-4 py-2 bg-indigo-900/30 text-indigo-200 rounded-full text-sm font-medium hover:bg-indigo-800/50 transition-colors">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
+  <main class="container mx-auto px-4 py-12 max-w-4xl print:max-w-none relative">
+    <!-- Print Button -->
+    <div class="flex justify-end mb-6 print:hidden">
+      <button 
+        onclick={printResume}
+        class="px-4 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary-focus transition-colors flex items-center gap-2"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+        Print Resume
+      </button>
+    </div>
 
-        <!-- Work Experience -->
-        <section class="mb-16">
-          <h2 class="text-3xl font-bold mb-8 text-white">Professional Experience</h2>
-          <div class="space-y-8">
-            {Object.entries(jobsByEmployer).map(([employer, positions]) => (
-              <div class="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-indigo-500/30 transition-all duration-300">
-                <div class="p-6 border-b border-white/10 bg-gradient-to-r from-indigo-900/20 to-purple-900/10">
-                  <h3 class="text-2xl font-bold text-white">{employer}</h3>
-                </div>
-                <div class="divide-y divide-white/5">
-                  {positions.map((job) => {
-                    const startDate = new Date(job.data.date);
-                    const endDate = job.data.endDate ? new Date(job.data.endDate) : 'Present';
-                    const formattedDate = endDate === 'Present' 
-                      ? `${startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - Present`
-                      : `${startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
-                    
-                    return (
-                      <div class="p-6 hover:bg-white/5 transition-colors">
-                        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
-                          <div>
-                            <h4 class="text-xl font-semibold text-white">{job.data.title}</h4>
-                            <div class="flex items-center mt-1 text-sm text-indigo-300">
-                              <span>{formattedDate}</span>
-                              <span class="mx-2">•</span>
-                              <span>{job.data.location || 'Remote'}</span>
-                            </div>
-                            {job.data.technologies && (
-                              <div class="mt-3 flex flex-wrap gap-2">
-                                {job.data.technologies.split(',').map((tech: string) => (
-                                  <span class="px-2 py-1 bg-indigo-900/30 text-indigo-200 rounded text-xs">
-                                    {tech.trim()}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        
-                        {job.body && (
-                          <div class="mt-4 prose prose-invert max-w-none">
-                            <div set:html={job.body} />
-                          </div>
-                        )}
-                        
-                        {job.data.achievements && job.data.achievements.length > 0 && (
-                          <div class="mt-4">
-                            <h5 class="font-medium text-indigo-300 mb-2">Key Achievements:</h5>
-                            <ul class="list-disc pl-5 space-y-1 text-gray-300">
-                              {job.data.achievements.map((achievement: string) => (
-                                <li>{achievement}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+    <!-- Toggle Button (Floating) using DaisyUI -->
+    <div class="fixed bottom-8 right-8 z-50 print:hidden">
+      <div class="dropdown dropdown-top dropdown-end">
+        <label tabindex="0" class="btn btn-primary m-1 gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+          </svg>
+          View Options
+        </label>
+        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a id="view-cover-btn">View Cover Letter</a></li>
+          <li><a id="view-resume-btn">View Resume</a></li>
+        </ul>
       </div>
-    )}
-    
-    <!-- Navigation Tabs -->
-    <div class="flex justify-center space-x-4 mt-8">
-      <a 
-        href="/resume" 
-        class:list={[
-          'px-6 py-2 rounded-lg font-medium transition-colors',
-          !isTraditionalView ? 'bg-indigo-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20'
-        ]}
-      >
-        Interactive View
-      </a>
-      <a 
-        href="/resume/traditional" 
-        class:list={[
-          'px-6 py-2 rounded-lg font-medium transition-colors',
-          isTraditionalView ? 'bg-indigo-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20'
-        ]}
-      >
-        Traditional View
-      </a>
+    </div>
+
+    <div class="space-y-12 print:space-y-8">
+      <!-- Cover Letter (Shown First) -->
+      <section id="cover-section" class="content-container print:border-none print:shadow-none">
+        <h2 class="section-header print:text-xl">Cover Letter</h2>
+        <div class="prose max-w-none">
+          <div set:html={coverHtml} />
+        </div>
+      </section>
+
+      <!-- Resume Content (Hidden Initially) -->
+      <section id="resume-section" class="content-container print:border-none print:shadow-none hidden">
+        <h2 class="section-header print:text-xl">Resume</h2>
+        <article class="prose max-w-none">
+          <div set:html={resumeHtml} />
+        </article>
+      </section>
     </div>
   </main>
 </Layout>
 
 <style>
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  /* Print styles */
+  @media print {
+    @page {
+      size: A4;
+      margin: 1.5cm;
+    }
+    
+    body {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      background: white !important;
+      color: black !important;
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+
+    .content-container {
+      box-shadow: none !important;
+      border: 1px solid #e5e7eb !important;
+      page-break-inside: avoid;
+    }
+
+    .section-header {
+      color: #1e40af !important;
+      border-bottom: 2px solid #e5e7eb !important;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      page-break-after: avoid;
+      color: #1e40af !important;
+    }
+
+    a {
+      color: #1e40af !important;
+      text-decoration: none !important;
+    }
+
+    .prose a {
+      color: #1e40af !important;
+    }
+    
+    /* Ensure URLs are visible in print */
+    a[href^="http"]::after {
+      content: " (" attr(href) ")";
+      font-size: 0.8em;
+      font-weight: normal;
+      opacity: 0.8;
+    }
+    
+    /* Hide print button when printing */
+    .print-button {
+      display: none !important;
+    }
   }
   
-  ::-webkit-scrollbar-track {
-    background: #1a1a2e;
+  /* Ensure proper spacing for print */
+  @page :first {
+    margin-top: 0;
   }
   
-  ::-webkit-scrollbar-thumb {
-    background: #4f46e5;
-    border-radius: 4px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6366f1;
-  }
-  
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  /* Custom selection */
-  ::selection {
-    background: #4f46e5;
-    color: white;
-  }
-  
-  /* Custom focus styles */
-  *:focus {
-    outline: 2px solid #4f46e5;
-    outline-offset: 2px;
-  }
-  
-  /* Gradient text animation */
-  .gradient-text {
-    background: linear-gradient(90deg, #4f46e5, #8b5cf6, #ec4899);
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient 3s ease infinite;
-  }
-  
-  @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  /* Improve link visibility */
+  a {
+    word-break: break-word;
   }
   
   /* Card hover effect */
@@ -258,3 +152,29 @@ const isTraditionalView = url.pathname.endsWith('/traditional');
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 </style>
+
+<script>
+  // Toggle between cover letter and resume using DaisyUI components
+  document.addEventListener('DOMContentLoaded', () => {
+    const viewCoverBtn = document.getElementById('view-cover-btn');
+    const viewResumeBtn = document.getElementById('view-resume-btn');
+    const coverSection = document.getElementById('cover-section');
+    const resumeSection = document.getElementById('resume-section');
+    
+    // Show cover letter, hide resume
+    if (viewCoverBtn && coverSection && resumeSection) {
+      viewCoverBtn.addEventListener('click', () => {
+        coverSection.classList.remove('hidden');
+        resumeSection.classList.add('hidden');
+      });
+    }
+    
+    // Show resume, hide cover letter
+    if (viewResumeBtn && coverSection && resumeSection) {
+      viewResumeBtn.addEventListener('click', () => {
+        coverSection.classList.add('hidden');
+        resumeSection.classList.remove('hidden');
+      });
+    }
+  });
+</script>

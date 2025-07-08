@@ -27,13 +27,22 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
 });
 ---
 
-<BlogPost title={post.data.title} description={post.data.description}>
-  <div class="mb-8 text-sm text-gray-500 dark:text-gray-400">
-    Published on {formattedDate}
+<BlogPost 
+  title={post.data.title} 
+  description={post.data.description}
+>
+  <div class="mb-8 text-sm text-base-content/70">
+    <div class="flex items-center gap-2 mb-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      <span>Published on {formattedDate}</span>
+    </div>
+    
     {post.data.tags && post.data.tags.length > 0 && (
-      <div class="mt-2">
+      <div class="flex flex-wrap gap-2 mt-3">
         {post.data.tags.map((tag) => (
-          <span class="mr-2 px-2 py-1 text-xs rounded bg-base-200 dark:bg-base-300">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary/80">
             {tag}
           </span>
         ))}
@@ -41,11 +50,16 @@ const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
     )}
   </div>
   
-  <article class="prose dark:prose-invert max-w-none">
+  <div class="prose dark:prose-invert max-w-none">
     <Content />
-  </article>
+  </div>
   
   <div class="mt-12 pt-6 border-t border-base-300">
-    <a href="/blog" class="text-primary hover:underline">← Back to all posts</a>
+    <a href="/blog" class="inline-flex items-center text-primary hover:text-primary/80 transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      Back to all posts
+    </a>
   </div>
 </BlogPost>

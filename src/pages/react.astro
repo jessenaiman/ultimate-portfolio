@@ -1,15 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
+import InteractiveChat from '../components/React/Chat';
 
 // Get the React markdown content
 const reactContent = await getEntry('info', 'react');
 
-// React component examples
+// React component examples with syntax highlighting
 const componentExamples = {
   basic: `// Basic React Component
 function Welcome() {
-  return <h1>Hello, React Developer!</h1>;
+  return <h1 className="text-blue-500">Hello, React Developer!</h1>;
 }
 
 // Using the component
@@ -28,7 +29,10 @@ function Counter() {
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
+      <button 
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={() => setCount(count + 1)}
+      >
         Click me
       </button>
     </div>
@@ -81,6 +85,9 @@ const features = [
     description: "Access thousands of component libraries, tools, and extensions to accelerate development."
   }
 ];
+
+// Extract a brief summary from the markdown content
+const summary = reactContent?.data.summary || "A JavaScript library for building user interfaces with components, virtual DOM, and unidirectional data flow.";
 ---
 
 <Layout
@@ -88,17 +95,17 @@ const features = [
   primaryBallColor="#61DAFB"
   secondaryBallColor="#282c34"
 >
-  <main class="container mx-auto px-4 py-12 max-w-7xl">
-    <!-- Hero Section -->
-    <section class="text-center mb-16">
-      <div class="flex justify-center mb-6">
+  <main class="container mx-auto px-4 py-8 max-w-7xl">
+    <!-- Hero Section with Brief Summary -->
+    <section class="text-center mb-8">
+      <div class="flex justify-center mb-4">
         <div class="badge badge-primary badge-lg p-4 text-lg">JavaScript Library</div>
       </div>
-      <h1 class="text-5xl font-bold mb-6">React</h1>
-      <p class="text-xl max-w-3xl mx-auto mb-8">
-        A JavaScript library for building user interfaces with components, virtual DOM, and unidirectional data flow.
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">React</h1>
+      <p class="text-lg max-w-3xl mx-auto mb-6">
+        {summary}
       </p>
-      <div class="flex justify-center gap-4">
+      <div class="flex justify-center gap-4 mb-2">
         <a href="https://react.dev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
           Official Documentation
         </a>
@@ -108,22 +115,117 @@ const features = [
       </div>
     </section>
 
-    <!-- Learn More Modal -->
-    <dialog id="learn-more-modal" class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box prose max-w-3xl">
-        <h3 class="font-bold text-lg">{reactContent?.data.title || "React: Building Dynamic User Interfaces"}</h3>
-        {reactContent && <div set:html={await reactContent.render()} />}
-        <div class="modal-action">
-          <form method="dialog">
-            <button class="btn">Close</button>
-          </form>
+    <!-- Interactive Examples Section (Moved to Top) -->
+    <section class="mb-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Interactive Examples</h2>
+      
+      <!-- Chat Type Tabs -->
+      <div class="tabs tabs-boxed justify-center mb-6">
+        <button class="tab tab-active" id="react-chat-tab">React Chat</button>
+        <button class="tab" id="flowise-chat-tab">Flowise AI Chat</button>
+      </div>
+      
+      <!-- Chat Examples -->
+      <div class="chat-examples">
+        <!-- React Chat Component (visible by default) -->
+        <div id="react-chat-container" class="block">
+          <InteractiveChat client:load />
+        </div>
+        
+        <!-- Flowise Chat (hidden initially) -->
+        <div id="flowise-chat-container" class="hidden">
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h3 class="card-title">Flowise AI Chat</h3>
+              <p>Click the button below to start chatting with our React expert AI assistant.</p>
+              <div class="card-actions justify-center mt-4">
+                <button id="open-flowise" class="btn btn-primary">Start Chatting</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </dialog>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section class="mb-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Code Examples</h2>
+      
+      <!-- Tabs with radio buttons for DaisyUI tabs -->
+      <div class="tabs tabs-boxed justify-center mb-6">
+        <input type="radio" name="code-tabs" class="tab-toggle hidden" id="tab-basic" checked />
+        <label for="tab-basic" class="tab">Basic Component</label>
+        
+        <input type="radio" name="code-tabs" class="tab-toggle hidden" id="tab-state" />
+        <label for="tab-state" class="tab">State Management</label>
+        
+        <input type="radio" name="code-tabs" class="tab-toggle hidden" id="tab-effect" />
+        <label for="tab-effect" class="tab">Effects & Lifecycle</label>
+      </div>
+      
+      <!-- Tab content panels -->
+      <div class="tab-content">
+        <!-- Basic Component Example -->
+        <div class="tab-panel" id="basic-panel">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="mockup-code bg-base-300 text-base-content">
+              <pre data-prefix="$"><code class="language-jsx">{componentExamples.basic}</code></pre>
+            </div>
+            <div class="flex items-center justify-center p-6 bg-base-200 rounded-lg">
+              <h1 class="text-blue-500 text-2xl font-bold">Hello, React Developer!</h1>
+            </div>
+          </div>
+        </div>
+        
+        <!-- State Management Example -->
+        <div class="tab-panel hidden" id="state-panel">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="mockup-code bg-base-300 text-base-content">
+              <pre data-prefix="$"><code class="language-jsx">{componentExamples.state}</code></pre>
+            </div>
+            <div class="flex items-center justify-center p-6 bg-base-200 rounded-lg">
+              <div id="counter-demo">
+                <p class="mb-4">You clicked <span id="count-display">0</span> times</p>
+                <button id="counter-button" class="btn btn-primary">
+                  Click me
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Effects Example -->
+        <div class="tab-panel hidden" id="effect-panel">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="mockup-code bg-base-300 text-base-content">
+              <pre data-prefix="$"><code class="language-jsx">{componentExamples.effect}</code></pre>
+            </div>
+            <div class="flex items-center justify-center p-6 bg-base-200 rounded-lg">
+              <div id="data-fetcher-demo" class="text-center">
+                <p>Data fetching simulation</p>
+                <div id="loading-indicator" class="my-4">
+                  <span class="loading loading-spinner loading-md"></span>
+                  <p>Loading...</p>
+                </div>
+                <div id="data-display" class="hidden">
+                  <pre class="bg-base-300 text-base-content p-4 rounded overflow-auto max-h-40 text-left">
+                    {JSON.stringify({
+                      name: "React Example", 
+                      version: "18.0", 
+                      features: ["Hooks", "Suspense", "Concurrent Mode"]
+                    }, null, 2)}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Features Section -->
     <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Key Features</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map(feature => (
           <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
@@ -136,42 +238,9 @@ const features = [
       </div>
     </section>
 
-    <!-- Code Examples Section -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Code Examples</h2>
-      
-      <!-- Tabs for different examples -->
-      <div class="tabs tabs-boxed justify-center mb-6">
-        <a class="tab tab-active" data-tab="basic">Basic Component</a>
-        <a class="tab" data-tab="state">State Management</a>
-        <a class="tab" data-tab="effect">Effects & Lifecycle</a>
-      </div>
-      
-      <!-- Code blocks -->
-      <div class="code-blocks">
-        <div class="code-block active" id="basic-block">
-          <div class="mockup-code bg-primary text-primary-content">
-            <pre><code>{componentExamples.basic}</code></pre>
-          </div>
-        </div>
-        
-        <div class="code-block hidden" id="state-block">
-          <div class="mockup-code bg-secondary text-secondary-content">
-            <pre><code>{componentExamples.state}</code></pre>
-          </div>
-        </div>
-        
-        <div class="code-block hidden" id="effect-block">
-          <div class="mockup-code bg-accent text-accent-content">
-            <pre><code>{componentExamples.effect}</code></pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- React Ecosystem Section -->
     <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">React Ecosystem</h2>
+      <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">React Ecosystem</h2>
       <div class="flex flex-wrap justify-center gap-3">
         <div class="badge badge-lg p-4">Redux</div>
         <div class="badge badge-lg p-4">React Router</div>
@@ -186,7 +255,7 @@ const features = [
     </section>
 
     <!-- Call to Action -->
-    <section class="text-center mb-16">
+    <section class="text-center mb-8">
       <div class="card bg-base-200 max-w-3xl mx-auto">
         <div class="card-body">
           <h2 class="card-title justify-center mb-4">Ready to start building with React?</h2>
@@ -199,61 +268,106 @@ const features = [
         </div>
       </div>
     </section>
+
+    <!-- Learn More Modal with Full Markdown Content -->
+    <dialog id="learn-more-modal" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box prose max-w-3xl">
+        <h3 class="font-bold text-lg">{reactContent?.data.title || "React: Building Dynamic User Interfaces"}</h3>
+        {reactContent && <div set:html={await reactContent.render()} />}
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   </main>
 
-  <!-- Chat with React Expert Button -->
-  <div class="fixed bottom-4 right-4 z-50">
-    <button id="chat-button" class="btn btn-primary btn-circle">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-      </svg>
-    </button>
-  </div>
-
   <script is:inline>
-    // Tab switching functionality
-    document.addEventListener('DOMContentLoaded', () => {
-      const tabs = document.querySelectorAll('.tab');
-      const codeBlocks = document.querySelectorAll('.code-block');
-      
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Remove active class from all tabs
-          tabs.forEach(t => t.classList.remove('tab-active'));
-          // Add active class to clicked tab
-          tab.classList.add('tab-active');
-          
-          // Hide all code blocks
-          codeBlocks.forEach(block => block.classList.add('hidden'));
-          // Show the selected code block
-          const blockId = `${tab.dataset.tab}-block`;
-          document.getElementById(blockId).classList.remove('hidden');
+    // Function to initialize Flowise chat
+    function initFlowiseChat() {
+      // Dynamic import of Flowise
+      import("https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js")
+        .then(module => {
+          const Chatbot = module.default;
+          Chatbot.init({
+            chatflowid: "5565a6be-fe2a-4866-9fc6-1f341513dd86",
+            apiHost: "https://flowise.omega-spiral.com",
+            chatflowConfig: {
+              topK: 5,
+              temperature: 0.7,
+              systemPrompt: "You are a React expert assistant. Help the user with React-related questions."
+            },
+            theme: {
+              button: {
+                backgroundColor: "#61DAFB",
+                right: 20,
+                bottom: 80
+              }
+            }
+          });
+        })
+        .catch(error => {
+          console.error("Error loading Flowise chat:", error);
         });
-      });
-    });
-  </script>
+    }
 
-  <!-- Flowise Chat Integration -->
-  <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-    document.getElementById('chat-button').addEventListener('click', () => {
-      Chatbot.init({
-        chatflowid: "5565a6be-fe2a-4866-9fc6-1f341513dd86",
-        apiHost: "https://flowise.omega-spiral.com",
-        chatflowConfig: {
-          // Send framework-specific context
-          topK: 5,
-          temperature: 0.7,
-          systemPrompt: "You are a React expert assistant. Help the user with React-related questions."
-        },
-        theme: {
-          button: {
-            backgroundColor: "#61DAFB",
-            right: 20,
-            bottom: 80
-          }
-        }
-      })
-    })
+    // Initialize everything when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // Chat tabs functionality
+      const reactChatTab = document.getElementById('react-chat-tab');
+      const flowiseChatTab = document.getElementById('flowise-chat-tab');
+      const reactChatContainer = document.getElementById('react-chat-container');
+      const flowiseChatContainer = document.getElementById('flowise-chat-container');
+      
+      if (reactChatTab && flowiseChatTab && reactChatContainer && flowiseChatContainer) {
+        reactChatTab.addEventListener('click', () => {
+          reactChatTab.classList.add('tab-active');
+          flowiseChatTab.classList.remove('tab-active');
+          reactChatContainer.classList.remove('hidden');
+          flowiseChatContainer.classList.add('hidden');
+        });
+        
+        flowiseChatTab.addEventListener('click', () => {
+          flowiseChatTab.classList.add('tab-active');
+          reactChatTab.classList.remove('tab-active');
+          flowiseChatContainer.classList.remove('hidden');
+          reactChatContainer.classList.add('hidden');
+        });
+      }
+      
+      // Counter demo functionality
+      const counterButton = document.getElementById('counter-button');
+      const countDisplay = document.getElementById('count-display');
+      let count = 0;
+      
+      if (counterButton && countDisplay) {
+        counterButton.addEventListener('click', () => {
+          count++;
+          countDisplay.textContent = count;
+        });
+      }
+
+      // Data fetcher demo functionality
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const dataDisplay = document.getElementById('data-display');
+      
+      if (loadingIndicator && dataDisplay) {
+        // Simulate data fetching after 2 seconds
+        setTimeout(() => {
+          loadingIndicator.classList.add('hidden');
+          dataDisplay.classList.remove('hidden');
+        }, 2000);
+      }
+      
+      // Flowise chat button functionality
+      const openFlowiseButton = document.getElementById('open-flowise');
+      if (openFlowiseButton) {
+        openFlowiseButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          initFlowiseChat();
+        });
+      }
+    });
   </script>
 </Layout>

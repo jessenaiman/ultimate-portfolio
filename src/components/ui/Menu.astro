@@ -154,47 +154,66 @@ const isActivePath = (path: string) => {
     const darkIconMobile = document.getElementById("theme-toggle-dark-icon-mobile");
     const lightIconMobile = document.getElementById("theme-toggle-light-icon-mobile");
 
-    // Change the icons inside the button based on previous settings
-    if (document.documentElement.getAttribute('data-theme') === 'dark') {
-      lightIcon?.classList.remove("hidden");
-      lightIconMobile?.classList.remove("hidden");
-    } else {
-      darkIcon?.classList.remove("hidden");
-      darkIconMobile?.classList.remove("hidden");
-    }
+    // Function to update UI based on current theme
+    const updateUI = (theme: 'light' | 'dark') => {
+      if (theme === 'dark') {
+        darkIcon?.classList.add('hidden');
+        darkIconMobile?.classList.add('hidden');
+        lightIcon?.classList.remove('hidden');
+        lightIconMobile?.classList.remove('hidden');
+      } else {
+        darkIcon?.classList.remove('hidden');
+        darkIconMobile?.classList.remove('hidden');
+        lightIcon?.classList.add('hidden');
+        lightIconMobile?.classList.add('hidden');
+      }
+    };
 
+    // Toggle theme function
     const toggleTheme = () => {
       const currentTheme = document.documentElement.getAttribute('data-theme');
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-      // Toggle icons
-      [darkIcon, darkIconMobile].forEach(icon => icon?.classList.toggle("hidden"));
-      [lightIcon, lightIconMobile].forEach(icon => icon?.classList.toggle("hidden"));
-
-      // Set theme
+      
+      // Update theme
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
+      
+      // Update UI
+      updateUI(newTheme);
     };
 
-    themeToggle?.addEventListener("click", toggleTheme);
-    themeToggleMobile?.addEventListener("click", toggleTheme);
-  }
+    // Initialize UI based on current theme
+    const storedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = (storedTheme || (systemPrefersDark ? 'dark' : 'light')) as 'light' | 'dark';
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    updateUI(initialTheme);
 
-  // Handle theme on page load and navigation
-  function handleThemeChange() {
-    if (typeof document === 'undefined') return;
-    
-    const theme = localStorage.getItem('theme') || 
-                 (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-    setupTheme();
+    // Add event listeners
+    themeToggle?.addEventListener('click', toggleTheme);
+    themeToggleMobile?.addEventListener('click', toggleTheme);
+
+    // Listen for system theme changes
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    prefersDark.addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateUI(newTheme);
+      }
+    });
   }
 
   // Set up theme on initial page load
-  handleThemeChange();
-
-  // Handle theme when navigating between pages
-  document.addEventListener('astro:after-swap', handleThemeChange);
+  if (typeof document !== 'undefined') {
+    setupTheme();
+    
+    // Handle theme when navigating between pages
+    document.addEventListener('astro:after-swap', () => {
+      // Small delay to ensure the DOM is ready
+      setTimeout(setupTheme, 10);
+    });
+  }
 </script>
 
 <style>

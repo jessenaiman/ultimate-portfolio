@@ -1,0 +1,53 @@
+---
+interface TabItem {
+  label: string;
+  value: string;
+  content: any;
+}
+
+interface Props {
+  tabs: TabItem[];
+  defaultTab?: string;
+  class?: string;
+}
+
+const { tabs, defaultTab = tabs[0]?.value, class: className = '' } = Astro.props;
+---
+
+<div class={`tabs tabs-boxed justify-center mb-6 ${className}`} role="tablist">
+  {tabs.map((tab) => (
+    <>
+      <input 
+        type="radio" 
+        name="tabs" 
+        id={`tab-${tab.value}`} 
+        class="tab-toggle hidden" 
+        role="tab"
+        aria-controls={`panel-${tab.value}`}
+        {tab.value === defaultTab ? 'checked' : ''}
+      />
+      <label 
+        for={`tab-${tab.value}`} 
+        class="tab"
+        role="tab"
+        aria-selected={tab.value === defaultTab ? 'true' : 'false'}
+      >
+        {tab.label}
+      </label>
+    </>
+  ))}
+</div>
+
+<div class="tab-content">
+  {tabs.map((tab) => (
+    <div 
+      id={`panel-${tab.value}`} 
+      class="tab-panel"
+      role="tabpanel"
+      aria-labelledby={`tab-${tab.value}`}
+      {tab.value === defaultTab ? '' : 'hidden'}
+    >
+      {tab.content}
+    </div>
+  ))}
+</div>

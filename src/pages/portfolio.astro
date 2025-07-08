@@ -1,0 +1,161 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+// Define the job data type
+interface JobData {
+  title: string;
+  employer: string;
+  date: string;
+  endDate?: string;
+  location?: string;
+  technologies?: string;
+  achievements?: string[];
+  skills?: string[];
+  highlight?: boolean;
+}
+
+// Extend the CollectionEntry type with our specific data structure
+type JobEntry = Omit<CollectionEntry<'jobs'>, 'data'> & {
+  data: JobData;
+};
+
+// Set the page title and description
+const title = "Portfolio | Jesse Naiman";
+const pageDescription = "Explore Jesse Naiman's professional portfolio and work experience.";
+
+// Get all job entries
+const jobEntries = (await getCollection('jobs')) as unknown as JobEntry[];
+
+// Sort jobs by date (newest first)
+const sortedJobs = [...jobEntries].sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// Get all unique skills from all jobs for filtering
+const allSkills = Array.from(
+  new Set(
+    sortedJobs.flatMap(job => job.data.skills || [])
+  )
+).sort();
+---
+
+<Layout 
+  title={title}
+  primaryBallColor="#4F46E5" 
+  secondaryBallColor="#1E1B4B"
+>
+  <Fragment set:html={`<meta name="description" content="${pageDescription}" />`} />
+  <main class="container mx-auto px-4 py-12 max-w-6xl">
+    <div class="space-y-12">
+      <!-- Page Header -->
+      <section class="text-center">
+        <h1 class="text-4xl font-bold mb-4">Professional Portfolio</h1>
+        <p class="text-lg text-base-content/80 max-w-3xl mx-auto">
+          A collection of my professional experiences and key achievements throughout my career.
+        </p>
+      </section>
+
+      <!-- Skills Filter -->
+      <section class="content-container">
+        <h2 class="section-header">Filter by Skills</h2>
+        <div class="flex flex-wrap gap-2">
+          {allSkills.map((skill) => (
+            <button 
+              class="px-4 py-2 bg-base-200 hover:bg-base-300 rounded-full text-sm font-medium transition-colors"
+              data-skill={skill}
+            >
+              {skill}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <!-- Jobs List -->
+      <section class="space-y-8">
+        {sortedJobs.map((job) => {
+          const startDate = new Date(job.data.date);
+          const endDate = job.data.endDate ? new Date(job.data.endDate) : 'Present';
+          const formattedDate = endDate === 'Present' 
+            ? `${startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - Present`
+            : `${startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}`;
+          
+          return (
+            <article class="content-container hover:shadow-md transition-shadow">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                <div>
+                  <h3 class="text-2xl font-bold">{job.data.title}</h3>
+                  <p class="text-lg text-primary">{job.data.employer}</p>
+                </div>
+                <div class="text-sm text-base-content/70">
+                  {formattedDate}
+                  {job.data.location && (
+                    <div class="mt-1">📍 {job.data.location}</div>
+                  )}
+                </div>
+              </div>
+              
+              {job.data.technologies && (
+                <div class="mb-4">
+                  <span class="text-sm font-medium">Technologies:</span>{' '}
+                  <span class="text-sm">{job.data.technologies}</span>
+                </div>
+              )}
+
+              {job.data.achievements && job.data.achievements.length > 0 && (
+                <div class="space-y-2">
+                  <h4 class="font-medium">Key Achievements:</h4>
+                  <ul class="list-disc list-inside space-y-1">
+                    {job.data.achievements.map((achievement) => (
+                      <li class="text-base-content/90">{achievement}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {job.data.skills && job.data.skills.length > 0 && (
+                <div class="mt-4 pt-4 border-t border-base-200">
+                  <div class="flex flex-wrap gap-2">
+                    {job.data.skills.map((skill) => (
+                      <span class="px-3 py-1 bg-base-200 rounded-full text-xs font-medium">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Ensure proper spacing for the content */
+  main {
+    min-height: calc(100vh - 200px);
+  }
+  
+  /* Print styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+    
+    body {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    
+    .content-container {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      border: none !important;
+      box-shadow: none !important;
+      margin-bottom: 1rem;
+    }
+  }
+</style>

@@ -3,14 +3,52 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light dark;
 }
 
-body {
-  @apply text-white;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+@layer base {
+  body {
+    @apply bg-base-100 text-base-content;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  a {
+    @apply text-primary transition-colors;
+  }
+  
+  a:hover {
+    @apply opacity-80;
+  }
 }
 
-.font-cal {
-  font-family: 'Cal Sans', 'Inter', system-ui, -apple-system, sans-serif;
+@layer components {
+  /* Content container styles */
+  .content-container {
+    @apply bg-base-100 rounded-lg border border-base-200 shadow-sm p-6 my-6;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .content-container:hover {
+    @apply shadow-md border-base-300;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-base-100 border border-base-200 rounded-lg shadow-sm overflow-hidden transition-all duration-200;
+  }
+
+  .card:hover {
+    @apply shadow-md border-base-300;
+  }
+
+  /* Section headers */
+  .section-header {
+    @apply text-3xl font-bold mb-6 pb-2 border-b border-base-200;
+  }
+}
+
+@layer utilities {
+  .font-cal {
+    font-family: 'Cal Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  }
 }

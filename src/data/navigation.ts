@@ -33,16 +33,23 @@ export const navigation: MenuItem[] = [
         name: 'portfolio', 
         displayName: 'Portfolio', 
         features: 'My Work', 
-        path: '/blog',  // Keeping the existing blog path for now
+        path: '/portfolio',
         color: '#10B981' 
     },
     {
-        name: 'frameworks',
-        displayName: 'Frameworks',
+        name: 'demos',
+        displayName: 'Demos',
         features: 'Showcase',
         path: '#',
         color: '#8B5CF6',
         children: [
+            { 
+                name: 'blog', 
+                displayName: 'Blog', 
+                features: 'Blog Demo', 
+                path: '/blog', 
+                color: '#8B5CF6'
+            },
             { 
                 name: 'astro', 
                 displayName: 'AstroJS', 
