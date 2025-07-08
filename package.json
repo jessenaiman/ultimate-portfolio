@@ -2,6 +2,10 @@
   "name": "dice-wizard-portfolio",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=18.20.8",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "dev:test": "start-server-and-test dev http://localhost:4321 test:e2e",
