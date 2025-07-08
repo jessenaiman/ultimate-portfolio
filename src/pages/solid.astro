@@ -2,15 +2,268 @@
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Solid/Hero";
 import Features from "../components/Solid/Features";
+import { getEntry } from 'astro:content';
+
+// Get the Solid markdown content
+const solidContent = await getEntry('info', 'solid');
+
+// Solid component examples
+const componentExamples = {
+  basic: `// Basic Solid Component
+import { createSignal } from 'solid-js';
+
+function Counter() {
+  const [count, setCount] = createSignal(0);
+  
+  return (
+    <div>
+      <p>Count: {count()}</p>
+      <button onClick={() => setCount(count() + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+}`,
+
+  effect: `// Solid Component with Effects
+import { createSignal, createEffect } from 'solid-js';
+
+function Timer() {
+  const [time, setTime] = createSignal(new Date());
+  
+  createEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  });
+  
+  return <div>Current time: {time().toLocaleTimeString()}</div>;
+}`,
+
+  store: `// Solid Store Example
+import { createStore } from 'solid-js/store';
+
+function TodoList() {
+  const [todos, setTodos] = createStore([
+    { id: 1, text: 'Learn Solid', completed: true },
+    { id: 2, text: 'Build an app', completed: false }
+  ]);
+  
+  const toggleTodo = (id) => {
+    setTodos(
+      (todo) => todo.id === id,
+      'completed',
+      (completed) => !completed
+    );
+  };
+  
+  return (
+    <ul>
+      {todos.map(todo => (
+        <li onClick={() => toggleTodo(todo.id)}>
+          {todo.completed ? '✓ ' : '○ '}
+          {todo.text}
+        </li>
+      ))}
+    </ul>
+  );
+}`
+};
+
+// Features of Solid
+const features = [
+  {
+    title: "Fine-Grained Reactivity",
+    description: "Solid's reactivity system updates only what needs to change, without Virtual DOM diffing or component re-renders."
+  },
+  {
+    title: "Familiar JSX Syntax",
+    description: "Write components using JSX with a React-like developer experience but with Solid's more efficient rendering model."
+  },
+  {
+    title: "Minimal Bundle Size",
+    description: "Core library under 10KB (minified and gzipped), adding minimal overhead to your application."
+  },
+  {
+    title: "No Component Re-renders",
+    description: "Components run once to create reactive computations, then only the affected DOM nodes update when state changes."
+  },
+  {
+    title: "Server-Side Rendering",
+    description: "First-class support for SSR with efficient hydration, enabling fast initial loads and SEO benefits."
+  }
+];
 ---
 
-<Layout 
-  title="Solid + Astro"
-  primaryBallColor="#4f46e5"  
-  secondaryBallColor="#818cf8"
+<Layout
+  title="SolidJS: Reactive UI with Unmatched Performance"
+  primaryBallColor="#2C4F7C"
+  secondaryBallColor="#4F88C6"
 >
-  <main>
-    <Hero client:only="solid-js"/>
-    <Features client:only="solid-js" />
+  <main class="container mx-auto px-4 py-12 max-w-7xl">
+    <!-- Hero Section -->
+    <section class="text-center mb-16">
+      <div class="flex justify-center mb-6">
+        <div class="badge badge-primary badge-lg p-4 text-lg">JavaScript Framework</div>
+      </div>
+      <h1 class="text-5xl font-bold mb-6">SolidJS</h1>
+      <p class="text-xl max-w-3xl mx-auto mb-8">
+        A declarative, efficient JavaScript library for building user interfaces with true reactivity and no Virtual DOM.
+      </p>
+      <div class="flex justify-center gap-4">
+        <a href="https://www.solidjs.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Official Documentation
+        </a>
+        <button class="btn btn-outline" onclick="document.getElementById('learn-more-modal').showModal()">
+          Learn More
+        </button>
+      </div>
+    </section>
+
+    <!-- Learn More Modal -->
+    <dialog id="learn-more-modal" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box prose max-w-3xl">
+        <h3 class="font-bold text-lg">{solidContent?.data.title || "SolidJS: Reactive UI with Unmatched Performance"}</h3>
+        {solidContent && <div set:html={await solidContent.render()} />}
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Features Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {features.map(feature => (
+          <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+            <div class="card-body">
+              <h3 class="card-title">{feature.title}</h3>
+              <p>{feature.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">Code Examples</h2>
+      
+      <!-- Tabs for different examples -->
+      <div class="tabs tabs-boxed justify-center mb-6">
+        <a class="tab tab-active" data-tab="basic">Basic Component</a>
+        <a class="tab" data-tab="effect">Effects</a>
+        <a class="tab" data-tab="store">Store</a>
+      </div>
+      
+      <!-- Code blocks -->
+      <div class="code-blocks">
+        <div class="code-block active" id="basic-block">
+          <div class="mockup-code bg-primary text-primary-content">
+            <pre><code>{componentExamples.basic}</code></pre>
+          </div>
+        </div>
+        
+        <div class="code-block hidden" id="effect-block">
+          <div class="mockup-code bg-secondary text-secondary-content">
+            <pre><code>{componentExamples.effect}</code></pre>
+          </div>
+        </div>
+        
+        <div class="code-block hidden" id="store-block">
+          <div class="mockup-code bg-accent text-accent-content">
+            <pre><code>{componentExamples.store}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solid Ecosystem Section -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-bold mb-8 text-center">Solid Ecosystem</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        <div class="badge badge-lg p-4">Solid Router</div>
+        <div class="badge badge-lg p-4">Solid Start</div>
+        <div class="badge badge-lg p-4">Solid Store</div>
+        <div class="badge badge-lg p-4">Solid Element</div>
+        <div class="badge badge-lg p-4">Solid Primitives</div>
+        <div class="badge badge-lg p-4">Solid Motion</div>
+        <div class="badge badge-lg p-4">Solid UIKit</div>
+        <div class="badge badge-lg p-4">Solid Meta</div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="text-center mb-16">
+      <div class="card bg-base-200 max-w-3xl mx-auto">
+        <div class="card-body">
+          <h2 class="card-title justify-center mb-4">Ready to start building with SolidJS?</h2>
+          <p class="mb-6">Get started with the official SolidJS documentation and tutorials.</p>
+          <div class="card-actions justify-center">
+            <a href="https://www.solidjs.com/guides/getting-started" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              Start Learning
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- Chat with SolidJS Expert Button -->
+  <div class="fixed bottom-4 right-4 z-50">
+    <button id="chat-button" class="btn btn-primary btn-circle">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+      </svg>
+    </button>
+  </div>
+
+  <script is:inline>
+    // Tab switching functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.tab');
+      const codeBlocks = document.querySelectorAll('.code-block');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('tab-active'));
+          // Add active class to clicked tab
+          tab.classList.add('tab-active');
+          
+          // Hide all code blocks
+          codeBlocks.forEach(block => block.classList.add('hidden'));
+          // Show the selected code block
+          const blockId = `${tab.dataset.tab}-block`;
+          document.getElementById(blockId).classList.remove('hidden');
+        });
+      });
+    });
+  </script>
+
+  <!-- Flowise Chat Integration -->
+  <script type="module">
+    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+    document.getElementById('chat-button').addEventListener('click', () => {
+      Chatbot.init({
+        chatflowid: "5565a6be-fe2a-4866-9fc6-1f341513dd86",
+        apiHost: "https://flowise.omega-spiral.com",
+        chatflowConfig: {
+          // Send framework-specific context
+          topK: 5,
+          temperature: 0.7,
+          systemPrompt: "You are a SolidJS expert assistant. Help the user with SolidJS-related questions."
+        },
+        theme: {
+          button: {
+            backgroundColor: "#2C4F7C",
+            right: 20,
+            bottom: 80
+          }
+        }
+      })
+    })
+  </script>
 </Layout>
