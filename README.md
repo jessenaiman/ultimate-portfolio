@@ -1,8 +1,8 @@
-# 🚀 Ultimate Astro - Modern Multi-Framework Showcase
+# 🚀 Jesse Naiman's Portfolio - Modern Multi-Framework Showcase
 
 <div align="center">
 
-[![Ultimate Astro](https://github.com/user-attachments/assets/19ceca2e-af6f-498a-b1e1-00f36718fc48)](https://ultimate-astro-template.vercel.app)
+[![Ultimate Portfolio](https://github.com/user-attachments/assets/19ceca2e-af6f-498a-b1e1-00f36718fc48)](https://ultimate-portfolio.vercel.app)
 
 ![Astro](https://astro.build/assets/press/astro-icon-light-gradient.svg)
 
@@ -20,18 +20,20 @@
 
 ## 🌟 Overview
 
-Ultimate Astro is a cutting-edge template that seamlessly integrates multiple frontend frameworks within the Astro ecosystem. Perfect for developers who want to experiment with different frameworks or build hybrid applications.
+This is Jesse Naiman's portfolio showcasing modern web development skills through a multi-framework application built with Astro. It demonstrates expertise in React, Svelte, Vue, Solid, TypeScript, and modern tooling.
+
+> **Built From**: Originally based on the excellent [Marve10s/UltimateAstroTemplate](https://github.com/Marve10s/UltimateAstroTemplate) - credit and thanks to the original creator!
 
 ## 🚀 Quick Start
 
 1. **Clone and Install**
 
    ```bash
-    git clone https://github.com/Marve10s/UltimateAstroTemplate.git
+    git clone https://github.com/jessenaiman/ultimate-portfolio.git
    ```
 
    ```bash
-    cd UltimateAstroTemplate
+    cd ultimate-portfolio
    ```
 
    ```bash
@@ -45,13 +47,13 @@ Ultimate Astro is a cutting-edge template that seamlessly integrates multiple fr
    1.2 Clone your forked repository
 
    ```bash
-    git clone https://github.com/YOUR_USERNAME/UltimateAstroTemplate.git
+    git clone https://github.com/YOUR_USERNAME/ultimate-portfolio.git
    ```
 
    1.3 Navigate and install dependencies
 
    ```bash
-    cd UltimateAstroTemplate && npm install
+    cd ultimate-portfolio && npm install
    ```
 
 2. **Development**
