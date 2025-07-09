@@ -1,262 +1,167 @@
 ---
 import { navigation } from "../../data/navigation";
+import { Icon } from "astro-icon/components";
 
 const currentPath = Astro.url.pathname;
 const isActivePath = (path: string) => {
+  if (path === "#") return false;
   const normalizedCurrent = currentPath.replace(/\/+$/, "").toLowerCase();
   const normalizedPath = path.replace(/\/+$/, "").toLowerCase();
   return path === "/"
     ? normalizedCurrent === "" || normalizedCurrent === "/"
     : normalizedCurrent.endsWith(normalizedPath);
 };
+
+// Icon mapping for navigation items
+const iconMap = {
+  home: "mdi:home",
+  about: "mdi:account", 
+  resume: "mdi:file-document",
+  portfolio: "mdi:briefcase",
+  stack: "mdi:layers",
+  frameworks: "mdi:code-tags",
+  demos: "mdi:view-dashboard",
+  quality: "mdi:check-decagram",
+  ml: "mdi:brain",
+  blog: "mdi:post",
+  astro: "mdi:rocket",
+  tailwind: "mdi:tailwind",
+  daisyui: "mdi:flower",
+  react: "mdi:react",
+  vue: "mdi:vuejs",
+  svelte: "mdi:language-typescript",
+  solid: "mdi:language-javascript",
+  remix: "mdi:code-brackets",
+  blockchain: "mdi:bitcoin",
+  "color-picker": "mdi:palette",
+  math: "mdi:math-integral",
+  "live-code": "mdi:code-braces",
+  counter: "mdi:counter",
+  "ml-overview": "mdi:brain",
+  "ml-chat": "mdi:message-processing",
+  "blockchain-ai": "mdi:ethereum"
+};
 ---
 
-<nav class="sticky top-0 z-50 w-full bg-base-100/95 border-b border-base-200 transition-all duration-300 backdrop-blur supports-[backdrop-filter]:bg-base-100/60">
-  <div class="navbar container mx-auto px-4 h-16">
-    <div class="navbar-start">
-      <!-- Mobile Menu Button -->
-      <div class="dropdown lg:hidden">
-        <label tabindex="0" class="btn btn-ghost btn-square">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </label>
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-2 z-[1] p-2 shadow-xl bg-base-100 border border-base-200 rounded-md w-52">
-          {navigation.map((item) => (
-            <>
-              {!item.children ? (
-                <li>
-                  <a 
-                    href={item.path}
-                    class:list={[
-                      "px-4 py-2 hover:bg-base-200 rounded-none transition-all duration-200",
-                      isActivePath(item.path) ? "font-medium text-primary" : ""
-                    ]}
-                    data-astro-prefetch
-                  >
-                    {item.displayName}
-                  </a>
-                </li>
-              ) : (
-                <li>
-                  <details>
-                    <summary class="px-4 py-2 hover:bg-base-200">{item.displayName}</summary>
-                    <ul class="p-2 bg-base-100">
-                      {item.children.map((child) => (
-                        <li>
-                          <a 
-                            href={child.path}
-                            class:list={[
-                              "px-4 py-2 hover:bg-base-200 rounded-none transition-all duration-200",
-                              isActivePath(child.path) ? "font-medium text-primary" : ""
-                            ]}
-                            data-astro-prefetch
-                          >
-                            {child.displayName}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                </li>
-              )}
-            </>
-          ))}
-          <li>
-            <button id="theme-toggle-mobile" class="px-4 py-2 hover:bg-base-200 gap-2">
-              <span>Theme</span>
-              <svg id="theme-toggle-dark-icon-mobile" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-              </svg>
-              <svg id="theme-toggle-light-icon-mobile" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
-              </svg>
-            </button>
-          </li>
-        </ul>
+<!-- DaisyUI Navbar -->
+<div class="navbar bg-base-100 shadow-sm">
+  <div class="navbar-start">
+    <!-- Mobile hamburger dropdown -->
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
       </div>
-    </div>
-
-    <!-- Desktop Menu -->
-    <div class="navbar-center hidden lg:flex">
-      <ul class="flex items-center gap-1">
+      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         {navigation.map((item) => (
-          <>
-            {!item.children ? (
-              <li>
-                <a 
-                  href={item.path}
-                  class:list={[
-                    "px-4 py-2 hover:bg-base-200 rounded-none transition-all duration-200",
-                    isActivePath(item.path) ? "font-medium text-primary" : ""
-                  ]}
-                  data-astro-prefetch
-                >
-                  {item.displayName}
-                </a>
-              </li>
-            ) : (
-              <li class="dropdown dropdown-hover">
-                <label tabindex="0" class="px-4 py-2 hover:bg-base-200 cursor-pointer">
-                  {item.displayName}
-                  <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </label>
-                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-xl bg-base-100 border border-base-200 rounded-md w-52">
-                  {item.children.map((child) => (
-                    <li>
-                      <a 
-                        href={child.path}
-                        class:list={[
-                          "px-4 py-2 hover:bg-base-200 rounded-none transition-all duration-200",
-                          isActivePath(child.path) ? "font-medium text-primary" : ""
-                        ]}
-                        data-astro-prefetch
-                      >
-                        {child.displayName}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            )}
-          </>
+          !item.children ? (
+            <li>
+              <a href={item.path} class:list={[isActivePath(item.path) ? "active" : ""]} data-astro-prefetch>
+                <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                {item.displayName}
+                {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
+                {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+              </a>
+            </li>
+          ) : (
+            <li>
+              <a>{item.displayName}</a>
+              <ul class="p-2">
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
+                      <Icon name={iconMap[child.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                      {child.displayName}
+                      {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
+                      {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          )
         ))}
       </ul>
     </div>
+    
+    <!-- Brand -->
+    <a href="/" class="btn btn-ghost text-xl">Portfolio</a>
+  </div>
 
-    <!-- Theme Toggle -->
-    <div class="navbar-end">
-      <button 
-        id="theme-toggle" 
-        class="btn btn-ghost btn-square"
-        aria-label="Toggle theme"
-      >
-        <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+  <!-- Desktop horizontal menu -->
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      {navigation.map((item) => (
+        !item.children ? (
+          <li>
+            <a 
+              href={item.path} 
+              class:list={[
+                "tooltip tooltip-bottom",
+                isActivePath(item.path) ? "active" : ""
+              ]}
+              data-tip={item.features}
+              data-astro-prefetch
+            >
+              <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+              {item.displayName}
+              {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
+              {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+            </a>
+          </li>
+        ) : (
+          <li>
+            <details>
+              <summary class="tooltip tooltip-bottom" data-tip={item.features}>
+                <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:folder"} class="w-4 h-4" />
+                {item.displayName}
+                {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
+              </summary>
+              <ul class="p-2">
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
+                      <Icon name={iconMap[child.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                      {child.displayName}
+                      {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
+                      {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        )
+      ))}
+    </ul>
+  </div>
+
+  <!-- Theme controller dropdown -->
+  <div class="navbar-end">
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
-        <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
-        </svg>
-      </button>
+      </div>
+      <ul tabindex="0" class="dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow">
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Light" value="light" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Dark" value="dark" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Cupcake" value="cupcake" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Bumblebee" value="bumblebee" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Autumn" value="autumn" />
+        </li>
+      </ul>
     </div>
   </div>
-</nav>
-
-<script>
-  // Theme toggle functionality
-  function setupTheme() {
-    const themeToggle = document.getElementById("theme-toggle");
-    const themeToggleMobile = document.getElementById("theme-toggle-mobile");
-    const darkIcon = document.getElementById("theme-toggle-dark-icon");
-    const lightIcon = document.getElementById("theme-toggle-light-icon");
-    const darkIconMobile = document.getElementById("theme-toggle-dark-icon-mobile");
-    const lightIconMobile = document.getElementById("theme-toggle-light-icon-mobile");
-
-    // Function to update UI based on current theme
-    const updateUI = (theme: 'light' | 'dark') => {
-      if (theme === 'dark') {
-        darkIcon?.classList.add('hidden');
-        darkIconMobile?.classList.add('hidden');
-        lightIcon?.classList.remove('hidden');
-        lightIconMobile?.classList.remove('hidden');
-      } else {
-        darkIcon?.classList.remove('hidden');
-        darkIconMobile?.classList.remove('hidden');
-        lightIcon?.classList.add('hidden');
-        lightIconMobile?.classList.add('hidden');
-      }
-    };
-
-    // Toggle theme function
-    const toggleTheme = () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
-      // Update theme
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      
-      // Update UI
-      updateUI(newTheme);
-    };
-
-    // Initialize UI based on current theme
-    const storedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = (storedTheme || (systemPrefersDark ? 'dark' : 'light')) as 'light' | 'dark';
-    document.documentElement.setAttribute('data-theme', initialTheme);
-    updateUI(initialTheme);
-
-    // Add event listeners
-    themeToggle?.addEventListener('click', toggleTheme);
-    themeToggleMobile?.addEventListener('click', toggleTheme);
-
-    // Listen for system theme changes
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    prefersDark.addEventListener('change', (e) => {
-      if (!localStorage.getItem('theme')) {
-        const newTheme = e.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        updateUI(newTheme);
-      }
-    });
-  }
-
-  // Set up theme on initial page load
-  if (typeof document !== 'undefined') {
-    setupTheme();
-    
-    // Handle theme when navigating between pages
-    document.addEventListener('astro:after-swap', () => {
-      // Small delay to ensure the DOM is ready
-      setTimeout(setupTheme, 10);
-    });
-  }
-</script>
-
-<style>
-  /* Add smooth transitions for theme changes */
-  :global(html) {
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  /* DaisyUI menu styling enhancements */
-  .menu li > *:not(ul):not(details):active,
-  .menu li > *:not(ul):not(details).active {
-    background-color: hsl(var(--p));
-    color: hsl(var(--pc));
-  }
-
-  .menu details > summary {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-  }
-
-  .menu details > ul {
-    position: absolute;
-    margin-top: 1rem;
-  }
-
-  .menu details[open] > summary {
-    background-color: hsl(var(--b2));
-  }
-
-  /* Dropdown animations */
-  .menu details > ul {
-    transform-origin: top;
-    animation: menu-dropdown 0.2s ease-in-out;
-  }
-
-  @keyframes menu-dropdown {
-    from {
-      opacity: 0;
-      transform: scaleY(0);
-    }
-    to {
-      opacity: 1;
-      transform: scaleY(1);
-    }
-  }
-</style>
+</div>

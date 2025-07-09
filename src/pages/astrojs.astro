@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
 import FrameworkFeature from '../components/framework/Feature.astro';
 import CodeBlock from '../components/ui/CodeBlock.astro';
+import CodeDesignSplit from '../components/ui/CodeDesignSplit.astro';
 
 // Get the AstroJS markdown content
 const astroContent = await getEntry('info', 'astrojs');
@@ -148,47 +149,36 @@ const posts = (await getCollection('blog')) as unknown as Post[];
     <!-- Interactive Demo -->
     <section class="mb-20">
       <h2 class="text-3xl font-bold mb-6">Interactive Demo</h2>
-      <div class="card bg-base-200/50 p-6">
-        <div class="flex flex-col md:flex-row gap-8">
-          <div class="flex-1">
-            <h3 class="text-xl font-bold mb-4">Islands Architecture</h3>
-            <p class="mb-4">Astro's Islands Architecture allows you to add interactive components only where needed, keeping your site fast.</p>
-            <div class="mockup-browser border border-base-300">
-              <div class="mockup-browser-toolbar">
-                <div class="input border border-base-300">https://example.com</div>
-              </div>
-              <div class="flex justify-center px-4 py-16 bg-base-200">
-                <div class="relative w-full max-w-md">
-                  <div class="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-25"></div>
-                  <div class="relative bg-base-100 p-6 rounded-lg">
-                    <h4 class="font-bold text-lg mb-4">Interactive Counter</h4>
-                    <div id="counter" class="text-4xl font-bold text-center my-6">0</div>
-                    <div class="flex justify-center gap-4">
-                      <button onclick="document.getElementById('counter').textContent = parseInt(document.getElementById('counter').textContent) - 1" class="btn btn-outline">-</button>
-                      <button onclick="document.getElementById('counter').textContent = parseInt(document.getElementById('counter').textContent) + 1" class="btn btn-primary">+</button>
-                    </div>
+      <CodeDesignSplit 
+        title="Example Component"
+        description="Toggle between code and design views to see how this Astro component works"
+        code={exampleComponent}
+        design={`
+          <div class="p-4">
+            <h1 class="text-2xl font-bold mb-4">Welcome to Astro</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <article class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                  <h2 class="card-title">Sample Blog Post</h2>
+                  <p>This is an example of a blog post description that would be rendered by the component.</p>
+                  <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-primary btn-sm">Read more</button>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="divider md:divider-horizontal">VS</div>
-          <div class="flex-1">
-            <h3 class="text-xl font-bold mb-4">Traditional SPA</h3>
-            <p class="mb-4">Traditional SPAs ship the entire app as JavaScript, even for static content.</p>
-            <div class="mockup-browser border border-base-300 opacity-50">
-              <div class="mockup-browser-toolbar">
-                <div class="input border border-base-300">https://example.com</div>
-              </div>
-              <div class="flex justify-center px-4 py-16 bg-base-200">
-                <div class="bg-base-300/50 p-6 rounded-lg w-full max-w-md text-center">
-                  <p class="text-base-content/50">Entire app hydrated with JavaScript</p>
+              </article>
+              <article class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                  <h2 class="card-title">Another Blog Post</h2>
+                  <p>This shows how multiple posts would be displayed in the grid layout.</p>
+                  <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-primary btn-sm">Read more</button>
+                  </div>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
-        </div>
-      </div>
+        `}
+      />
     </section>
 
     <!-- Integration with Other Frameworks -->
@@ -260,6 +250,23 @@ const posts = (await getCollection('blog')) as unknown as Post[];
   </main>
 </Layout>
 
-<style>
-  /* Add any custom styles here if needed */
+<style is:global>
+  /* Remove any conflicting custom styles */
+  .mockup-code {
+    background-color: hsl(var(--n) / 0.5) !important;
+    color: hsl(var(--nc)) !important;
+  }
+  
+  .mockup-code pre:before {
+    display: none !important;
+  }
+  
+  /* Ensure proper spacing for the split view */
+  .code-view {
+    transition: all 0.3s ease;
+  }
+  
+  .design-view {
+    transition: all 0.3s ease;
+  }
 </style>

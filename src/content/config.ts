@@ -101,6 +101,17 @@ const resume = defineCollection({
   }),
 });
 
+// Define the docs collection
+const docs = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.string(),
+    author: z.string().optional(),
+  }),
+});
+
 export const collections = {
   'posts': posts,
   'jobs': jobs,
@@ -109,4 +120,5 @@ export const collections = {
   'skills': skills,
   'personal': personal,
   'resume': resume,
+  'docs': docs,
 };

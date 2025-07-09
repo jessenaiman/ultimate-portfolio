@@ -16,7 +16,11 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    icon(),
+    icon({
+      include: {
+        mdi: ['*']
+      }
+    }),
     react({
       include: ["**/React|Remix/**/*.{jsx,tsx}"],
     }),

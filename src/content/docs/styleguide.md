@@ -1,0 +1,340 @@
+---
+title: "UltimateAstroTemplate Styleguide"
+description: "Comprehensive guide for styling, layout, and typography in the UltimateAstroTemplate project"
+date: "2025-07-09"
+author: "Development Team"
+---
+
+# UltimateAstroTemplate Styleguide
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Core Principles](#core-principles)
+3. [Technology Stack](#technology-stack)
+4. [Theme System](#theme-system)
+5. [Component Guidelines](#component-guidelines)
+6. [Layout System](#layout-system)
+7. [Typography](#typography)
+8. [CSS Best Practices](#css-best-practices)
+9. [Responsive Design](#responsive-design)
+10. [Accessibility](#accessibility)
+11. [References](#references)
+
+## Introduction
+
+This styleguide serves as the canonical reference for all styling, layout, and typography decisions in the UltimateAstroTemplate project. It outlines the technical standards, best practices, and implementation guidelines that should be followed when modifying or extending the project's UI components.
+
+## Core Principles
+
+### KISS (Keep It Simple, Stupid)
+- Prefer simple solutions over complex ones
+- Use built-in daisyUI components instead of creating custom ones
+- Minimize dependencies and custom code
+
+### DRY (Don't Repeat Yourself)
+- Avoid duplicating functionality that already exists in daisyUI
+- Create reusable components only when necessary
+- Leverage Astro's component system for code organization
+
+### Consistency
+- Maintain consistent styling across all pages
+- Use the theme system for all colors and styling
+- Follow established patterns for new components
+
+## Technology Stack
+
+The UltimateAstroTemplate uses the following technologies for styling:
+
+1. **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+2. **[daisyUI](https://daisyui.com/)** - Component library built on top of Tailwind CSS
+3. **[Astro](https://astro.build/)** - Frontend framework with component-based architecture
+
+## Theme System
+
+### daisyUI Themes
+
+The project uses daisyUI's theming system to manage colors and styling. Themes are defined in the global CSS file and can be switched using the `data-theme` attribute.
+
+```css
+/* Example from src/styles/global.css */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  /* ... other color variables ... */
+}
+```
+
+### Theme Variables
+
+Always use daisyUI's theme variables instead of hardcoding colors:
+
+✅ **DO**:
+```html
+<div class="bg-primary text-primary-content">
+  Themed content
+</div>
+```
+
+❌ **DON'T**:
+```html
+<div style="background-color: #3b82f6; color: white;">
+  Hardcoded colors
+</div>
+```
+
+### Applying Themes
+
+Themes can be applied globally or to specific sections:
+
+```html
+<!-- Apply theme to entire page -->
+<html data-theme="dark">
+  <!-- page content -->
+</html>
+
+<!-- Apply theme to specific section -->
+<div data-theme="light">
+  <!-- this section will use light theme -->
+</div>
+```
+
+## Component Guidelines
+
+### Using daisyUI Components
+
+Always use native daisyUI components instead of creating custom ones. The project strictly prohibits duplicating functionality that already exists in daisyUI.
+
+✅ **DO**:
+```html
+<div class="card bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title">Card title</h2>
+    <p>Card content</p>
+  </div>
+</div>
+```
+
+❌ **DON'T**:
+```html
+<div class="custom-card">
+  <div class="custom-card-body">
+    <h2 class="custom-card-title">Card title</h2>
+    <p>Card content</p>
+  </div>
+</div>
+```
+
+### Component Modification
+
+When modifying components, follow these guidelines:
+
+1. Use Tailwind utility classes for adjustments
+2. Use daisyUI's modifier classes when available
+3. Avoid inline styles completely
+4. Avoid custom CSS classes unless absolutely necessary
+
+## Layout System
+
+### Container System
+
+Use Tailwind's container system for layout:
+
+```html
+<div class="container mx-auto px-4">
+  <!-- Content here -->
+</div>
+```
+
+For responsive containers, use the utility class defined in global.css:
+
+```html
+<div class="container-responsive">
+  <!-- Content here will have responsive padding -->
+</div>
+```
+
+### Grid System
+
+Use Tailwind's grid system for complex layouts:
+
+```html
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div>Column 1</div>
+  <div>Column 2</div>
+  <div>Column 3</div>
+</div>
+```
+
+### Spacing
+
+Use Tailwind's spacing utilities consistently:
+
+```html
+<div class="p-4 my-6 space-y-4">
+  <!-- Content with consistent spacing -->
+</div>
+```
+
+## Typography
+
+### Font System
+
+The project uses the following font stack:
+
+```css
+font-family: 'Inter', system-ui, -apple-system, sans-serif;
+```
+
+For headings and special text, we use Cal Sans:
+
+```css
+.font-cal {
+  font-family: 'Cal Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}
+```
+
+### Text Styling
+
+Use Tailwind's typography utilities for text styling:
+
+```html
+<h1 class="text-3xl font-bold text-primary font-cal">Heading</h1>
+<p class="text-base text-base-content/80">
+  Paragraph with slightly reduced opacity
+</p>
+```
+
+### Markdown Content
+
+For markdown content, use the `.markdown-content` class which applies the Tailwind Typography plugin styles:
+
+```html
+<article class="markdown-content">
+  <!-- Markdown content here -->
+</article>
+```
+
+## CSS Best Practices
+
+### Global CSS
+
+All global styles are defined in `src/styles/global.css`. This file includes:
+
+1. Tailwind directives
+2. daisyUI theme configurations
+3. Base styles
+4. Component styles
+5. Utility classes
+
+### CSS Organization
+
+CSS is organized using Tailwind's layer system:
+
+```css
+@layer base {
+  /* Base styles */
+}
+
+@layer components {
+  /* Component styles */
+}
+
+@layer utilities {
+  /* Utility styles */
+}
+```
+
+### Avoiding Inline Styles
+
+Inline styles are strictly prohibited. Always use Tailwind utility classes or daisyUI components.
+
+✅ **DO**:
+```html
+<div class="bg-base-200 p-4 rounded-lg">
+  <!-- Content -->
+</div>
+```
+
+❌ **DON'T**:
+```html
+<div style="background-color: #f3f4f6; padding: 1rem; border-radius: 0.5rem;">
+  <!-- Content -->
+</div>
+```
+
+## Responsive Design
+
+### Breakpoints
+
+Follow Tailwind's responsive breakpoint system:
+
+- `sm`: 640px and up
+- `md`: 768px and up
+- `lg`: 1024px and up
+- `xl`: 1280px and up
+- `2xl`: 1536px and up
+
+Example:
+```html
+<div class="text-sm md:text-base lg:text-lg">
+  Responsive text size
+</div>
+```
+
+### Mobile-First Approach
+
+Always design with a mobile-first approach:
+
+```html
+<div class="flex flex-col md:flex-row">
+  <!-- Stacked on mobile, side-by-side on md screens and up -->
+</div>
+```
+
+## Accessibility
+
+### Color Contrast
+
+Ensure all text has sufficient contrast with its background. Use daisyUI's content colors which are designed to maintain proper contrast:
+
+```html
+<div class="bg-primary">
+  <p class="text-primary-content">
+    This text will always have good contrast with the primary background
+  </p>
+</div>
+```
+
+### Semantic HTML
+
+Use semantic HTML elements whenever possible:
+
+```html
+<article>
+  <header>
+    <h1>Article Title</h1>
+  </header>
+  <section>
+    <h2>Section Heading</h2>
+    <p>Content</p>
+  </section>
+  <footer>
+    <p>Article footer</p>
+  </footer>
+</article>
+```
+
+## References
+
+- [daisyUI Documentation](https://daisyui.com/docs/)
+  - [Layout and Typography](https://daisyui.com/docs/layout-and-typography/)
+  - [Base Styles](https://daisyui.com/docs/base/)
+  - [Themes](https://daisyui.com/docs/themes/)
+  - [Utilities](https://daisyui.com/docs/utilities/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Astro Documentation](https://docs.astro.build/)

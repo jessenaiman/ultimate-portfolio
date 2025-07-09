@@ -15,9 +15,6 @@ const coverEntry = resumeEntries.find(entry => entry.slug === 'cover');
 // Parse markdown content to HTML
 const resumeHtml = resumeEntry ? marked.parse(resumeEntry.body) : '';
 const coverHtml = coverEntry ? marked.parse(coverEntry.body) : '';
-
-// Handle print functionality
-const printResume = "window.print();";
 ---
 
 <Layout 
@@ -26,267 +23,60 @@ const printResume = "window.print();";
   secondaryBallColor="#1E1B4B"
 >
   <Fragment set:html={`<meta name="description" content="${pageDescription}" />`} />
-  <main class="container mx-auto px-4 py-12 max-w-4xl print:max-w-none relative">
-    <!-- Sticky Action Bar -->
-    <div class="sticky top-0 z-50 bg-base-100 p-4 shadow-md rounded-lg mb-6 flex justify-between items-center print:hidden backdrop-blur-sm bg-opacity-90">
-      <div class="flex gap-2">
-        <!-- Toggle Buttons -->
-        <div class="btn-group">
-          <button id="view-cover-btn" class="btn btn-primary btn-active">Cover Letter</button>
-          <button id="view-resume-btn" class="btn">Resume</button>
-        </div>
-      </div>
-      
-      <!-- Print Button -->
+  <main class="main-content">    
+    <!-- Print Button -->
+    <div class="flex justify-center mb-8 print:hidden">
       <button 
-        onclick={printResume}
+        onclick="window.print();"
         class="btn btn-outline btn-primary gap-2"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
         </svg>
-        Print
+        Print Resume
       </button>
     </div>
+    
+    <!-- DaisyUI Tabs for Cover Letter and Resume -->
+    <div class="w-full max-w-4xl mx-auto print:hidden">
+      <div role="tablist" class="tabs tabs-bordered tabs-lg justify-center">
+        <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Cover Letter" checked />
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-8 mt-4">
+          <div class="content-container">
+            <h1 class="page-title size-lg text-center">Cover Letter</h1>
+            <div class="markdown-content">
+              <div set:html={coverHtml} />
+            </div>
+          </div>
+        </div>
 
-    <div class="space-y-12 print:space-y-8">
-      <!-- Cover Letter (Shown First) -->
-      <section id="cover-section" class="content-container print:border-none print:shadow-none">
-        <h2 class="section-header print:text-xl">Cover Letter</h2>
-        <div class="prose max-w-none">
+        <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Resume" />
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-8 mt-4">
+          <div class="content-container">
+            <h1 class="page-title size-lg text-center">Resume</h1>
+            <div class="markdown-content">
+              <div set:html={resumeHtml} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Print-only content (shows both when printing) -->
+    <div class="hidden print:block">
+      <div class="content-container mb-8">
+        <h1 class="page-title size-lg">Cover Letter</h1>
+        <div class="markdown-content">
           <div set:html={coverHtml} />
         </div>
-      </section>
-
-      <!-- Resume Content (Hidden Initially) -->
-      <section id="resume-section" class="content-container print:border-none print:shadow-none hidden">
-        <h2 class="section-header print:text-xl">Resume
-        <style>
-          /* Custom styles for resume page */
-          .section-header {
-            @apply text-2xl font-bold mb-4 text-primary;
-          }
-          
-          .content-container {
-            @apply bg-base-100 p-6 rounded-lg border border-base-300 shadow-md;
-          }
-          
-          /* Print styles */
-          @media print {
-            /* Force light mode for printing */
-            :root {
-              color-scheme: light;
-            }
-            
-            html {
-              background-color: white;
-              color: black;
-            }
-            
-            body {
-              font-size: 12pt;
-              background-color: white;
-              color: black;
-              margin: 0;
-              padding: 0;
-              width: 100%;
-              max-width: 100%;
-            }
-            
-            /* Hide footer and other unnecessary elements */
-            footer, nav, .print-hide {
-              display: none !important;
-            }
-            
-            /* Remove margins and padding */
-            main {
-              padding: 0 !important;
-              margin: 0 !important;
-              max-width: 100% !important;
-            }
-            
-            .container {
-              max-width: 100% !important;
-              padding: 0 !important;
-              margin: 0 !important;
-            }
-            
-            a[href]:after {
-              content: " (" attr(href) ")";
-              color: #333;
-              font-style: italic;
-            }
-            
-            .section-header {
-              color: #000;
-              font-size: 18pt;
-              margin-bottom: 0.5em;
-            }
-            
-            .content-container {
-              padding: 0;
-              margin-bottom: 1em;
-              box-shadow: none !important;
-              border: none;
-              background-color: white !important;
-            }
-            
-            .prose {
-              max-width: none;
-              color: black !important;
-            }
-            
-            /* Add page break between sections if needed */
-            section {
-              page-break-inside: avoid;
-              background-color: white !important;
-              color: black !important;
-            }
-            
-            /* Ensure links are visible in print */
-            a {
-              color: #0000EE !important;
-              text-decoration: underline;
-            }
-            
-            /* Add some spacing for better readability */
-            p, ul, ol {
-              margin-bottom: 0.5em;
-              color: black !important;
-            }
-            
-            /* Ensure good contrast for headings */
-            h1, h2, h3, h4, h5, h6 {
-              color: #000 !important;
-            }
-            
-            /* Remove box shadows */
-            * {
-              box-shadow: none !important;
-            }
-          }
-        </style>
-        <article class="prose max-w-none">
+      </div>
+      
+      <div class="content-container page-break-before">
+        <h1 class="page-title size-lg">Resume</h1>
+        <div class="markdown-content">
           <div set:html={resumeHtml} />
-        </article>
-      </section>
+        </div>
+      </div>
     </div>
   </main>
 </Layout>
-
-<style>
-  /* Print styles */
-  @media print {
-    @page {
-      size: A4;
-      margin: 1.5cm;
-    }
-    
-    body {
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-      background: white !important;
-      color: black !important;
-      font-size: 12pt;
-      line-height: 1.5;
-    }
-
-    .content-container {
-      box-shadow: none !important;
-      border: 1px solid #e5e7eb !important;
-      page-break-inside: avoid;
-    }
-
-    .section-header {
-      color: #1e40af !important;
-      border-bottom: 2px solid #e5e7eb !important;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-      page-break-after: avoid;
-      color: #1e40af !important;
-    }
-
-    a {
-      color: #1e40af !important;
-      text-decoration: none !important;
-    }
-
-    .prose a {
-      color: #1e40af !important;
-    }
-    
-    /* Ensure URLs are visible in print */
-    a[href^="http"]::after {
-      content: " (" attr(href) ")";
-      font-size: 0.8em;
-      font-weight: normal;
-      opacity: 0.8;
-    }
-    
-    /* Hide print button when printing */
-    .print-button {
-      display: none !important;
-    }
-  }
-  
-  /* Ensure proper spacing for print */
-  @page :first {
-    margin-top: 0;
-  }
-  
-  /* Improve link visibility */
-  a {
-    word-break: break-word;
-  }
-  
-  /* Card hover effect */
-  .experience-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .experience-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
-</style>
-
-<script>
-  // Toggle between cover letter and resume using DaisyUI components
-  document.addEventListener('DOMContentLoaded', () => {
-    const viewCoverBtn = document.getElementById('view-cover-btn');
-    const viewResumeBtn = document.getElementById('view-resume-btn');
-    const coverSection = document.getElementById('cover-section');
-    const resumeSection = document.getElementById('resume-section');
-    
-    // Show cover letter, hide resume
-    if (viewCoverBtn && coverSection && resumeSection) {
-      viewCoverBtn.addEventListener('click', () => {
-        // Toggle content visibility
-        coverSection.classList.remove('hidden');
-        resumeSection.classList.add('hidden');
-        
-        // Toggle active button styles
-        viewCoverBtn.classList.add('btn-active', 'btn-primary');
-        if (viewResumeBtn) {
-          viewResumeBtn.classList.remove('btn-active', 'btn-primary');
-        }
-      });
-    }
-    
-    // Show resume, hide cover letter
-    if (viewResumeBtn && coverSection && resumeSection) {
-      viewResumeBtn.addEventListener('click', () => {
-        // Toggle content visibility
-        coverSection.classList.add('hidden');
-        resumeSection.classList.remove('hidden');
-        
-        // Toggle active button styles
-        viewResumeBtn.classList.add('btn-active', 'btn-primary');
-        if (viewCoverBtn) {
-          viewCoverBtn.classList.remove('btn-active', 'btn-primary');
-        }
-      });
-    }
-  });
-</script>
