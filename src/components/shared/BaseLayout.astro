@@ -1,0 +1,60 @@
+---
+import Analytics from "@vercel/analytics/astro";
+import Background from "../ui/Background.astro";
+import Footer from "../ui/Footer.astro";
+import Menu from "../ui/Menu.astro";
+import LayoutHead from "./LayoutHead.astro";
+import "../../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  primaryBallColor?: string;
+  secondaryBallColor?: string;
+  gridColor?: string;
+  diagonalColor?: string;
+  vignetteColor?: string;
+  showMenu?: boolean;
+  showFooter?: boolean;
+}
+
+const {
+  title,
+  description,
+  primaryBallColor,
+  secondaryBallColor,
+  gridColor,
+  diagonalColor,
+  vignetteColor,
+  showMenu = true,
+  showFooter = true,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <LayoutHead title={title} description={description}>
+    <slot name="head" />
+  </LayoutHead>
+  <body class="bg-base-100 text-base-content m-0 min-h-screen relative font-sans">
+    <Background
+      primaryBallColor={primaryBallColor}
+      secondaryBallColor={secondaryBallColor}
+      gridColor={gridColor}
+      diagonalColor={diagonalColor}
+      vignetteColor={vignetteColor}
+    />
+    <div class="mb-32">
+      {showMenu && <Menu />}
+      <slot />
+      {showFooter && <Footer />}
+    </div>
+    <Analytics />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: dark;
+  }
+</style>

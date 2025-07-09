@@ -27,33 +27,26 @@ const printResume = "window.print();";
 >
   <Fragment set:html={`<meta name="description" content="${pageDescription}" />`} />
   <main class="container mx-auto px-4 py-12 max-w-4xl print:max-w-none relative">
-    <!-- Print Button -->
-    <div class="flex justify-end mb-6 print:hidden">
+    <!-- Sticky Action Bar -->
+    <div class="sticky top-0 z-50 bg-base-100 p-4 shadow-md rounded-lg mb-6 flex justify-between items-center print:hidden backdrop-blur-sm bg-opacity-90">
+      <div class="flex gap-2">
+        <!-- Toggle Buttons -->
+        <div class="btn-group">
+          <button id="view-cover-btn" class="btn btn-primary btn-active">Cover Letter</button>
+          <button id="view-resume-btn" class="btn">Resume</button>
+        </div>
+      </div>
+      
+      <!-- Print Button -->
       <button 
         onclick={printResume}
-        class="px-4 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary-focus transition-colors flex items-center gap-2"
+        class="btn btn-outline btn-primary gap-2"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
         </svg>
-        Print Resume
+        Print
       </button>
-    </div>
-
-    <!-- Toggle Button (Floating) using DaisyUI -->
-    <div class="fixed bottom-8 right-8 z-50 print:hidden">
-      <div class="dropdown dropdown-top dropdown-end">
-        <label tabindex="0" class="btn btn-primary m-1 gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-          </svg>
-          View Options
-        </label>
-        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-          <li><a id="view-cover-btn">View Cover Letter</a></li>
-          <li><a id="view-resume-btn">View Resume</a></li>
-        </ul>
-      </div>
     </div>
 
     <div class="space-y-12 print:space-y-8">
@@ -67,7 +60,112 @@ const printResume = "window.print();";
 
       <!-- Resume Content (Hidden Initially) -->
       <section id="resume-section" class="content-container print:border-none print:shadow-none hidden">
-        <h2 class="section-header print:text-xl">Resume</h2>
+        <h2 class="section-header print:text-xl">Resume
+        <style>
+          /* Custom styles for resume page */
+          .section-header {
+            @apply text-2xl font-bold mb-4 text-primary;
+          }
+          
+          .content-container {
+            @apply bg-base-100 p-6 rounded-lg border border-base-300 shadow-md;
+          }
+          
+          /* Print styles */
+          @media print {
+            /* Force light mode for printing */
+            :root {
+              color-scheme: light;
+            }
+            
+            html {
+              background-color: white;
+              color: black;
+            }
+            
+            body {
+              font-size: 12pt;
+              background-color: white;
+              color: black;
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              max-width: 100%;
+            }
+            
+            /* Hide footer and other unnecessary elements */
+            footer, nav, .print-hide {
+              display: none !important;
+            }
+            
+            /* Remove margins and padding */
+            main {
+              padding: 0 !important;
+              margin: 0 !important;
+              max-width: 100% !important;
+            }
+            
+            .container {
+              max-width: 100% !important;
+              padding: 0 !important;
+              margin: 0 !important;
+            }
+            
+            a[href]:after {
+              content: " (" attr(href) ")";
+              color: #333;
+              font-style: italic;
+            }
+            
+            .section-header {
+              color: #000;
+              font-size: 18pt;
+              margin-bottom: 0.5em;
+            }
+            
+            .content-container {
+              padding: 0;
+              margin-bottom: 1em;
+              box-shadow: none !important;
+              border: none;
+              background-color: white !important;
+            }
+            
+            .prose {
+              max-width: none;
+              color: black !important;
+            }
+            
+            /* Add page break between sections if needed */
+            section {
+              page-break-inside: avoid;
+              background-color: white !important;
+              color: black !important;
+            }
+            
+            /* Ensure links are visible in print */
+            a {
+              color: #0000EE !important;
+              text-decoration: underline;
+            }
+            
+            /* Add some spacing for better readability */
+            p, ul, ol {
+              margin-bottom: 0.5em;
+              color: black !important;
+            }
+            
+            /* Ensure good contrast for headings */
+            h1, h2, h3, h4, h5, h6 {
+              color: #000 !important;
+            }
+            
+            /* Remove box shadows */
+            * {
+              box-shadow: none !important;
+            }
+          }
+        </style>
         <article class="prose max-w-none">
           <div set:html={resumeHtml} />
         </article>
@@ -164,16 +262,30 @@ const printResume = "window.print();";
     // Show cover letter, hide resume
     if (viewCoverBtn && coverSection && resumeSection) {
       viewCoverBtn.addEventListener('click', () => {
+        // Toggle content visibility
         coverSection.classList.remove('hidden');
         resumeSection.classList.add('hidden');
+        
+        // Toggle active button styles
+        viewCoverBtn.classList.add('btn-active', 'btn-primary');
+        if (viewResumeBtn) {
+          viewResumeBtn.classList.remove('btn-active', 'btn-primary');
+        }
       });
     }
     
     // Show resume, hide cover letter
     if (viewResumeBtn && coverSection && resumeSection) {
       viewResumeBtn.addEventListener('click', () => {
+        // Toggle content visibility
         coverSection.classList.add('hidden');
         resumeSection.classList.remove('hidden');
+        
+        // Toggle active button styles
+        viewResumeBtn.classList.add('btn-active', 'btn-primary');
+        if (viewCoverBtn) {
+          viewCoverBtn.classList.remove('btn-active', 'btn-primary');
+        }
       });
     }
   });

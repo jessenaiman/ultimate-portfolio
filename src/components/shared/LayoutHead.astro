@@ -1,0 +1,55 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Astro description" } = Astro.props;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content={description} />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{title}</title>
+  <meta name="view-transition" content="same-origin" />
+  <ViewTransitions />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=cal-sans@400,500,600&display=swap"
+    rel="stylesheet"
+  />
+  <script is:inline>
+    // Modern DaisyUI theme switching
+    const getTheme = () => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+
+    // Set theme immediately to prevent flash
+    const theme = getTheme();
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Modern theme toggle function
+    window.toggleTheme = () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    };
+  </script>
+  <slot />
+</head>

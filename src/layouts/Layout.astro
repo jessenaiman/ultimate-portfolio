@@ -1,13 +1,9 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import Analytics from "@vercel/analytics/astro";
-import Background from "../components/ui/Background.astro";
-import Footer from "../components/ui/Footer.astro";
-import Menu from "../components/ui/Menu.astro";
-import "../styles/global.css";
+import BaseLayout from "../components/shared/BaseLayout.astro";
 
 interface Props {
   title: string;
+  description?: string;
   primaryBallColor?: string;
   secondaryBallColor?: string;
   gridColor?: string;
@@ -17,6 +13,7 @@ interface Props {
 
 const {
   title,
+  description,
   primaryBallColor,
   secondaryBallColor,
   gridColor,
@@ -25,84 +22,14 @@ const {
 } = Astro.props;
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="view-transition" content="same-origin" />
-    <ViewTransitions />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://api.fontshare.com/v2/css?f[]=cal-sans@400,500,600&display=swap"
-      rel="stylesheet"
-    />
-    <script is:inline>
-      // Get theme from localStorage or system preference
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
-        }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
-        return 'light';
-      })();
-
-      // Set theme immediately to prevent flash
-      if (theme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        document.documentElement.classList.add('dark');
-      }
-
-      // Function to toggle theme
-      window.toggleTheme = () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        localStorage.setItem('theme', newTheme);
-        document.documentElement.setAttribute('data-theme', newTheme);
-        
-        if (newTheme === 'light') {
-          document.documentElement.classList.remove('dark');
-        } else {
-          document.documentElement.classList.add('dark');
-        }
-      };
-    </script>
-  </head>
-  <body class="m-0 min-h-screen relative font-sans">
-    <Background
-      primaryBallColor={primaryBallColor}
-      secondaryBallColor={secondaryBallColor}
-      gridColor={gridColor}
-      diagonalColor={diagonalColor}
-      vignetteColor={vignetteColor}
-    />
-    <div class="mb-32">
-      <Menu />
-      <slot />
-      <Footer />
-    </div>
-    <Analytics />
-  </body>
-</html>
-
-<style is:global>
-  :root {
-    color-scheme: dark;
-  }
-</style>
+<BaseLayout
+  title={title}
+  description={description}
+  primaryBallColor={primaryBallColor}
+  secondaryBallColor={secondaryBallColor}
+  gridColor={gridColor}
+  diagonalColor={diagonalColor}
+  vignetteColor={vignetteColor}
+>
+  <slot />
+</BaseLayout>
