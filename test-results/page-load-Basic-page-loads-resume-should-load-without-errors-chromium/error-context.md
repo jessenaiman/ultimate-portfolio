@@ -1,0 +1,99 @@
+# Page snapshot
+
+```yaml
+- link "Portfolio":
+  - /url: /
+- list:
+  - listitem:
+    - link "Main Page Home":
+      - /url: /
+      - text: Main Page
+      - img
+      - text: Home
+  - listitem:
+    - link "Professional Experience Resume":
+      - /url: /resume
+      - text: Professional Experience
+      - img
+      - text: Resume
+  - listitem:
+    - link "Project Showcase Portfolio":
+      - /url: /portfolio
+      - text: Project Showcase
+      - img
+      - text: Portfolio
+  - listitem:
+    - group:
+      - text: Technology Stack
+      - img
+      - text: Website Stack
+  - listitem:
+    - group:
+      - text: JavaScript Frameworks
+      - img
+      - text: Frameworks
+  - listitem:
+    - group:
+      - text: Interactive Examples
+      - img
+      - text: Demos
+  - listitem:
+    - link "Testing & QA Quality Control NEW":
+      - /url: /test-dashboard
+      - text: Testing & QA
+      - img
+      - text: Quality Control NEW
+  - listitem:
+    - group:
+      - text: AI Solutions
+      - img
+      - text: Machine Learning
+  - listitem:
+    - link "About Me About":
+      - /url: /about
+      - text: About Me
+      - img
+      - text: About
+- button:
+  - img
+- main:
+  - button "Print Resume":
+    - img
+    - text: Print Resume
+  - tablist:
+    - tab "Cover Letter"
+    - tabpanel:
+      - heading "Cover Letter" [level=1]
+      - paragraph: Greetings Future Amazing Employer,
+      - paragraph: "I have nearly two decades in web development, I’ve worked through technologies rise to necessity, only to be forgotten in code graveyard. My career has been a journey through an ever-changing landscape, adapting and thriving where many have stagnated. I bring rarity to the table: old man vibes with depth, versatility, and a relentless drive to innovate."
+      - paragraph: I have experitse that spans the early days of HTML, CSS, JavaScript, C#, asp.net, Git, responsive design, and old and modern frameworks, and I can connect all of it to modern AI and blockchain technologies.
+      - paragraph: At Resolver, I implemented Test-Driven Design (TDD) before it was cool. I discovered jquery could reduce an overtime initiative by around ~30% by automating repetitive tasks and refactoring the vanilla javascript. I approach problem-solving with an efficient, scalable, and future-proof vision.
+      - paragraph: At the Ontario Liberal Party I led a system wide upgrade from a rigid VB.NET system to a flexible OAuth API using MongoDB and Ruby on Rails. I also managed hundreds of websites, which required changes frequently during critical election periods. These experiences taught me resilience, adaptability, and the importance of building systems that grow with your needs.
+      - paragraph:
+        - text: "The early days of coding had employers wary of github and open source in general, which makes showing you a portfolio of my work a challenge. For both my own sake of understanding and comparing modern web development, I’ve built two projects that showcase my skills: 1."
+        - link "Future Stack":
+          - /url: https://fabulous-tartufo-6b7599.netlify.app/
+        - text: ": A showcase of modern frameworks (Svelte, Vue, React, SolidJS, Remix), featuring image generation, chat GPT, Blockchain AI, a dynamic equation/graph component, and interactive resume. It’s more than a portfolio—it’s proof of my ability to blend cutting-edge tools into seamless solutions. It also is responsive, accessible, and optimized for performance beyond anything I would have built in 2015. 2."
+        - link "Dice Wizard Games":
+          - /url: https://dice-wizard.netlify.app/blog/
+        - text: ": An e-commerce platform powered by Astro.js, TailwindCSS, and View Transitions. Beyond selling dice and running D&D campaigns, it highlights responsive design, performance optimization, and user-centric UX principles. This was a site built as an attempt to bring my in person business online, but it ended up being an onboard learning platform for me to dust off my skills and learn new ones."
+      - paragraph: "I love installing new projects and tinkering with code, so my github accounts are stuffed with projects that I've worked on locally, but not professional projects due to NDA and privacy concerns. • GitHub: @ontariodungeons | @jessenaiman"
+      - paragraph: We're going to talk ethics at some point, and I want to demonstrate that I'm transparent and honest. I'm not afraid to lean into AI when the results are a better product, I make no excuse for having AI assist with the draft and editing of this cover letter. Using AI as an assistant has helped me achieve my goal of an consice, yet convicing display of my talents, that does not take your time for granted.
+      - paragraph: I look forward to the opportunity to discuss this position and my qualifications further. You can put the other resume away, you found your employee, enjoy the rest of your day.
+      - paragraph: Sincerely, Jesse Naiman
+    - tab "Resume"
+- contentinfo:
+  - link "GitHub":
+    - /url: https://github.com/Marve10s
+    - text: GitHub
+    - img
+  - link "Telegram":
+    - /url: https://t.me/dicewizard
+    - text: Telegram
+    - img
+  - link "Gmail":
+    - /url: "${cred.email}"
+    - text: Gmail
+    - img
+  - text: 2025 Jesse Naiman
+```

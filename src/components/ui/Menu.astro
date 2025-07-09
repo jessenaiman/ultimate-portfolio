@@ -1,5 +1,4 @@
 ---
-import { navigation } from "../../data/navigation";
 import { Icon } from "astro-icon/components";
 
 const currentPath = Astro.url.pathname;
@@ -12,35 +11,223 @@ const isActivePath = (path: string) => {
     : normalizedCurrent.endsWith(normalizedPath);
 };
 
-// Icon mapping for navigation items
-const iconMap = {
-  home: "mdi:home",
-  about: "mdi:account", 
-  resume: "mdi:file-document",
-  portfolio: "mdi:briefcase",
-  stack: "mdi:layers",
-  frameworks: "mdi:code-tags",
-  demos: "mdi:view-dashboard",
-  quality: "mdi:check-decagram",
-  ml: "mdi:brain",
-  blog: "mdi:post",
-  astro: "mdi:rocket",
-  tailwind: "mdi:tailwind",
-  daisyui: "mdi:flower",
-  react: "mdi:react",
-  vue: "mdi:vuejs",
-  svelte: "mdi:language-typescript",
-  solid: "mdi:language-javascript",
-  remix: "mdi:code-brackets",
-  blockchain: "mdi:bitcoin",
-  "color-picker": "mdi:palette",
-  math: "mdi:math-integral",
-  "live-code": "mdi:code-braces",
-  counter: "mdi:counter",
-  "ml-overview": "mdi:brain",
-  "ml-chat": "mdi:message-processing",
-  "blockchain-ai": "mdi:ethereum"
-};
+// Define types for menu items
+interface MenuItem {
+  name: string;
+  displayName: string;
+  features: string;
+  path: string;
+  icon: string;
+  badge?: string;
+  badgeColor?: string;
+  isNew?: boolean;
+  children?: MenuItem[];
+}
+
+// Menu structure with all items, icons, and metadata in one place
+// Using DaisyUI menu patterns for consistent navigation
+const navigation: MenuItem[] = [
+  { 
+    name: 'home', 
+    displayName: 'Home', 
+    features: 'Main Page', 
+    path: '/',
+    icon: 'mdi:home'
+  },
+  { 
+    name: 'resume', 
+    displayName: 'Resume', 
+    features: 'Professional Experience', 
+    path: '/resume',
+    icon: 'mdi:file-document'
+  },
+  { 
+    name: 'portfolio', 
+    displayName: 'Portfolio', 
+    features: 'Project Showcase', 
+    path: '/portfolio',
+    icon: 'mdi:briefcase'
+  },
+  {
+    name: 'stack',
+    displayName: 'Website Stack',
+    features: 'Technology Stack',
+    path: '#',
+    icon: 'mdi:layers',
+    children: [
+      { 
+        name: 'astro', 
+        displayName: 'AstroJS', 
+        features: 'Static Site Generator', 
+        path: '/astrojs',
+        icon: 'mdi:rocket',
+        badge: 'v4.0'
+      },
+      { 
+        name: 'tailwind', 
+        displayName: 'TailwindCSS', 
+        features: 'Utility-First CSS Framework', 
+        path: '/tailwind',
+        icon: 'mdi:tailwind',
+        badge: 'v3.0'
+      },
+      { 
+        name: 'daisyui', 
+        displayName: 'DaisyUI', 
+        features: 'Tailwind Component Library', 
+        path: '/daisyui',
+        icon: 'mdi:flower',
+        badge: 'v4.0'
+      },
+      { 
+        name: 'styleguide', 
+        displayName: 'Styleguide', 
+        features: 'Design System & Standards', 
+        path: '/styleguide',
+        icon: 'mdi:palette-outline',
+        badge: 'NEW',
+        badgeColor: 'secondary',
+        isNew: true
+      }
+    ]
+  },
+  {
+    name: 'frameworks',
+    displayName: 'Frameworks',
+    features: 'JavaScript Frameworks',
+    path: '#',
+    icon: 'mdi:code-tags',
+    children: [
+      { 
+        name: 'react', 
+        displayName: 'React', 
+        features: 'UI Library', 
+        path: '/react',
+        icon: 'mdi:react'
+      },
+      { 
+        name: 'vue', 
+        displayName: 'Vue', 
+        features: 'Progressive Framework', 
+        path: '/vue',
+        icon: 'mdi:vuejs'
+      },
+      { 
+        name: 'svelte', 
+        displayName: 'Svelte', 
+        features: 'Compiler as Framework', 
+        path: '/svelte',
+        icon: 'mdi:language-typescript'
+      },
+      { 
+        name: 'solid', 
+        displayName: 'SolidJS', 
+        features: 'Reactive UI Library', 
+        path: '/solid',
+        icon: 'mdi:language-javascript'
+      },
+      { 
+        name: 'remix', 
+        displayName: 'Remix', 
+        features: 'Full Stack Framework', 
+        path: '/remix',
+        icon: 'mdi:code-brackets'
+      }
+    ]
+  },
+  {
+    name: 'demos',
+    displayName: 'Demos',
+    features: 'Interactive Examples',
+    path: '#',
+    icon: 'mdi:view-dashboard',
+    children: [
+      { 
+        name: 'blog', 
+        displayName: 'Blog', 
+        features: 'Content Management', 
+        path: '/blog',
+        icon: 'mdi:post'
+      },
+      { 
+        name: 'blockchain', 
+        displayName: 'Blockchain Chat', 
+        features: 'Web3 Integration', 
+        path: '/blockchain-chat',
+        icon: 'mdi:bitcoin',
+        isNew: true
+      },
+      { 
+        name: 'color-picker', 
+        displayName: 'Color Picker', 
+        features: 'Interactive Tool', 
+        path: '/color-picker',
+        icon: 'mdi:palette'
+      },
+      { 
+        name: 'math', 
+        displayName: 'Math Lab', 
+        features: 'Calculation Demo', 
+        path: '/math',
+        icon: 'mdi:math-integral'
+      },
+      { 
+        name: 'live-code', 
+        displayName: 'Live Code', 
+        features: 'Code Editor', 
+        path: '/live-code',
+        icon: 'mdi:code-braces'
+      }
+    ]
+  },
+  {
+    name: 'quality',
+    displayName: 'Quality Control',
+    features: 'Testing & QA',
+    path: '/test-dashboard',
+    icon: 'mdi:check-decagram',
+    badge: 'NEW',
+    badgeColor: 'success'
+  },
+  { 
+    name: 'ml', 
+    displayName: 'Machine Learning', 
+    features: 'AI Solutions', 
+    path: '/machine',
+    icon: 'mdi:brain',
+    children: [
+      {
+        name: 'ml-overview',
+        displayName: 'Overview',
+        features: 'ML Capabilities',
+        path: '/machine',
+        icon: 'mdi:brain'
+      },
+      {
+        name: 'ml-chat',
+        displayName: 'ML Chat',
+        features: 'AI Conversation',
+        path: '/machine',
+        icon: 'mdi:message-processing'
+      },
+      {
+        name: 'blockchain-ai',
+        displayName: 'Blockchain AI',
+        features: 'Web3 + AI Integration',
+        path: '/blockchain-ai',
+        icon: 'mdi:ethereum',
+        isNew: true
+      }
+    ]
+  },
+  { 
+    name: 'about', 
+    displayName: 'About', 
+    features: 'About Me', 
+    path: '/about',
+    icon: 'mdi:account'
+  }
+];
 ---
 
 <!-- DaisyUI Navbar -->
@@ -58,7 +245,7 @@ const iconMap = {
           !item.children ? (
             <li>
               <a href={item.path} class:list={[isActivePath(item.path) ? "active" : ""]} data-astro-prefetch>
-                <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                <Icon name={item.icon} class="w-4 h-4" />
                 {item.displayName}
                 {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
                 {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
@@ -71,7 +258,7 @@ const iconMap = {
                 {item.children.map((child) => (
                   <li>
                     <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
-                      <Icon name={iconMap[child.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                      <Icon name={child.icon} class="w-4 h-4" />
                       {child.displayName}
                       {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
                       {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
@@ -104,7 +291,7 @@ const iconMap = {
               data-tip={item.features}
               data-astro-prefetch
             >
-              <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+              <Icon name={item.icon} class="w-4 h-4" />
               {item.displayName}
               {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
               {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
@@ -114,7 +301,7 @@ const iconMap = {
           <li>
             <details>
               <summary class="tooltip tooltip-bottom" data-tip={item.features}>
-                <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:folder"} class="w-4 h-4" />
+                <Icon name={item.icon} class="w-4 h-4" />
                 {item.displayName}
                 {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
               </summary>
@@ -122,7 +309,7 @@ const iconMap = {
                 {item.children.map((child) => (
                   <li>
                     <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
-                      <Icon name={iconMap[child.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                      <Icon name={child.icon} class="w-4 h-4" />
                       {child.displayName}
                       {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
                       {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}

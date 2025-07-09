@@ -1,0 +1,109 @@
+# Page snapshot
+
+```yaml
+- link "Portfolio":
+  - /url: /
+- list:
+  - listitem:
+    - link "Main Page Home":
+      - /url: /
+      - text: Main Page
+      - img
+      - text: Home
+  - listitem:
+    - link "Professional Experience Resume":
+      - /url: /resume
+      - text: Professional Experience
+      - img
+      - text: Resume
+  - listitem:
+    - link "Project Showcase Portfolio":
+      - /url: /portfolio
+      - text: Project Showcase
+      - img
+      - text: Portfolio
+  - listitem:
+    - group:
+      - text: Technology Stack
+      - img
+      - text: Website Stack
+  - listitem:
+    - group:
+      - text: JavaScript Frameworks
+      - img
+      - text: Frameworks
+  - listitem:
+    - group:
+      - text: Interactive Examples
+      - img
+      - text: Demos
+  - listitem:
+    - link "Testing & QA Quality Control NEW":
+      - /url: /test-dashboard
+      - text: Testing & QA
+      - img
+      - text: Quality Control NEW
+  - listitem:
+    - group:
+      - text: AI Solutions
+      - img
+      - text: Machine Learning
+  - listitem:
+    - link "About Me About":
+      - /url: /about
+      - text: About Me
+      - img
+      - text: About
+- button:
+  - img
+- main:
+  - text: JavaScript Library
+  - heading "React" [level=1]
+  - paragraph: A JavaScript library for building user interfaces with components, virtual DOM, and unidirectional data flow.
+  - link "Official Documentation":
+    - /url: https://react.dev
+  - button "Learn More"
+  - heading "Interactive Examples" [level=2]
+  - button "React Chat"
+  - button "Flowise AI Chat"
+  - img "Jesse Naiman"
+  - heading "Jesse Naiman" [level=3]
+  - paragraph: "@astroisthebest"
+  - text: Hi Hey, who are you? AI version of developer Jesse Naiman Sick,let's chat, I'm starting
+  - textbox "Type your message..."
+  - button:
+    - img
+  - heading "Code Examples" [level=2]
+  - text: Basic Component State Management Effects & Lifecycle
+  - heading "Key Features" [level=2]
+  - heading "Component-Based Architecture" [level=3]
+  - paragraph: Build encapsulated components that manage their own state, then compose them to make complex UIs.
+  - heading "Declarative Views" [level=3]
+  - paragraph: React makes it painless to create interactive UIs. Design simple views for each state in your application.
+  - heading "Learn Once, Write Anywhere" [level=3]
+  - paragraph: Develop new features without rewriting existing code. React can also render on the server using Node.
+  - heading "Virtual DOM" [level=3]
+  - paragraph: A lightweight representation of the real DOM for optimal performance and efficient updates.
+  - heading "Rich Ecosystem" [level=3]
+  - paragraph: Access thousands of component libraries, tools, and extensions to accelerate development.
+  - heading "React Ecosystem" [level=2]
+  - text: Redux React Router Next.js React Query Styled Components Material UI React Native Gatsby Framer Motion
+  - heading "Ready to start building with React?" [level=2]
+  - paragraph: Get started with the official React documentation and tutorials.
+  - link "Start Learning":
+    - /url: https://react.dev/learn
+- contentinfo:
+  - link "GitHub":
+    - /url: https://github.com/Marve10s
+    - text: GitHub
+    - img
+  - link "Telegram":
+    - /url: https://t.me/dicewizard
+    - text: Telegram
+    - img
+  - link "Gmail":
+    - /url: "${cred.email}"
+    - text: Gmail
+    - img
+  - text: 2025 Jesse Naiman
+```

@@ -1,24 +1,30 @@
 import { test, expect } from '@playwright/test';
-import { navigation } from '../src/data/navigation';
 
-// Extract all navigation paths
-function extractAllPaths(items: any[]): string[] {
-  const paths: string[] = [];
-  
-  for (const item of items) {
-    if (item.path && item.path !== '#') {
-      paths.push(item.path);
-    }
-    
-    if (item.children) {
-      paths.push(...extractAllPaths(item.children));
-    }
-  }
-  
-  return paths;
-}
-
-const allNavigationPaths = extractAllPaths(navigation);
+// All navigation paths that should be tested
+// This list is maintained in sync with the Menu.astro component
+const allNavigationPaths = [
+  '/',
+  '/resume',
+  '/portfolio',
+  '/astrojs',
+  '/tailwind',
+  '/daisyui',
+  '/styleguide',
+  '/react',
+  '/vue',
+  '/svelte',
+  '/solid',
+  '/remix',
+  '/blog',
+  '/blockchain-chat',
+  '/color-picker',
+  '/math',
+  '/live-code',
+  '/test-dashboard',
+  '/machine',
+  '/blockchain-ai',
+  '/about'
+];
 
 // Additional critical pages that should exist
 const additionalPaths = [
