@@ -1,0 +1,22 @@
+---
+interface Props {
+  title: string;
+  modalId: string;
+}
+
+const { title, modalId } = Astro.props;
+---
+
+<div class="card bg-base-200 shadow-xl h-full flex flex-col">
+  <div class="card-body flex flex-col flex-grow">
+    <h3 class="card-title">{title}</h3>
+    <div class="flex-grow flex items-center justify-center my-4">
+      <slot />
+    </div>
+    <div class="card-actions justify-end mt-auto">
+      <button class="btn btn-sm btn-primary" onclick={`document.getElementById('${modalId}').showModal()`}>
+        View Code
+      </button>
+    </div>
+  </div>
+</div>

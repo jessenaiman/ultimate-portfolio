@@ -1,0 +1,29 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  id: string;
+  title: string;
+  code: string;
+  lang?: string;
+}
+
+const { id, title, code, lang = 'astro' } = Astro.props;
+---
+
+<dialog id={id} class="modal modal-bottom sm:modal-middle">
+  <div class="modal-box max-w-4xl max-h-[80vh]">
+    <h3 class="font-bold text-xl mb-4">{title}</h3>
+    <div class="rounded-box overflow-hidden">
+      <Code code={code} lang={lang} theme="github-dark" />
+    </div>
+    <div class="modal-action mt-4">
+      <form method="dialog">
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>

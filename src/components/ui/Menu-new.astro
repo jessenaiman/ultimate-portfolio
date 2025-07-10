@@ -1,0 +1,156 @@
+---
+import { navigation } from "../../data/navigation";
+import { Icon } from "astro-icon/components";
+
+const currentPath = Astro.url.pathname;
+const isActivePath = (path: string) => {
+  if (path === "#") return false;
+  const normalizedCurrent = currentPath.replace(/\/+$/, "").toLowerCase();
+  const normalizedPath = path.replace(/\/+$/, "").toLowerCase();
+  return normalizedCurrent === normalizedPath || (path === "/" && normalizedCurrent === "");
+};
+
+// Icon mapping for navigation items
+const iconMap = {
+  home: "mdi:home",
+  about: "mdi:account", 
+  resume: "mdi:file-document",
+  portfolio: "mdi:briefcase",
+  stack: "mdi:layers",
+  frameworks: "mdi:code-tags",
+  demos: "mdi:view-dashboard",
+  quality: "mdi:check-decagram",
+  ml: "mdi:brain",
+  blog: "mdi:post",
+  astro: "mdi:rocket",
+  tailwind: "mdi:tailwind",
+  daisyui: "mdi:flower",
+  react: "mdi:react",
+  vue: "mdi:vuejs",
+  svelte: "mdi:svelte",
+  solid: "mdi:solidjs",
+  remix: "mdi:remix",
+  styleguide: "mdi:palette",
+};
+---
+
+<!-- DaisyUI Navbar -->
+<div class="navbar bg-base-100 shadow-sm">
+  <div class="navbar-start">
+    <!-- Mobile hamburger dropdown -->
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+        </svg>
+      </div>
+      <!-- Mobile Menu -->
+      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        {navigation.map((item) => (
+          !item.children ? (
+            <li>
+              <a href={item.path} class:list={[isActivePath(item.path) ? "active" : ""]} data-astro-prefetch>
+                <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                {item.displayName}
+                {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
+                {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+              </a>
+            </li>
+          ) : (
+            <li>
+              <details>
+                <summary>
+                  <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                  {item.displayName}
+                </summary>
+                <ul class="p-2">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
+                        <Icon name={iconMap[child.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                        {child.displayName}
+                        {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
+                        {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          )
+        ))}
+      </ul>
+    </div>
+    
+    <!-- Logo/Brand -->
+    <a href="/" class="btn btn-ghost text-xl font-cal">Jesse Naiman</a>
+  </div>
+  
+  <!-- Desktop Menu -->
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      {navigation.map((item) => (
+        !item.children ? (
+          <li>
+            <a href={item.path} class:list={[isActivePath(item.path) ? "active" : ""]} data-astro-prefetch>
+              <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+              {item.displayName}
+              {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
+              {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+            </a>
+          </li>
+        ) : (
+          <li>
+            <details>
+              <summary>
+                <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                {item.displayName}
+              </summary>
+              <ul class="p-2 bg-base-100 rounded-t-none z-[1] w-52">
+                {item.children.map((child) => (
+                  <li>
+                    <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
+                      <Icon name={iconMap[child.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
+                      {child.displayName}
+                      {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
+                      {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        )
+      ))}
+    </ul>
+  </div>
+  
+  <!-- Theme Controller and Actions -->
+  <div class="navbar-end">
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        Theme
+      </div>
+      <ul tabindex="0" class="dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52">
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Light" value="light" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Dark" value="dark" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Bumblebee" value="bumblebee" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Cupcake" value="cupcake" />
+        </li>
+        <li>
+          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Autumn" value="autumn" />
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

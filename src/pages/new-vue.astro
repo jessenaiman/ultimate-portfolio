@@ -1,0 +1,81 @@
+---
+import VueLayout from '../layouts/VueLayout.astro';
+import CodeModal from '../components/ui/CodeModal.astro';
+import DemoCard from '../components/ui/DemoCard.astro';
+
+// Import Vue components
+import ThemeSwitcherDemo from '../components/Vue/demos/ThemeSwitcherDemo.vue';
+import TypeWriterDemo from '../components/Vue/demos/TypeWriterDemo.vue';
+import CounterDemo from '../components/Vue/demos/CounterDemo.vue';
+
+// Import markdown content
+import { getEntry } from 'astro:content';
+const vueInfo = await getEntry('info', 'vue');
+const { Content: VueContent } = await vueInfo.render();
+
+// Import raw code for display
+import ThemeSwitcherDemoRaw from '../components/Vue/demos/ThemeSwitcherDemo.vue?raw';
+import TypeWriterDemoRaw from '../components/Vue/demos/TypeWriterDemo.vue?raw';
+import CounterDemoRaw from '../components/Vue/demos/CounterDemo.vue?raw';
+
+const title = 'Vue.js Demo';
+const description = 'Modern Vue.js components using DaisyUI and TailwindCSS';
+---
+
+<VueLayout {title} {description}>
+  <main class="container mx-auto px-4 py-8 max-w-6xl">
+    <!-- Hero Section -->
+    <div class="hero min-h-[40vh] bg-base-200 rounded-box mb-16">
+      <div class="hero-content text-center">
+        <div class="max-w-md">
+          <h1 class="text-5xl font-bold">Vue.js + DaisyUI</h1>
+          <p class="py-6">Building beautiful, modern UIs with the progressive framework.</p>
+          <div class="flex justify-center gap-4">
+            <button class="btn btn-primary" onclick="document.getElementById('demos').scrollIntoView({ behavior: 'smooth' })">Get Started</button>
+            <button class="btn btn-ghost" onclick="document.getElementById('vue-info-modal').showModal()">About Vue.js</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vue Info Modal -->
+    <dialog id="vue-info-modal" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box max-w-4xl max-h-[80vh] overflow-y-auto">
+        <div class="prose max-w-none">
+          <h3 class="font-bold text-2xl mb-4">About Vue.js</h3>
+          <VueContent />
+        </div>
+        <div class="modal-action mt-4">
+          <form method="dialog">
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
+
+    <div class="divider my-12" id="demos">Interactive Demos</div>
+
+    <!-- Interactive Demos Section -->
+    <section class="mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <DemoCard title="Theme Switcher" modalId="theme-code-modal">
+          <ThemeSwitcherDemo client:load />
+        </DemoCard>
+        <DemoCard title="TypeWriter Effect" modalId="typewriter-code-modal">
+          <TypeWriterDemo client:load />
+        </DemoCard>
+        <DemoCard title="Counter" modalId="counter-code-modal">
+          <CounterDemo client:load />
+        </DemoCard>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Component Code Modals -->
+  <CodeModal id="theme-code-modal" title="Theme Switcher Component" code={ThemeSwitcherDemoRaw} lang="vue" />
+  <CodeModal id="typewriter-code-modal" title="TypeWriter Component" code={TypeWriterDemoRaw} lang="vue" />
+  <CodeModal id="counter-code-modal" title="Counter Component" code={CounterDemoRaw} lang="vue" />
+</VueLayout>

@@ -1,0 +1,60 @@
+---
+import LayoutHead from '../components/shared/LayoutHead.astro';
+import Menu from '../components/ui/Menu.astro';
+import Footer from '../components/ui/Footer.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  showMenu?: boolean;
+  showFooter?: boolean;
+  primaryBallColor?: string;
+  secondaryBallColor?: string;
+  gridColor?: string;
+  diagonalColor?: string;
+  vignetteColor?: string;
+}
+
+const {
+  title = 'Ultimate Portfolio Template',
+  description = 'A multi-framework portfolio template built with Astro',
+  image = '/social-preview.png',
+  showMenu = true,
+  showFooter = true,
+  primaryBallColor = 'hsl(var(--p) / 0.2)',
+  secondaryBallColor = 'hsl(var(--s) / 0.2)',
+  gridColor = 'hsl(var(--bc) / 0.05)',
+  diagonalColor = 'hsl(var(--bc) / 0.05)',
+  vignetteColor = 'hsl(var(--b3) / 0.4)'
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <LayoutHead title={title} description={description} />
+  </head>
+  <body>
+    <!-- Background using the CSS classes we moved to global.css -->
+    <div class="site-background">
+      <div class="primary-orb" style={`background-color: ${primaryBallColor};`}></div>
+      <div class="secondary-orb" style={`background-color: ${secondaryBallColor};`}></div>
+      <div class="accent-orb"></div>
+      <div class="info-orb"></div>
+      <div class="warning-particle"></div>
+      <div class="success-particle"></div>
+      <div class="grid-pattern" style={`background-image: linear-gradient(${gridColor} 1px, transparent 1px), linear-gradient(to right, ${gridColor} 1px, transparent 1px);`}></div>
+      <div class="vignette" style={`background-image: radial-gradient(transparent, ${vignetteColor});`}></div>
+    </div>
+
+    {showMenu && <Menu />}
+    
+    <div class="mb-32">
+      <slot />
+    </div>
+
+    {showFooter && <Footer />}
+
+  </body>
+</html>
