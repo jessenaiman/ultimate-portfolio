@@ -136,6 +136,47 @@ const navigation: MenuItem[] = [
     ]
   },
   {
+    name: 'ai',
+    displayName: 'AI & Machine Learning',
+    features: 'AI Solutions & Demos',
+    path: '#',
+    icon: 'mdi:robot',
+    children: [
+      { 
+        name: 'ai-overview',
+        displayName: 'AI Overview',
+        features: 'AI Capabilities',
+        path: '/ai/overview',
+        icon: 'mdi:view-dashboard',
+        isNew: true
+      },
+      { 
+        name: 'chat-gpt', 
+        displayName: 'Chat GPT', 
+        features: 'AI Assistant', 
+        path: '/ai/flowise-chat',
+        icon: 'mdi:chat',
+        isNew: true
+      },
+      { 
+        name: 'pollinate-ai', 
+        displayName: 'Pollinate AI', 
+        features: 'AI Generation Tools', 
+        path: '/pollinate-ai',
+        icon: 'mdi:flower-pollen',
+        isNew: true
+      },
+      { 
+        name: 'blockchain-ai', 
+        displayName: 'Blockchain AI', 
+        features: 'Web3 AI Integration', 
+        path: '/blockchain-ai',
+        icon: 'mdi:link-variant',
+        isNew: true
+      }
+    ]
+  },
+  {
     name: 'demos',
     displayName: 'Demos',
     features: 'Interactive Examples',
@@ -148,14 +189,6 @@ const navigation: MenuItem[] = [
         features: 'Content Management', 
         path: '/blog',
         icon: 'mdi:post'
-      },
-      { 
-        name: 'blockchain', 
-        displayName: 'Blockchain Chat', 
-        features: 'Web3 Integration', 
-        path: '/blockchain-chat',
-        icon: 'mdi:bitcoin',
-        isNew: true
       },
       { 
         name: 'color-picker', 
@@ -179,15 +212,6 @@ const navigation: MenuItem[] = [
         icon: 'mdi:code-braces'
       }
     ]
-  },
-  {
-    name: 'quality',
-    displayName: 'Quality Control',
-    features: 'Testing & QA',
-    path: '/test-dashboard',
-    icon: 'mdi:check-decagram',
-    badge: 'NEW',
-    badgeColor: 'success'
   },
   { 
     name: 'ml', 
