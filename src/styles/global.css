@@ -1,4 +1,25 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom override to ensure menu link colors are consistent with daisyUI themes */
+.menu a {
+  color: inherit;
+}
+
+
+
+/* Custom override to ensure menu link colors are consistent with daisyUI themes */
+.menu a {
+  color: inherit;
+}
+
+
+/* Custom override to ensure menu link colors are consistent with daisyUI themes */
+.menu a {
+  color: inherit;
+}
+
 
 @plugin "daisyui" {
   themes: dark --default, light, cupcake, bumblebee, autumn, dracula;

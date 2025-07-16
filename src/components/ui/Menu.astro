@@ -93,7 +93,7 @@ const themes = [
                 <Icon name={item.icon} class="w-5 h-5" />
                 {item.displayName}
               </summary>
-              <ul class="p-2 bg-base-100 rounded-t-none shadow-lg">
+              <ul>
                 {item.children.map((child) => (
                   <li>
                     <a href={child.path} class:list={[isActive(child.path) ? "active" : ""]}>
@@ -117,24 +117,4 @@ const themes = [
   </div>
 </div>
 
-<script>
-  document.addEventListener('astro:page-load', () => {
-    // Close dropdowns and details on link click
-    const menuLinks = document.querySelectorAll('.menu a[href]');
 
-    menuLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        // For daisyUI dropdowns, blurring the active element closes them
-        if (document.activeElement instanceof HTMLElement) {
-          document.activeElement.blur();
-        }
-
-        // For <details> elements, we need to manually remove the 'open' attribute
-        const detailsElement = link.closest('details');
-        if (detailsElement && detailsElement.hasAttribute('open')) {
-          detailsElement.removeAttribute('open');
-        }
-      });
-    });
-  });
-</script>
