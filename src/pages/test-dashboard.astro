@@ -31,6 +31,106 @@ import Layout from '../layouts/Layout.astro';
         <div class="card bg-base-200 shadow-xl mb-6">
           <div class="card-body">
             <h3 class="card-title">
+              Testing Philosophy
+              <div class="tooltip tooltip-secondary" data-tip="Our approach to testing">
+                <Icon name="mdi:information-outline" class="w-5 h-5" />
+              </div>
+            </h3>
+            <div class="divider"></div>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold">Core Principles</h4>
+                <ul class="list-disc ml-5 mt-2 space-y-1 text-sm">
+                  <li><span class="font-medium text-primary">Efficiency:</span> Tests should run quickly and use minimal resources</li>
+                  <li><span class="font-medium text-primary">Reliability:</span> Tests should be deterministic and not flaky</li>
+                  <li><span class="font-medium text-primary">Maintainability:</span> Tests should be easy to understand and maintain</li>
+                  <li><span class="font-medium text-primary">Coverage:</span> Tests should cover critical functionality without redundancy</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card bg-base-200 shadow-xl mb-6">
+          <div class="card-body">
+            <h3 class="card-title">
+              Key Testing Conventions
+              <div class="tooltip tooltip-secondary" data-tip="Follow these patterns for consistent tests">
+                <Icon name="mdi:information-outline" class="w-5 h-5" />
+              </div>
+            </h3>
+            <div class="divider"></div>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold">1. Use CSS Classes & Data Attributes, Not Text</h4>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                  <div>
+                    <div class="badge badge-success mb-1">Good</div>
+                    <pre class="bg-base-300 p-2 rounded-lg text-xs"><code>await expect(page.locator('.navbar')).toBeVisible();</code></pre>
+                  </div>
+                  <div>
+                    <div class="badge badge-error mb-1">Bad</div>
+                    <pre class="bg-base-300 p-2 rounded-lg text-xs"><code>await expect(page.getByText('Welcome')).toBeVisible();</code></pre>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold">2. Use Shared Navigation Data</h4>
+                <div class="bg-base-300 p-2 rounded-lg mt-2 text-xs overflow-x-auto font-mono">
+                  <span class="text-green-500">// Import the navigation data</span><br/>
+                  <span class="text-blue-500">import</span> { <span class="text-amber-500">navigationItems</span> } <span class="text-blue-500">from</span> <span class="text-green-500">'../src/data/navigation'</span>;
+                </div>
+                <p class="mt-1 text-sm">All navigation tests must use the centralized data from <code>src/data/navigation.ts</code>.</p>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold">3. Optimize for Performance</h4>
+                <ul class="list-disc ml-5 mt-2 space-y-1 text-sm">
+                  <li>Test critical paths by default, full paths only when needed</li>
+                  <li>Use reasonable timeouts (navigation: 10s, assertions: 5s)</li>
+                  <li>Limit browser instances with <code>--workers=1</code> on resource-constrained systems</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card bg-base-200 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title">
+              Test Structure
+              <div class="tooltip tooltip-secondary" data-tip="Where to find and add tests">
+                <Icon name="mdi:information-outline" class="w-5 h-5" />
+              </div>
+            </h3>
+            <div class="divider"></div>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold">Primary Test Files</h4>
+                <ul class="list-disc ml-5 mt-2 space-y-1 text-sm">
+                  <li><code>tests/dynamic-navigation.spec.ts</code> - Main navigation tests using shared navigation data</li>
+                  <li><code>tests/setup.ts</code> - Vitest configuration for component testing</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4 class="font-semibold">Adding New Tests</h4>
+                <p class="mt-2 text-sm">When adding new tests:</p>
+                <ol class="list-decimal ml-5 mt-1 space-y-1 text-sm">
+                  <li>Document the purpose at the top of the file</li>
+                  <li>Use the shared navigation data for any navigation tests</li>
+                  <li>Follow the conventions in this document</li>
+                  <li>Avoid redundancy with existing tests</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card bg-base-200 shadow-xl mb-6">
+          <div class="card-body">
+            <h3 class="card-title">
               Running Tests
               <div class="tooltip tooltip-secondary" data-tip="Reliable tests mean confident deployments">
                 <Icon name="mdi:information-outline" class="w-5 h-5" />
@@ -39,27 +139,27 @@ import Layout from '../layouts/Layout.astro';
             <div class="divider"></div>
             <div class="space-y-4">
               <div>
-                <h4 class="font-semibold">E2E Tests with Playwright</h4>
-                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>npm run test:e2e</code></pre>
-                <p class="mt-2 text-sm">Runs all end-to-end tests using Playwright against the production build.</p>
+                <h4 class="font-semibold">Navigation Tests</h4>
+                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>npx playwright test tests/dynamic-navigation.spec.ts</code></pre>
+                <p class="mt-2 text-sm">Runs navigation tests on critical pages (homepage by default).</p>
               </div>
               
               <div>
-                <h4 class="font-semibold">Development Mode Testing</h4>
-                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>npm run test:e2e:dev</code></pre>
-                <p class="mt-2 text-sm">Runs tests against the development server for faster feedback loops.</p>
+                <h4 class="font-semibold">Full Navigation Suite</h4>
+                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>ALL_PATHS=true npx playwright test tests/dynamic-navigation.spec.ts</code></pre>
+                <p class="mt-2 text-sm">Tests all navigation paths defined in <code>src/data/navigation.ts</code>.</p>
               </div>
               
               <div>
                 <h4 class="font-semibold">UI Mode for Debugging</h4>
-                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>npm run test:e2e:ui</code></pre>
+                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>npx playwright test --ui</code></pre>
                 <p class="mt-2 text-sm">Opens the Playwright UI for interactive debugging and test development.</p>
               </div>
               
               <div>
-                <h4 class="font-semibold">Update Visual Snapshots</h4>
-                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>npm run test:e2e:update-snapshots</code></pre>
-                <p class="mt-2 text-sm">Updates the visual snapshots used for regression testing.</p>
+                <h4 class="font-semibold">Low-Resource Mode</h4>
+                <pre class="bg-base-300 p-3 rounded-lg mt-2 overflow-x-auto"><code>npx playwright test --workers=1</code></pre>
+                <p class="mt-2 text-sm">Runs tests sequentially to reduce resource usage on constrained systems.</p>
               </div>
             </div>
           </div>

@@ -1,9 +1,9 @@
 ---
-import Analytics from "@vercel/analytics/astro";
 import Background from "../components/ui/Background.astro";
 import Footer from "../components/ui/Footer.astro";
 import Menu from "../components/ui/Menu.astro";
 import LayoutHead from "../components/shared/LayoutHead.astro";
+import BaseLayout from "../components/shared/BaseLayout.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -30,23 +30,16 @@ const {
   showFooter = true,
 } = Astro.props;
 ---
-<!doctype html>
-<html lang="en">
-  <LayoutHead title={title} description={description}>
-    <slot name="head" />
-  </LayoutHead>
-  <body class="bg-base-100 text-base-content m-0 min-h-screen relative font-sans">
-    <Background
-      primaryBallColor={primaryBallColor}
-      secondaryBallColor={secondaryBallColor}
-      gridColor={gridColor}
-      diagonalColor={diagonalColor}
-      vignetteColor={vignetteColor}
-    />
-    <div class="mb-32">
-      {showMenu && <Menu />}
-      <slot />
-      {showFooter && <Footer />}
-    </div>
-  </body>
-</html>
+<BaseLayout
+  title={title}
+  description={description}
+  primaryBallColor={primaryBallColor}
+  secondaryBallColor={secondaryBallColor}
+  gridColor={gridColor}
+  diagonalColor={diagonalColor}
+  vignetteColor={vignetteColor}
+  showMenu={showMenu}
+  showFooter={showFooter}
+>
+  <slot />
+</BaseLayout>

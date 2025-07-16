@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ColorPickerHero from "../components/React/ColorPickerHero";
+---
+
+<Layout title="Color Picker | Ultimate Portfolio">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-6 text-center">Interactive Color Picker</h1>
+    <p class="text-lg mb-8 text-center max-w-3xl mx-auto">
+      This interactive color picker demonstrates React integration with Astro. 
+      Adjust the sliders to create your perfect color palette and see the changes in real-time.
+    </p>
+    
+    <div class="card bg-base-200 shadow-xl max-w-4xl mx-auto">
+      <div class="card-body">
+        <ColorPickerHero client:load />
+      </div>
+    </div>
+    
+    <div class="mt-12 prose max-w-3xl mx-auto">
+      <h2>About This Component</h2>
+      <p>
+        The color picker is built using React and integrated into Astro using the <code>client:load</code> directive.
+        This ensures that the component is fully interactive as soon as the page loads.
+      </p>
+      <p>
+        Key features:
+      </p>
+      <ul>
+        <li>Real-time color updates</li>
+        <li>RGB and HSL sliders</li>
+        <li>Color code display</li>
+        <li>Responsive design using daisyUI components</li>
+      </ul>
+    </div>
+  </main>
+</Layout>

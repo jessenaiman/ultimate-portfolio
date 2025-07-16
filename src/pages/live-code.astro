@@ -1,0 +1,51 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CodeEditor from "../components/Solid/CodeEditor";
+---
+
+<Layout title="Live Code Editor | Ultimate Portfolio">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-6 text-center">Live Code Editor</h1>
+    <p class="text-lg mb-8 text-center max-w-3xl mx-auto">
+      Experience real-time code editing with syntax highlighting and preview capabilities.
+      This demonstration showcases SolidJS integration with Astro.
+    </p>
+    
+    <div class="card bg-base-200 shadow-xl max-w-5xl mx-auto">
+      <div class="card-body p-2 sm:p-6">
+        <CodeEditor client:load />
+      </div>
+    </div>
+    
+    <div class="mt-12 prose max-w-3xl mx-auto">
+      <h2>About This Component</h2>
+      <p>
+        The Live Code Editor is built using SolidJS and integrated into Astro using the <code>client:load</code> directive.
+        This ensures that the component is fully interactive as soon as the page loads.
+      </p>
+      <p>
+        Key features:
+      </p>
+      <ul>
+        <li>Syntax highlighting for multiple languages</li>
+        <li>Real-time preview for HTML, CSS, and JavaScript</li>
+        <li>Responsive design with adjustable panels</li>
+        <li>Built with SolidJS for optimal performance</li>
+      </ul>
+      
+      <h2>How It Works</h2>
+      <p>
+        The editor uses SolidJS's reactive primitives to maintain state and update the preview in real-time.
+        When you type in the editor, the changes are immediately reflected in the preview panel without requiring
+        a full page reload or explicit save action.
+      </p>
+      
+      <h2>Technical Implementation</h2>
+      <p>
+        The component leverages Monaco Editor for the code editing experience and uses a sandboxed iframe
+        for the preview to ensure security. The integration with Astro demonstrates how SolidJS components
+        can be seamlessly incorporated into an Astro project.
+      </p>
+    </div>
+  </main>
+</Layout>

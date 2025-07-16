@@ -13,13 +13,13 @@ export default function PollinationsDemo() {
   const [activeTab, setActiveTab] = useState<'text' | 'image' | 'chat'>('text');
 
   return (
-    <div className="container mx-auto p-4 bg-slate-900 text-slate-100 max-w-4xl">
+    <div className="container mx-auto p-4 bg-base-200 text-base-content max-w-4xl rounded-lg shadow-lg">
       <h1 className="text-4xl font-bold mb-2 text-center">
-        <a href="https://github.com/pollinations/pollinations" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
+        <a href="https://github.com/pollinations/pollinations" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
           🌸 Pollinations Generative React Hooks 2.0.1 🌸
         </a>
       </h1>
-      <h2 className="text-xl mb-8 text-center text-slate-300">This playground is designed to showcase the versatility and hackability of the Pollinations API</h2>
+      <h2 className="text-xl mb-8 text-center opacity-80">This playground is designed to showcase the versatility and hackability of the Pollinations API</h2>
 
       <div className="w-full">
         <div role="tablist" className="tabs tabs-lifted w-full grid grid-cols-3">
@@ -40,8 +40,8 @@ export default function PollinationsDemo() {
         </div>
       </div>
 
-      <footer className="mt-8 text-center text-slate-300">
-        <p>Made with ❤️ by <a className='hover:underline' href="https://pollinations.ai">Pollinations.ai</a>
+      <footer className="mt-8 text-center opacity-80">
+        <p>Made with ❤️ by <a className='hover:underline text-primary' href="https://pollinations.ai">Pollinations.ai</a>
          &nbsp;and&nbsp;
           <a className='hover:underline' href="https://karma.yt" title='Karma.yt'>Karma.yt</a></p>
         <div className="mt-2 flex justify-center space-x-4">

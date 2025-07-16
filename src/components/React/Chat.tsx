@@ -112,10 +112,10 @@ const InteractiveShowcase: React.FC = () => {
   };
 
   return (
-    <div id="chat-section" className="w-full bg-gradient-to-br p-4 md:p-8">
-      <div className="w-full max-w-2xl mx-auto backdrop-blur-xl bg-gray-900/70 rounded-2xl shadow-xl border border-white/10">
+    <div id="chat-section" className="w-full p-4 md:p-8">
+      <div className="w-full max-w-2xl mx-auto card bg-base-200 shadow-xl">
         {/* Header */}
-        <div className="flex items-center p-4 border-b border-gray-700/30 bg-gray-800/40 rounded-t-2xl backdrop-blur-lg">
+        <div className="flex items-center p-4 border-b border-base-300 rounded-t-2xl">
           <div className="flex items-center gap-3">
             <div className="relative h-10 w-10">
               <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
@@ -127,14 +127,14 @@ const InteractiveShowcase: React.FC = () => {
               </span>
             </div>
             <div className="flex flex-col gap-0.5">
-              <h3 className="font-semibold text-gray-100">Jesse Naiman</h3>
-              <p className="text-xs text-gray-400">@astroisthebest</p>
+              <h3 className="font-semibold">Jesse Naiman</h3>
+              <p className="text-xs opacity-70">@astroisthebest</p>
             </div>
           </div>
         </div>
         
         {/* Messages */}
-        <div ref={chatContainerRef} className="p-4 h-[400px] overflow-auto bg-gradient-to-b from-transparent to-black/5 scroll-smooth">
+        <div ref={chatContainerRef} className="p-4 h-[400px] overflow-auto scroll-smooth">
           <div className="space-y-4">
             <AnimatePresence>
               {messages.map((message) => (
@@ -149,8 +149,8 @@ const InteractiveShowcase: React.FC = () => {
                   <div
                     className={`rounded-2xl px-4 py-2 max-w-[80%] shadow-sm ${
                       message.sender === 'user'
-                        ? 'bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-800 text-white'
-                        : 'bg-gradient-to-r from-gray-800/80 via-gray-800/80 to-gray-800/80 backdrop-blur-sm border border-white/10'
+                        ? 'bg-primary text-primary-content'
+                        : 'bg-base-300 text-base-content'
                     }`}
                   >
                     {message.content}
@@ -163,16 +163,16 @@ const InteractiveShowcase: React.FC = () => {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-gray-700/30 bg-gray-800/40 rounded-b-2xl backdrop-blur-lg">
+        <div className="p-4 border-t border-base-300 rounded-b-2xl">
           <form onSubmit={handleSubmit} className="flex items-center gap-2">
             <input
-              className="flex h-10 w-full rounded-xl border border-gray-700/50 bg-gray-900/50 backdrop-blur-sm px-3 py-2 text-sm text-gray-100 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40 disabled:cursor-not-allowed disabled:opacity-50 flex-1"
+              className="input input-bordered flex-1"
               placeholder="Type your message..."
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />
             <button
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium h-10 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-700 hover:to-indigo-800 text-white shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+              className="btn btn-primary"
               type="submit"
             >
               <svg

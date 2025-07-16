@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
+import { Code } from 'astro-expressive-code/components';
 
 // Define types for our components
 interface ComponentExamples {
@@ -144,9 +145,7 @@ const themes: ThemeName[] = [
         <button class="btn btn-ghost">Ghost</button>
         <button class="btn btn-link">Link</button>
       </div>
-      <div class="mockup-code">
-        <pre><code>{components.button}</code></pre>
-      </div>
+      <Code language="html">{components.button}</Code>
     </section>
 
     <!-- Card -->
@@ -171,9 +170,7 @@ const themes: ThemeName[] = [
           </div>
         </div>
       </div>
-      <div class="mockup-code">
-        <pre><code>{components.card}</code></pre>
-      </div>
+      <Code language="html">{components.card}</Code>
     </section>
 
     <!-- Alert -->
@@ -193,9 +190,7 @@ const themes: ThemeName[] = [
           <span>Your purchase has been confirmed!</span>
         </div>
       </div>
-      <div class="mockup-code">
-        <pre><code>{components.alert}</code></pre>
-      </div>
+      <Code language="html">{components.alert}</Code>
     </section>
 
     <!-- Theme Selector -->
@@ -213,9 +208,7 @@ const themes: ThemeName[] = [
           </select>
         </div>
       </div>
-      <div class="mockup-code">
-        <pre><code>{components.theme}</code></pre>
-      </div>
+      <Code language="html">{components.theme}</Code>
     </section>
 
     <!-- Additional Components Example -->

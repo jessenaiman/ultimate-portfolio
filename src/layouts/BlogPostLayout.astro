@@ -1,0 +1,147 @@
+---
+import BaseLayout from "../components/shared/BaseLayout.astro";
+import PageHeader from "../components/shared/PageHeader.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  author?: string;
+  publishDate?: string | Date;
+  pubDate?: string | Date; // Support for both naming conventions
+  image?: {
+    url: string;
+    alt?: string;
+    caption?: string;
+  };
+  primaryBallColor?: string;
+  secondaryBallColor?: string;
+  gridColor?: string;
+  diagonalColor?: string;
+  vignetteColor?: string;
+  frontmatter?: Record<string, any>; // Support for markdown frontmatter
+}
+
+// Handle both direct props and frontmatter
+let {
+  title,
+  description,
+  author = "Jesse Naiman",
+  publishDate,
+  pubDate,
+  image,
+  primaryBallColor = "#4F46E5",
+  secondaryBallColor = "#1E1B4B",
+  gridColor,
+  diagonalColor,
+  vignetteColor,
+  frontmatter,
+} = Astro.props;
+
+// If frontmatter is provided, extract properties from it
+if (frontmatter) {
+  title = frontmatter.title || title || "Untitled Post";
+  description = frontmatter.description || description || "";
+  author = frontmatter.author || author;
+  pubDate = frontmatter.pubDate || pubDate;
+  image = frontmatter.image || image;
+  primaryBallColor = frontmatter.primaryBallColor || primaryBallColor;
+  secondaryBallColor = frontmatter.secondaryBallColor || secondaryBallColor;
+  gridColor = frontmatter.gridColor || gridColor;
+  diagonalColor = frontmatter.diagonalColor || diagonalColor;
+  vignetteColor = frontmatter.vignetteColor || vignetteColor;
+}
+
+// Use either publishDate or pubDate, with publishDate taking precedence
+const dateValue = publishDate || pubDate;
+
+// Format the publication date if provided
+const formattedDate = dateValue 
+  ? (dateValue instanceof Date 
+      ? dateValue.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      : new Date(dateValue).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+    )
+  : null;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  primaryBallColor={primaryBallColor}
+  secondaryBallColor={secondaryBallColor}
+  gridColor={gridColor}
+  diagonalColor={diagonalColor}
+  vignetteColor={vignetteColor}
+>
+  <article class="blog-content">
+    <PageHeader title={title} subtitle={description} />
+    
+    <div class="article-meta">
+      {author && <div class="badge badge-outline badge-lg">{author}</div>}
+      {formattedDate && <div class="badge badge-primary badge-lg">{formattedDate}</div>}
+    </div>
+    
+    {image && (
+      <figure class="mb-8">
+        <img 
+          src={image.url} 
+          alt={image.alt || title}
+          class="w-full max-w-lg mx-auto rounded-lg shadow-lg"
+          width="500"
+          height="300"
+        />
+        {image.caption && (
+          <figcaption class="text-center text-sm text-base-content/60 mt-3">
+            {image.caption}
+          </figcaption>
+        )}
+      </figure>
+    )}
+    
+    <div class="markdown-content prose dark:prose-invert max-w-none">
+      <slot />
+    </div>
+    
+    <footer class="article-footer">
+      <div class="divider"></div>
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-base-content/70">
+          {new Date().getFullYear()} {author}. All rights reserved.
+        </p>
+        <div class="flex gap-2">
+          <button class="btn btn-sm btn-outline" onclick="window.history.back()">
+            ← Back
+          </button>
+          <button class="btn btn-sm btn-primary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            ↑ Top
+          </button>
+        </div>
+      </div>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-content {
+    @apply bg-base-100 p-6 rounded-lg shadow-lg;
+  }
+  
+  .article-meta {
+    @apply flex flex-wrap gap-2 mb-6;
+  }
+  
+  .markdown-content {
+    @apply mb-8;
+  }
+  
+  .article-footer {
+    @apply mt-12 pt-4;
+  }
+</style>

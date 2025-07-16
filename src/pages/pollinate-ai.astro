@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Page from "../components/React/Page";
+---
+
+<Layout title="Pollinate AI | Ultimate Portfolio">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-6 text-center">Pollinate AI</h1>
+    <p class="text-lg mb-8 text-center max-w-3xl mx-auto">
+      Explore the capabilities of Pollinations Generative React Hooks for text, image, and chat generation.
+    </p>
+    
+    <div class="max-w-4xl mx-auto">
+      <Page client:load />
+    </div>
+    
+    <div class="mt-12 prose max-w-3xl mx-auto">
+      <h2>About Pollinate AI</h2>
+      <p>
+        Pollinate AI provides a set of React hooks that make it easy to integrate generative AI capabilities into your applications.
+        This demo showcases three main functionalities:
+      </p>
+      <ul>
+        <li><strong>Text Generation</strong>: Create poems, stories, code, and more with various language models</li>
+        <li><strong>Image Generation</strong>: Generate images from text prompts using different models</li>
+        <li><strong>Chat Interaction</strong>: Have conversations with AI assistants</li>
+      </ul>
+      
+      <h2>Getting Started</h2>
+      <p>
+        To use Pollinate AI in your own projects:
+      </p>
+      <ol>
+        <li>Install the package: <code>npm install @pollinations/react</code></li>
+        <li>Import the hooks you need: <code>import { usePollinationsText, usePollinationsImage } from '@pollinations/react'</code></li>
+        <li>Use the hooks in your components as demonstrated in the examples above</li>
+      </ol>
+      
+      <h2>Learn More</h2>
+      <p>
+        Visit the <a href="https://github.com/pollinations/pollinations" target="_blank" rel="noopener noreferrer">Pollinations GitHub repository</a> for more information, documentation, and examples.
+      </p>
+    </div>
+  </main>
+</Layout>

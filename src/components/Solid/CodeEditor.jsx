@@ -17,33 +17,33 @@ const Features = () => {
   // Default template
   const defaultTemplate = `<div class="max-w-md mx-auto p-4">
   <header class="text-center mb-4">
-    <h1 class="text-2xl font-bold text-gradient">Welcome to Coding!</h1>
-    <p class="text-gray-400 text-sm">Edit this code to see live changes</p>
+    <h1 class="text-2xl font-bold">Welcome to Coding!</h1>
+    <p class="opacity-70 text-sm">Edit this code to see live changes</p>
   </header>
 
-  <div class="bg-gray-800 rounded-lg p-4 mb-4">
+  <div class="card bg-base-200 p-4 mb-4">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] rounded-full flex items-center justify-center">
-        <span class="text-white text-lg">🚀</span>
+      <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+        <span class="text-primary-content text-lg">🚀</span>
       </div>
       <div>
-        <h2 class="text-lg font-semibold text-white">Interactive Demo</h2>
-        <p class="text-gray-400 text-sm">Try editing this code!</p>
+        <h2 class="text-lg font-semibold">Interactive Demo</h2>
+        <p class="opacity-70 text-sm">Try editing this code!</p>
       </div>
     </div>
   </div>
 
   <div class="grid grid-cols-2 gap-2 mb-4">
-    <div class="flex items-center text-green-400 text-sm">
+    <div class="flex items-center text-success text-sm">
       <span class="mr-1">✓</span> Responsive
     </div>
-    <div class="flex items-center text-green-400 text-sm">
+    <div class="flex items-center text-success text-sm">
       <span class="mr-1">✓</span> Modern UI
     </div>
-    <div class="flex items-center text-green-400 text-sm">
+    <div class="flex items-center text-success text-sm">
       <span class="mr-1">✓</span> Live Preview
     </div>
-    <div class="flex items-center text-green-400 text-sm">
+    <div class="flex items-center text-success text-sm">
       <span class="mr-1">✓</span> Easy to Edit
     </div>
   </div>

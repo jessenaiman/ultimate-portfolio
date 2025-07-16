@@ -1,3 +1,12 @@
+<!--
+  DEVELOPER NOTE: 
+  This component is temporarily disabled as part of the site refactoring.
+  DO NOT DELETE this component as it will be reworked in a future update.
+  The Math page is meant to demonstrate Svelte integration with Astro,
+  but this specific component needs additional work to properly integrate
+  with the site's daisyUI theming system.
+-->
+
 <script>
   import { onMount } from 'svelte';
   import { create, all } from 'mathjs';

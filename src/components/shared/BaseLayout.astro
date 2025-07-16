@@ -1,11 +1,59 @@
 ---
+import Background from "../../components/ui/Background.astro";
+import Footer from "../../components/ui/Footer.astro";
+import Menu from "../../components/ui/Menu.astro";
+import LayoutHead from "../../components/shared/LayoutHead.astro";
+import "../../styles/global.css";
 
+interface Props {
+  title: string;
+  description?: string;
+  primaryBallColor?: string;
+  secondaryBallColor?: string;
+  gridColor?: string;
+  diagonalColor?: string;
+  vignetteColor?: string;
+  showMenu?: boolean;
+  showFooter?: boolean;
+}
+
+const {
+  title,
+  description,
+  primaryBallColor,
+  secondaryBallColor,
+  gridColor,
+  diagonalColor,
+  vignetteColor,
+  showMenu = true,
+  showFooter = true,
+} = Astro.props;
 ---
-
-
+<!doctype html>
+<html lang="en">
+  <LayoutHead title={title} description={description}>
+    <slot name="head" />
+  </LayoutHead>
+  <body class="bg-base-100 text-base-content m-0 min-h-screen relative font-sans">
+    <Background
+      primaryBallColor={primaryBallColor}
+      secondaryBallColor={secondaryBallColor}
+      gridColor={gridColor}
+      diagonalColor={diagonalColor}
+      vignetteColor={vignetteColor}
+    />
+    <div class="flex flex-col min-h-screen">
+      {showMenu && <Menu />}
+      <main class="flex-grow container mx-auto px-4 py-12 max-w-7xl">
+        <slot />
+      </main>
+      {showFooter && <Footer />}
+    </div>
+  </body>
+</html>
 
 <style is:global>
   :root {
-    color-scheme: dark;
+    color-scheme: light dark;
   }
 </style>

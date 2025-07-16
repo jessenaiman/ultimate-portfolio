@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import react from "@astrojs/react";
 import svelte from "@astrojs/svelte";
@@ -8,42 +7,34 @@ import vue from "@astrojs/vue";
 import solidJs from "@astrojs/solid-js";
 import sitemap from "@astrojs/sitemap";
 
+import expressiveCode from 'astro-expressive-code';
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://portfolio.omega-spiral.com/",
   output: "static",
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    icon({
-      include: {
-        mdi: ['*']
-      }
-    }),
-    react({
-      include: ["**/React|Remix/**/*.{jsx,tsx}"],
-    }),
-    svelte({
-      // Explicitly set the compiler options for Svelte 4
+  integrations: [icon({
+    include: {
+      mdi: ['*']
+    }
+  }), react({
+    include: ["**/React|Remix/**/*.{jsx,tsx}"],
+  }), svelte({
+    // Explicitly set the compiler options for Svelte 4
+    compilerOptions: {
+      hydratable: true,
+    },
+  }), vue({
+    // Vue 3 specific options
+    template: {
       compilerOptions: {
-        hydratable: true,
+        // Enable reactivity transform
+        reactivityTransform: true,
       },
-    }),
-    vue({
-      // Vue 3 specific options
-      template: {
-        compilerOptions: {
-          // Enable reactivity transform
-          reactivityTransform: true,
-        },
-      },
-    }),
-    solidJs({
-      include: ["**/Solid/**/*.{jsx,tsx}"],
-    }),
-    sitemap(),
-  ],
+    },
+  }), solidJs({
+    include: ["**/Solid/**/*.{jsx,tsx}"],
+  }), sitemap(), expressiveCode()],
 
   build: {
     // Enable modern browser builds for better performance
