@@ -2,31 +2,68 @@
 import Layout from "../layouts/Layout.astro";
 import { getEntry } from "astro:content";
 
-// Get the styleguide content from markdown file
+// Get content for all framework pages
 const styleguide = await getEntry("docs", "styleguide");
-const { Content } = await styleguide.render();
+const astroContent = await getEntry("info", "astrojs");
+const tailwindContent = await getEntry("info", "tailwindcss");
+const daisyuiContent = await getEntry("info", "daisyui");
+
+// Render content
+const { Content: StyleguideContent } = await styleguide.render();
+const { Content: AstroContent } = await astroContent.render();
+const { Content: TailwindContent } = await tailwindContent.render();
+const { Content: DaisyUIContent } = await daisyuiContent.render();
 ---
 
 <Layout 
-  title="UltimateAstroTemplate Styleguide" 
-  description="Comprehensive guide for styling, layout, and typography in the UltimateAstroTemplate project"
+  title="UltimateAstroTemplate Framework Guide" 
+  description="Comprehensive guide for Astro 5+, TailwindCSS 4+, DaisyUI 5+, and styling in the UltimateAstroTemplate project"
 >
   <div class="container-responsive py-8">
     <div class="page-header">
-      <h1 class="page-title size-lg">{styleguide.data.title}</h1>
-      <p class="page-subtitle">{styleguide.data.description}</p>
-      <div class="article-meta">
-        <span class="badge badge-outline">Last Updated: {new Date(styleguide.data.date).toLocaleDateString()}</span>
-        <span class="badge badge-outline">Author: {styleguide.data.author}</span>
-      </div>
+      <h1 class="page-title size-lg">Framework & Styling Guide</h1>
+      <p class="page-subtitle">Complete documentation for Astro 5+, TailwindCSS 4+, DaisyUI 5+, and styling guidelines</p>
     </div>
 
     <div class="divider"></div>
     
-    <div class="blog-content">
-      <article class="markdown-content">
-        <Content />
-      </article>
+    <!-- Framework Tabs -->
+    <div role="tablist" class="tabs tabs-lifted mb-8">
+      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="Styleguide" checked />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="blog-content">
+          <article class="markdown-content">
+            <StyleguideContent />
+          </article>
+        </div>
+      </div>
+
+      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="Astro 5+" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="blog-content">
+          <article class="markdown-content">
+            <AstroContent />
+          </article>
+        </div>
+      </div>
+
+      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="TailwindCSS 4+" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="blog-content">
+          <article class="markdown-content">
+            <TailwindContent />
+          </article>
+        </div>
+      </div>
+
+      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="DaisyUI 5+" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        <div class="blog-content">
+          <article class="markdown-content">
+            <DaisyUIContent />
+          </article>
+        </div>
+      </div>
     </div>
   </div>
 </Layout>

@@ -1,66 +1,43 @@
---- 
-// @ts-ignore – Astro component
+---
+// Follows daisyUI navbar docs: https://daisyui.com/components/navbar/
+// Follows Astro styling docs: https://docs.astro.build/en/guides/styling/
 import { Icon } from "astro-icon/components";
 import { navigationItems } from "../../data/navigation";
 import ThemeController from "./ThemeController.astro";
-import type { NavigationItem } from "../../data/navigation";
-
-/*
-  ===== DaisyUI navbar & theme-controller =====
-  – All layout/spacing handled by daisyUI + Tailwind utilities.
-  – No bespoke CSS so we always stay visually consistent with the framework.
-*/
-
-// Detect active route
-const currentPath = Astro.url.pathname;
-const isActive = (path: string): boolean => {
-  if (!path || path === "#") return false;
-  const cleanCurrent = currentPath.replace(/\/+$/, "").toLowerCase();
-  const cleanTarget = path.replace(/\/+$/, "").toLowerCase();
-  return path === "/"
-    ? cleanCurrent === "" || cleanCurrent === "/"
-    : cleanCurrent.endsWith(cleanTarget);
-};
-
-// Navigation data
-const nav: NavigationItem[] = navigationItems;
-
-// List of themes for the ThemeController
-const themes = [
-  "light",
-  "dark",
-  "cupcake",
-  "bumblebee",
-  "autumn",
-  "modern-light",
-];
 ---
 
-<div class="navbar bg-base-100 sticky top-0 z-50 shadow-sm">
+<!-- daisyUI navbar: https://daisyui.com/components/navbar/ -->
+<!-- Astro styling: https://docs.astro.build/en/guides/styling/ -->
+<nav class="navbar bg-base-100 sticky top-0 z-50 shadow-sm">
   <div class="navbar-start">
+    <!-- Mobile menu -->
     <div class="dropdown">
       <label tabindex="0" class="btn btn-ghost lg:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
       </label>
-      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        {nav.map((item) => (
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-56">
+        {navigationItems.map((item) => (
           !item.children ? (
             <li>
-              <a href={item.path} class:list={[isActive(item.path) ? "active" : ""]}>
+              <a href={item.path} class="flex items-center">
                 <Icon name={item.icon} class="w-5 h-5" /> {item.displayName}
+                {item.badge && <span class={`badge ${item.badgeColor || 'badge-ghost'} ml-2`}>{item.badge}</span>}
+                {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
               </a>
             </li>
           ) : (
             <li>
               <details>
-                <summary>
+                <summary class="flex items-center">
                   <Icon name={item.icon} class="w-5 h-5" /> {item.displayName}
                 </summary>
-                <ul class="p-2">
+                <ul>
                   {item.children.map((child) => (
                     <li>
-                      <a href={child.path} class:list={[isActive(child.path) ? "active" : ""]}>
+                      <a href={child.path} class="flex items-center">
                         <Icon name={child.icon} class="w-5 h-5" /> {child.displayName}
+                        {child.badge && <span class={`badge ${child.badgeColor || 'badge-ghost'} ml-2`}>{child.badge}</span>}
+                        {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
                       </a>
                     </li>
                   ))}
@@ -75,11 +52,12 @@ const themes = [
   </div>
 
   <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1">
-      {nav.map((item) => (
+    <!-- Desktop menu -->
+    <ul class="menu lg:menu-horizontal bg-base-200 rounded-box">
+      {navigationItems.map((item) => (
         !item.children ? (
           <li>
-            <a href={item.path} class:list={[isActive(item.path) ? "active" : ""]}>
+            <a href={item.path} class="flex items-center">
               <Icon name={item.icon} class="w-5 h-5" />
               {item.displayName}
               {item.badge && <span class={`badge ${item.badgeColor || 'badge-ghost'} ml-2`}>{item.badge}</span>}
@@ -89,14 +67,14 @@ const themes = [
         ) : (
           <li>
             <details>
-              <summary>
+              <summary class="flex items-center">
                 <Icon name={item.icon} class="w-5 h-5" />
                 {item.displayName}
               </summary>
               <ul>
                 {item.children.map((child) => (
                   <li>
-                    <a href={child.path} class:list={[isActive(child.path) ? "active" : ""]}>
+                    <a href={child.path} class="flex items-center">
                       <Icon name={child.icon} class="w-5 h-5" />
                       {child.displayName}
                       {child.badge && <span class={`badge ${child.badgeColor || 'badge-ghost'} ml-2`}>{child.badge}</span>}
@@ -113,8 +91,8 @@ const themes = [
   </div>
 
   <div class="navbar-end">
-    <ThemeController {themes} />
+    <ThemeController />
   </div>
-</div>
+</nav>
 
 

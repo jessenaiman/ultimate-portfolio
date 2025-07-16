@@ -5,14 +5,15 @@ export default getViteConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: './src/test/setup.ts',
-    include: ['src/test/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    setupFiles: './tests/setup.ts',
+    include: ['tests/**/*.test.{js,ts,jsx,tsx}'],
+    exclude: ['tests/**/*.spec.ts'],
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: [
         'node_modules/',
-        'src/test/setup.ts',
-        'src/test/fixtures/',
+        'tests/setup.ts',
+        'tests/fixtures/',
         '**/*.d.ts',
       ],
     },

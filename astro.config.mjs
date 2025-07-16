@@ -6,6 +6,7 @@ import svelte from "@astrojs/svelte";
 import vue from "@astrojs/vue";
 import solidJs from "@astrojs/solid-js";
 import sitemap from "@astrojs/sitemap";
+import tailwindPlugin from "@tailwindcss/vite";
 
 import expressiveCode from 'astro-expressive-code';
 
@@ -13,28 +14,34 @@ import expressiveCode from 'astro-expressive-code';
 export default defineConfig({
   site: "https://portfolio.omega-spiral.com/",
   output: "static",
-  integrations: [icon({
+  integrations: [ 
+    icon({
     include: {
       mdi: ['*']
-    }
-  }), react({
-    include: ["**/React|Remix/**/*.{jsx,tsx}"],
-  }), svelte({
-    // Explicitly set the compiler options for Svelte 4
-    compilerOptions: {
-      hydratable: true,
-    },
-  }), vue({
-    // Vue 3 specific options
-    template: {
-      compilerOptions: {
-        // Enable reactivity transform
-        reactivityTransform: true,
-      },
-    },
-  }), solidJs({
-    include: ["**/Solid/**/*.{jsx,tsx}"],
-  }), sitemap(), expressiveCode()],
+        }
+      }), 
+      react({
+        include: ["**/React|Remix/**/*.{jsx,tsx}"],
+      }), 
+      svelte({
+        // Explicitly set the compiler options for Svelte 4
+        compilerOptions: {
+          hydratable: true,
+        },
+      }), 
+      vue({
+        // Vue 3 specific options
+        template: {
+          compilerOptions: {
+            // Enable reactivity transform
+            reactivityTransform: true,
+          },
+        },
+      }), 
+      solidJs({
+        include: ["**/Solid/**/*.{jsx,tsx}"],
+      }), 
+      sitemap(), expressiveCode()],
 
   build: {
     // Enable modern browser builds for better performance
@@ -44,6 +51,7 @@ export default defineConfig({
 
   // Improved Vite configuration
   vite: {
+    plugins: [tailwindPlugin()],
     optimizeDeps: {
       include: [
         'react',
@@ -62,13 +70,6 @@ export default defineConfig({
         '@astrojs/*',
         'daisyui',
       ],
-    },
-    // Add build optimizations
-    build: {
-      target: 'esnext',
-      minify: 'esbuild',
-      cssMinify: true,
-      sourcemap: true,
     },
   },
 });

@@ -1,25 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom override to ensure menu link colors are consistent with daisyUI themes */
-.menu a {
-  color: inherit;
-}
-
-
-
-/* Custom override to ensure menu link colors are consistent with daisyUI themes */
-.menu a {
-  color: inherit;
-}
-
-
-/* Custom override to ensure menu link colors are consistent with daisyUI themes */
-.menu a {
-  color: inherit;
-}
-
+@import "tailwindcss";
+@import "@tailwindcss/typography";
 
 @plugin "daisyui" {
   themes: dark --default, light, cupcake, bumblebee, autumn, dracula;
@@ -62,15 +42,6 @@
   --radius-box: 1rem;     /* For cards, modals, etc. */
   --radius-btn: 0.5rem;   /* For buttons */
   --radius-badge: 1.9rem; /* For badges */
-
-  /* --- Shadows for Depth & Separation --- */
-  /* Here we add a set of modern, soft box-shadows. These are inspired by Tailwind CSS. */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 
   /* --- Animation & Other Details --- */
   --animation-btn: 0.25s;      /* A slightly slower animation for a smoother feel on click */
@@ -282,19 +253,24 @@
 @layer components {
   /* Enhanced content container with better borders and depth */
   .content-container {
-    @apply bg-base-100 rounded-lg border-2 border-base-300 shadow-lg p-6 my-6;
+    /* Removed @apply rounded-lg due to Tailwind v4/daisyUI v5 utility class availability issues. Use daisyUI theme radius token instead. Ref: https://daisyui.com/docs/utilities/ */
+    @apply bg-base-100 border-2 border-base-300 p-6 my-6;
+    border-radius: var(--radius-box);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     transition: all 0.2s ease-in-out;
   }
 
   .content-container:hover {
-    @apply shadow-xl border-primary border-opacity-20;
+    @apply border-primary border-opacity-20;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     transform: translateY(-1px);
   }
 
   /* Blog post specific content styling with enhanced depth */
   .blog-content {
     @apply content-container max-w-4xl mx-auto;
-    @apply border-2 border-base-300 shadow-xl;
+    @apply border-2 border-base-300;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   /* Badge meta styling */

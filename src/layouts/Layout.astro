@@ -1,45 +1,39 @@
 ---
-import Background from "../components/ui/Background.astro";
-import Footer from "../components/ui/Footer.astro";
-import Menu from "../components/ui/Menu.astro";
-import LayoutHead from "../components/shared/LayoutHead.astro";
 import BaseLayout from "../components/shared/BaseLayout.astro";
-import "../styles/global.css";
 
 interface Props {
   title: string;
   description?: string;
-  primaryBallColor?: string;
-  secondaryBallColor?: string;
-  gridColor?: string;
-  diagonalColor?: string;
-  vignetteColor?: string;
   showMenu?: boolean;
   showFooter?: boolean;
 }
 
-const {
-  title,
-  description,
-  primaryBallColor,
-  secondaryBallColor,
-  gridColor,
-  diagonalColor,
-  vignetteColor,
-  showMenu = true,
-  showFooter = true,
-} = Astro.props;
+const { title, description = "Portfolio site", showMenu = true, showFooter = true } = Astro.props;
 ---
-<BaseLayout
-  title={title}
-  description={description}
-  primaryBallColor={primaryBallColor}
-  secondaryBallColor={secondaryBallColor}
-  gridColor={gridColor}
-  diagonalColor={diagonalColor}
-  vignetteColor={vignetteColor}
-  showMenu={showMenu}
-  showFooter={showFooter}
->
-  <slot />
+<BaseLayout {title} {description}>
+  {showMenu && (
+    <header class="navbar bg-base-200 shadow-md sticky top-0 z-50">
+      <div class="container mx-auto px-4">
+        <div class="flex-1">
+          <a href="/" class="btn btn-ghost normal-case text-xl">Home</a>
+        </div>
+        <nav class="flex gap-2">
+          <a href="/posts" class="btn btn-ghost">Posts</a>
+          <a href="/contact" class="btn btn-ghost">Contact</a>
+        </nav>
+      </div>
+    </header>
+  )}
+
+  <main class="container mx-auto px-4 py-8">
+    <slot />
+  </main>
+
+  {showFooter && (
+    <footer class="footer items-center p-4 bg-base-200 text-base-content mt-auto">
+      <div class="container mx-auto text-center">
+        © {new Date().getFullYear()} • Built with Astro, TailwindCSS & DaisyUI
+      </div>
+    </footer>
+  )}
 </BaseLayout>

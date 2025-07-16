@@ -1,6 +1,6 @@
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { expect, test } from 'vitest';
-import Header from '../../components/ui/Header.astro';
+import Header from '@components/ui/Header.astro';
 
 test('Header renders navigation links', async () => {
   const container = await AstroContainer.create();

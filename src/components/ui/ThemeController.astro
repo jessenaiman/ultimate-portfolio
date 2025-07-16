@@ -47,24 +47,28 @@ const {
 </div>
 
 <script is:inline>
-  const themeChange = (firstTime) => {
-    const saved = localStorage.getItem('theme');
-    if (saved) {
-      document.documentElement.setAttribute('data-theme', saved);
-    }
+  // This script persists the user's theme choice in localStorage.
+  const themeKey = 'theme';
 
-    const radios = document.querySelectorAll('input.theme-controller');
-    radios.forEach(radio => {
-      if (saved && radio.value === saved) {
-        radio.checked = true;
-      }
-      radio.addEventListener('change', (e) => {
-        const theme = e.target.value;
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-      });
-    });
+  function applyTheme() {
+    const savedTheme = localStorage.getItem(themeKey);
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
   }
-  document.addEventListener('astro:after-swap', () => themeChange(false))
-  themeChange(true);
+
+  // Apply theme on initial load
+  applyTheme();
+
+  // Re-apply theme after Astro's view transitions
+  document.addEventListener('astro:after-swap', applyTheme);
+
+  // Add event listeners to theme radio buttons to save the new theme
+  document.querySelectorAll('input.theme-controller').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const newTheme = e.target.value;
+      localStorage.setItem(themeKey, newTheme);
+      document.documentElement.setAttribute('data-theme', newTheme);
+    });
+  });
 </script>
