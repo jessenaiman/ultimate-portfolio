@@ -1,342 +1,71 @@
----
+--- 
+// @ts-ignore – Astro component
 import { Icon } from "astro-icon/components";
+import { navigationItems } from "../../data/navigation";
+import ThemeController from "./ThemeController.astro";
+import type { NavigationItem } from "../../data/navigation";
 
+/*
+  ===== DaisyUI navbar & theme-controller =====
+  – All layout/spacing handled by daisyUI + Tailwind utilities.
+  – No bespoke CSS so we always stay visually consistent with the framework.
+*/
+
+// Detect active route
 const currentPath = Astro.url.pathname;
-const isActivePath = (path: string) => {
-  if (path === "#") return false;
-  const normalizedCurrent = currentPath.replace(/\/+$/, "").toLowerCase();
-  const normalizedPath = path.replace(/\/+$/, "").toLowerCase();
-  return path === "/"
-    ? normalizedCurrent === "" || normalizedCurrent === "/"
-    : normalizedCurrent.endsWith(normalizedPath);
+const isActive = (path: string): boolean => {
+  if (!path || path === "#") return false;
+  const cleanCurrent = currentPath.replace(/\/+$/, "").toLowerCase();
+  const cleanTarget = path.replace(/\/+$/, "").toLowerCase();
+  // Special case for home page
+  if (path === "/") {
+    return cleanCurrent === "" || cleanCurrent === "/";
+  }
+  // For other pages, check if the current path ends with the target path
+  return cleanCurrent.endsWith(cleanTarget);
 };
 
-// Define types for menu items
-interface MenuItem {
-  name: string;
-  displayName: string;
-  features: string;
-  path: string;
-  icon: string;
-  badge?: string;
-  badgeColor?: string;
-  isNew?: boolean;
-  children?: MenuItem[];
-}
+// Navigation data
+const nav: NavigationItem[] = navigationItems;
 
-// Menu structure with all items, icons, and metadata in one place
-// Using DaisyUI menu patterns for consistent navigation
-const navigation: MenuItem[] = [
-  { 
-    name: 'home', 
-    displayName: 'Home', 
-    features: 'Main Page', 
-    path: '/',
-    icon: 'mdi:home'
-  },
-  { 
-    name: 'resume', 
-    displayName: 'Resume', 
-    features: 'Professional Experience', 
-    path: '/resume',
-    icon: 'mdi:file-document'
-  },
-  { 
-    name: 'portfolio', 
-    displayName: 'Portfolio', 
-    features: 'Project Showcase', 
-    path: '/portfolio',
-    icon: 'mdi:briefcase'
-  },
-  {
-    name: 'stack',
-    displayName: 'Website Stack',
-    features: 'Technology Stack',
-    path: '#',
-    icon: 'mdi:layers',
-    children: [
-      { 
-        name: 'astro', 
-        displayName: 'AstroJS', 
-        features: 'Static Site Generator', 
-        path: '/astrojs',
-        icon: 'mdi:rocket',
-        badge: 'v4.0'
-      },
-      { 
-        name: 'tailwind', 
-        displayName: 'TailwindCSS', 
-        features: 'Utility-First CSS Framework', 
-        path: '/tailwind',
-        icon: 'mdi:tailwind',
-        badge: 'v3.0'
-      },
-      { 
-        name: 'daisyui', 
-        displayName: 'DaisyUI', 
-        features: 'Tailwind Component Library', 
-        path: '/daisyui',
-        icon: 'mdi:flower',
-        badge: 'v4.0'
-      },
-      { 
-        name: 'styleguide', 
-        displayName: 'Styleguide', 
-        features: 'Design System & Standards', 
-        path: '/styleguide',
-        icon: 'mdi:palette-outline',
-        badge: 'NEW',
-        badgeColor: 'secondary',
-        isNew: true
-      }
-    ]
-  },
-  {
-    name: 'frameworks',
-    displayName: 'Frameworks',
-    features: 'JavaScript Frameworks',
-    path: '#',
-    icon: 'mdi:code-tags',
-    children: [
-      { 
-        name: 'react', 
-        displayName: 'React', 
-        features: 'UI Library', 
-        path: '/react',
-        icon: 'mdi:react'
-      },
-      { 
-        name: 'vue', 
-        displayName: 'Vue', 
-        features: 'Progressive Framework', 
-        path: '/vue',
-        icon: 'mdi:vuejs'
-      },
-      { 
-        name: 'svelte', 
-        displayName: 'Svelte', 
-        features: 'Compiler as Framework', 
-        path: '/svelte',
-        icon: 'mdi:language-typescript'
-      },
-      { 
-        name: 'solid', 
-        displayName: 'SolidJS', 
-        features: 'Reactive UI Library', 
-        path: '/solid',
-        icon: 'mdi:language-javascript'
-      },
-      { 
-        name: 'remix', 
-        displayName: 'Remix', 
-        features: 'Full Stack Framework', 
-        path: '/remix',
-        icon: 'mdi:code-brackets'
-      }
-    ]
-  },
-  {
-    name: 'ai',
-    displayName: 'AI & Machine Learning',
-    features: 'AI Solutions & Demos',
-    path: '#',
-    icon: 'mdi:robot',
-    children: [
-      { 
-        name: 'ai-overview',
-        displayName: 'AI Overview',
-        features: 'AI Capabilities',
-        path: '/ai/overview',
-        icon: 'mdi:view-dashboard',
-        isNew: true
-      },
-      { 
-        name: 'chat-gpt', 
-        displayName: 'Chat GPT', 
-        features: 'AI Assistant', 
-        path: '/ai/flowise-chat',
-        icon: 'mdi:chat',
-        isNew: true
-      },
-      { 
-        name: 'pollinate-ai', 
-        displayName: 'Pollinate AI', 
-        features: 'AI Generation Tools', 
-        path: '/pollinate-ai',
-        icon: 'mdi:flower-pollen',
-        isNew: true
-      },
-      { 
-        name: 'blockchain-ai', 
-        displayName: 'Blockchain AI', 
-        features: 'Web3 AI Integration', 
-        path: '/blockchain-ai',
-        icon: 'mdi:link-variant',
-        isNew: true
-      }
-    ]
-  },
-  {
-    name: 'demos',
-    displayName: 'Demos',
-    features: 'Interactive Examples',
-    path: '#',
-    icon: 'mdi:view-dashboard',
-    children: [
-      { 
-        name: 'blog', 
-        displayName: 'Blog', 
-        features: 'Content Management', 
-        path: '/blog',
-        icon: 'mdi:post'
-      },
-      { 
-        name: 'color-picker', 
-        displayName: 'Color Picker', 
-        features: 'Interactive Tool', 
-        path: '/color-picker',
-        icon: 'mdi:palette'
-      },
-      { 
-        name: 'math', 
-        displayName: 'Math Lab', 
-        features: 'Calculation Demo', 
-        path: '/math',
-        icon: 'mdi:math-integral'
-      },
-      { 
-        name: 'live-code', 
-        displayName: 'Live Code', 
-        features: 'Code Editor', 
-        path: '/live-code',
-        icon: 'mdi:code-braces'
-      }
-    ]
-  },
-  { 
-    name: 'ml', 
-    displayName: 'Machine Learning', 
-    features: 'AI Solutions', 
-    path: '/machine',
-    icon: 'mdi:brain',
-    children: [
-      {
-        name: 'ml-overview',
-        displayName: 'Overview',
-        features: 'ML Capabilities',
-        path: '/machine',
-        icon: 'mdi:brain'
-      },
-      {
-        name: 'ml-chat',
-        displayName: 'ML Chat',
-        features: 'AI Conversation',
-        path: '/machine',
-        icon: 'mdi:message-processing'
-      },
-      {
-        name: 'blockchain-ai',
-        displayName: 'Blockchain AI',
-        features: 'Web3 + AI Integration',
-        path: '/blockchain-ai',
-        icon: 'mdi:ethereum',
-        isNew: true
-      }
-    ]
-  },
-  { 
-    name: 'about', 
-    displayName: 'About', 
-    features: 'About Me', 
-    path: '/about',
-    icon: 'mdi:account'
-  }
+// List of themes for the ThemeController
+const themes = [
+  "light",
+  "dark",
+  "cupcake",
+  "bumblebee",
+  "autumn",
+  "modern-light",
 ];
 ---
 
-<!-- DaisyUI Navbar -->
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100 sticky top-0 z-50 shadow-sm">
+  <!-- Navbar Start (Logo) -->
   <div class="navbar-start">
-    <!-- Mobile hamburger dropdown -->
-    <div class="dropdown">
-      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
-        </svg>
-      </div>
-      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        {navigation.map((item) => (
-          !item.children ? (
-            <li>
-              <a href={item.path} class:list={[isActivePath(item.path) ? "active" : ""]} data-astro-prefetch>
-                <Icon name={item.icon} class="w-4 h-4" />
-                {item.displayName}
-                {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
-                {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
-              </a>
-            </li>
-          ) : (
-            <li>
-              <a>{item.displayName}</a>
-              <ul class="p-2">
-                {item.children.map((child) => (
-                  <li>
-                    <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
-                      <Icon name={child.icon} class="w-4 h-4" />
-                      {child.displayName}
-                      {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
-                      {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          )
-        ))}
-      </ul>
-    </div>
-    
-    <!-- Brand -->
-    <a href="/" class="btn btn-ghost text-xl">Portfolio</a>
+    <a href="/" class="btn btn-ghost text-xl normal-case">
+      Portfolio
+    </a>
   </div>
 
-  <!-- Desktop horizontal menu -->
+  <!-- Navbar Center (Desktop Menu) -->
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1">
-      {navigation.map((item) => (
+      {nav.map((item) => (
         !item.children ? (
           <li>
-            <a 
-              href={item.path} 
-              class:list={[
-                "tooltip tooltip-bottom",
-                isActivePath(item.path) ? "active" : ""
-              ]}
-              data-tip={item.features}
-              data-astro-prefetch
-            >
-              <Icon name={item.icon} class="w-4 h-4" />
+            <a href={item.path} class:list={[isActive(item.path) ? "active" : ""]}>
               {item.displayName}
-              {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
-              {item.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
             </a>
           </li>
         ) : (
           <li>
             <details>
-              <summary class="tooltip tooltip-bottom" data-tip={item.features}>
-                <Icon name={item.icon} class="w-4 h-4" />
-                {item.displayName}
-                {item.badge && <span class={`badge badge-xs ${item.badgeColor ? `badge-${item.badgeColor}` : 'badge-neutral'}`}>{item.badge}</span>}
-              </summary>
-              <ul class="p-2">
+              <summary>{item.displayName}</summary>
+              <ul class="p-2 bg-base-100 rounded-t-none shadow-lg">
                 {item.children.map((child) => (
                   <li>
-                    <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
-                      <Icon name={child.icon} class="w-4 h-4" />
+                    <a href={child.path} class:list={[isActive(child.path) ? "active" : ""]}>
                       {child.displayName}
-                      {child.badge && <span class={`badge badge-xs ${child.badgeColor ? `badge-${child.badgeColor}` : 'badge-neutral'}`}>{child.badge}</span>}
-                      {child.isNew && <span class="badge badge-xs badge-secondary">NEW</span>}
                     </a>
                   </li>
                 ))}
@@ -348,30 +77,43 @@ const navigation: MenuItem[] = [
     </ul>
   </div>
 
-  <!-- Theme controller dropdown -->
+  <!-- Navbar End (Theme Controller & Mobile Menu) -->
   <div class="navbar-end">
-    <div class="dropdown dropdown-end">
-      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+    <!-- Theme Controller -->
+    <ThemeController {themes} />
+
+    <!-- Mobile Menu Dropdown -->
+    <div class="dropdown dropdown-end lg:hidden">
+      <label tabindex="0" class="btn btn-ghost lg:hidden">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-      </div>
-      <ul tabindex="0" class="dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow">
-        <li>
-          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Light" value="light" />
-        </li>
-        <li>
-          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Dark" value="dark" />
-        </li>
-        <li>
-          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Cupcake" value="cupcake" />
-        </li>
-        <li>
-          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Bumblebee" value="bumblebee" />
-        </li>
-        <li>
-          <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Autumn" value="autumn" />
-        </li>
+      </label>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+        {nav.map((item) => (
+          !item.children ? (
+            <li>
+              <a href={item.path} class:list={[isActive(item.path) ? "active" : ""]}>
+                {item.displayName}
+              </a>
+            </li>
+          ) : (
+            <li>
+              <details>
+                <summary>{item.displayName}</summary>
+                <ul class="p-2">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.path} class:list={[isActive(child.path) ? "active" : ""]}>
+                        {child.displayName}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          )
+        ))}
       </ul>
     </div>
   </div>
