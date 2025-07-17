@@ -55,14 +55,14 @@
         {#if mounted}
           <div in:fly={{ x: -50, duration: 1000, delay: 200, easing: quintOut }} class="space-y-6">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-              <span class="bg-gradient-to-r from-orange-400 via-white to-indigo-400 bg-clip-text text-transparent">{headline}</span>
+              <span class="bg-linear-to-r from-orange-400 via-white to-indigo-400 bg-clip-text text-transparent">{headline}</span>
             </h1>
             <p class="text-lg sm:text-xl text-gray-300 leading-relaxed">
               {description}
             </p>
             <button
               on:click={scrollToDevTools}
-              class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 group"
+              class="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-orange-500 to-orange-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 group"
             >
               Try Interactive Demo
               <svg 
@@ -90,7 +90,7 @@
         {#if mounted}
           <!-- Code Preview -->
           <div in:fly={{ x: 50, duration: 1000, delay: 400, easing: quintOut }} class="relative">
-            <div class="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-indigo-500/20 blur-2xl rounded-2xl"></div>
+            <div class="absolute inset-0 bg-linear-to-r from-orange-500/20 to-indigo-500/20 blur-2xl rounded-2xl"></div>
             <div class="relative bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-gray-700/50 overflow-hidden">
               <div class="flex items-center gap-2 px-4 py-3 border-b border-gray-700/50 bg-gray-900/50">
                 <div class="w-3 h-3 rounded-full bg-red-500"></div>

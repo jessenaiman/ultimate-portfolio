@@ -143,7 +143,7 @@ import ColorPicker from '../components/ColorPicker';
           <LazyMotion features={domAnimation}>
             <motion.button
               onClick={scrollToChat}
-              className="group px-6 py-3 bg-gradient-to-r from-primary to-secondary text-primary-content rounded-xl font-medium hover:opacity-90 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 mx-auto"
+              className="group px-6 py-3 bg-linear-to-r from-primary to-secondary text-primary-content rounded-xl font-medium hover:opacity-90 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}

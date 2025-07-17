@@ -35,7 +35,29 @@ const jobs = defineCollection({
   }),
 });
 
+// Define the info collection for framework documentation
+const info = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    framework: z.string().optional(),
+    version: z.string().optional(),
+  }),
+});
+
+// Define the docs collection for general documentation
+const docs = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+  }),
+});
+
 export const collections = {
   'posts': posts,
   'jobs': jobs,
+  'info': info,
+  'docs': docs,
 };

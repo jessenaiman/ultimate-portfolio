@@ -8,7 +8,7 @@
         enter-to-class="opacity-100 translate-y-0"
       >
         <div class="text-center mb-8 sm:mb-16">
-          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold bg-linear-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
             Experience The Power
           </h2>
           <p class="mt-3 sm:mt-4 text-lg sm:text-xl text-gray-400">Cutting-edge features that set us apart</p>
@@ -42,7 +42,7 @@
           >
             <!-- Glowing background -->
             <div 
-              class="absolute inset-0 bg-gradient-to-br from-emerald-500/30 via-teal-500/20 to-cyan-500/30 rounded-xl blur-xl transition-opacity duration-500"
+              class="absolute inset-0 bg-linear-to-br from-emerald-500/30 via-teal-500/20 to-cyan-500/30 rounded-xl blur-xl transition-opacity duration-500"
               :style="{
                 opacity: mousePos[index].isHovered ? 1 : 0,
                 transform: `translate(${mousePos[index].x * 0.1}px, ${mousePos[index].y * 0.1}px)`
@@ -55,7 +55,7 @@
             >
               <!-- 3D floating icon -->
               <div 
-                class="h-12 w-12 sm:h-16 sm:w-16 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-400 mb-4 sm:mb-6 p-2 sm:p-3 transition-transform duration-300"
+                class="h-12 w-12 sm:h-16 sm:w-16 rounded-xl bg-linear-to-br from-emerald-400 to-teal-400 mb-4 sm:mb-6 p-2 sm:p-3 transition-transform duration-300"
                 :style="{
                   transform: `
                     translateZ(40px)
@@ -210,7 +210,7 @@ const ThemeSwitcher = {
     return () => h('div', { class: 'space-y-4' }, [
       // Gradient preview box
       h('div', {
-        class: `h-24 rounded-xl transition-all duration-500 bg-gradient-to-r ${themes[currentTheme.value].from} ${themes[currentTheme.value].to} bg-opacity-20`
+        class: `h-24 rounded-xl transition-all duration-500 bg-linear-to-r ${themes[currentTheme.value].from} ${themes[currentTheme.value].to} bg-opacity-20`
       }),
 
       // Button Container
@@ -221,7 +221,7 @@ const ThemeSwitcher = {
           class: `px-4 py-1 rounded-lg text-sm transition-all duration-300 w-auto max-w-full truncate whitespace-nowrap
             ${
               currentTheme.value === index
-                ? `bg-gradient-to-r ${theme.from} ${theme.to} text-white shadow-md`
+                ? `bg-linear-to-r ${theme.from} ${theme.to} text-white shadow-md`
                 : 'bg-gray-800/50 text-gray-400 hover:bg-gray-700/50'
             }`,
           onClick: () => (currentTheme.value = index)
@@ -240,7 +240,7 @@ const ProgressBar = {
       class: 'h-3 bg-gray-700/50 rounded-full overflow-hidden backdrop-blur-sm' 
     }, [
       h('div', {
-        class: 'h-full bg-gradient-to-r from-emerald-400 to-teal-400 transition-all duration-700 ease-out',
+        class: 'h-full bg-linear-to-r from-emerald-400 to-teal-400 transition-all duration-700 ease-out',
         style: { width: `${progress.value}%` }
       })
     ]);
@@ -251,7 +251,7 @@ const AnimatedCounter = {
   setup() {
     const count = ref(0);
     return () => h('button', {
-      class: 'w-full px-6 py-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 hover:from-emerald-500/30 hover:to-teal-500/30 rounded-xl text-emerald-400 transition-colors backdrop-blur-sm border border-emerald-500/20 hover:border-emerald-500/40',
+      class: 'w-full px-6 py-3 bg-linear-to-r from-emerald-500/20 to-teal-500/20 hover:from-emerald-500/30 hover:to-teal-500/30 rounded-xl text-emerald-400 transition-colors backdrop-blur-sm border border-emerald-500/20 hover:border-emerald-500/40',
       onClick: () => count.value++
     }, `Interactions: ${count.value}`);
   }
@@ -281,7 +281,7 @@ const LiveDemo = {
       onMouseleave: handleMouseUp
     }, [
       h('div', {
-        class: 'absolute w-6 h-6 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-transform hover:scale-110',
+        class: 'absolute w-6 h-6 bg-linear-to-br from-emerald-400 to-teal-400 rounded-full cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-transform hover:scale-110',
         style: {
           left: `${position.value.x}%`,
           top: `${position.value.y}%`

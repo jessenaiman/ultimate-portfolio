@@ -1,69 +1,131 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { getEntry } from "astro:content";
+// Modern framework documentation with professional DaisyUI 5+ tabbed interface
+// Documentation: https://daisyui.com/components/tab/
+import BaseLayout from "../components/shared/BaseLayout.astro";
+import { getEntry, render } from "astro:content";
 
-// Get content for all framework pages
+// Safely get content for all framework pages
 const styleguide = await getEntry("docs", "styleguide");
 const astroContent = await getEntry("info", "astrojs");
 const tailwindContent = await getEntry("info", "tailwindcss");
 const daisyuiContent = await getEntry("info", "daisyui");
 
-// Render content
-const { Content: StyleguideContent } = await styleguide.render();
-const { Content: AstroContent } = await astroContent.render();
-const { Content: TailwindContent } = await tailwindContent.render();
-const { Content: DaisyUIContent } = await daisyuiContent.render();
+// Render content to get the actual HTML components
+const StyleguideContent = styleguide ? (await render(styleguide)).Content : null;
+const AstroContent = astroContent ? (await render(astroContent)).Content : null;
+const TailwindContent = tailwindContent ? (await render(tailwindContent)).Content : null;
+const DaisyUIContent = daisyuiContent ? (await render(daisyuiContent)).Content : null;
 ---
 
-<Layout 
-  title="UltimateAstroTemplate Framework Guide" 
-  description="Comprehensive guide for Astro 5+, TailwindCSS 4+, DaisyUI 5+, and styling in the UltimateAstroTemplate project"
+<BaseLayout 
+  title="Framework & Styling Guide" 
+  description="Complete documentation for Astro 5+, TailwindCSS 4+, DaisyUI 5+, and modern web development best practices"
+  maxWidth="container"
+  variant="documentation"
 >
-  <div class="container-responsive py-8">
-    <div class="page-header">
-      <h1 class="page-title size-lg">Framework & Styling Guide</h1>
-      <p class="page-subtitle">Complete documentation for Astro 5+, TailwindCSS 4+, DaisyUI 5+, and styling guidelines</p>
-    </div>
-
-    <div class="divider"></div>
-    
-    <!-- Framework Tabs -->
-    <div role="tablist" class="tabs tabs-lifted mb-8">
-      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="Styleguide" checked />
-      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-        <div class="blog-content">
-          <article class="markdown-content">
-            <StyleguideContent />
-          </article>
-        </div>
-      </div>
-
-      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="Astro 5+" />
-      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-        <div class="blog-content">
-          <article class="markdown-content">
-            <AstroContent />
-          </article>
-        </div>
-      </div>
-
-      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="TailwindCSS 4+" />
-      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-        <div class="blog-content">
-          <article class="markdown-content">
-            <TailwindContent />
-          </article>
-        </div>
-      </div>
-
-      <input type="radio" name="framework_tabs" role="tab" class="tab" aria-label="DaisyUI 5+" />
-      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-        <div class="blog-content">
-          <article class="markdown-content">
-            <DaisyUIContent />
-          </article>
+  <!-- Hero Section with Modern Design -->
+  <div class="hero bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl mb-12">
+    <div class="hero-content text-center py-16">
+      <div class="max-w-3xl">
+        <h1 class="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+          Framework & Styling Guide
+        </h1>
+        <p class="text-xl text-base-content/80 leading-relaxed">
+          Professional documentation for Astro 5+, TailwindCSS 4+, DaisyUI 5+, and modern web development best practices. 
+          Showcasing the latest features and implementation patterns.
+        </p>
+        <div class="flex gap-4 justify-center mt-8">
+          <div class="badge badge-primary badge-lg">Astro 5+</div>
+          <div class="badge badge-secondary badge-lg">TailwindCSS 4+</div>
+          <div class="badge badge-accent badge-lg">DaisyUI 5+</div>
         </div>
       </div>
     </div>
   </div>
-</Layout>
+
+  <!-- Modern Tab Interface using DaisyUI 5+ -->
+  <div class="bg-base-100 rounded-2xl shadow-xl border border-base-300 overflow-hidden">
+    <div role="tablist" class="tabs tabs-bordered bg-base-200">
+      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="Styleguide Overview" checked />
+      <div role="tabpanel" class="tab-content">
+        <div class="prose max-w-none p-8">
+          {StyleguideContent && <StyleguideContent />}
+          {!StyleguideContent && (
+            <div class="alert alert-warning">
+              <span>Styleguide content not available</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="Astro 5+" />
+      <div role="tabpanel" class="tab-content">
+        <div class="prose max-w-none p-8">
+          {AstroContent && <AstroContent />}
+          {!AstroContent && (
+            <div class="alert alert-warning">
+              <span>Astro content not available</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="TailwindCSS 4+" />
+      <div role="tabpanel" class="tab-content">
+        <div class="prose max-w-none p-8">
+          {TailwindContent && <TailwindContent />}
+          {!TailwindContent && (
+            <div class="alert alert-warning">
+              <span>TailwindCSS content not available</span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="DaisyUI 5+" />
+      <div role="tabpanel" class="tab-content">
+        <div class="prose max-w-none p-8">
+          {DaisyUIContent && <DaisyUIContent />}
+          {!DaisyUIContent && (
+            <div class="alert alert-warning">
+              <span>DaisyUI content not available</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Professional Features Section with Enhanced Responsive Design -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16 px-4">
+    <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+      <div class="card-body text-center p-6">
+        <div class="text-5xl mb-4 filter drop-shadow-lg">🚀</div>
+        <h3 class="card-title justify-center text-lg font-bold text-base-content mb-3">Modern Architecture</h3>
+        <p class="text-base-content/70 text-sm leading-relaxed">
+          Built with Astro 5+ for optimal performance and developer experience with modern web standards.
+        </p>
+      </div>
+    </div>
+    
+    <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+      <div class="card-body text-center p-6">
+        <div class="text-5xl mb-4 filter drop-shadow-lg">🎨</div>
+        <h3 class="card-title justify-center text-lg font-bold text-base-content mb-3">Design System</h3>
+        <p class="text-base-content/70 text-sm leading-relaxed">
+          Professional UI with TailwindCSS 4+ and DaisyUI 5+ components for modern interfaces.
+        </p>
+      </div>
+    </div>
+    
+    <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:col-span-2 lg:col-span-1">
+      <div class="card-body text-center p-6">
+        <div class="text-5xl mb-4 filter drop-shadow-lg">📚</div>
+        <h3 class="card-title justify-center text-lg font-bold text-base-content mb-3">Documentation</h3>
+        <p class="text-base-content/70 text-sm leading-relaxed">
+          Comprehensive guides with official documentation references and best practices.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "@tailwindcss/typography";
 
 @plugin "daisyui" {
   themes: dark --default, light, cupcake, bumblebee, autumn, dracula;
@@ -7,10 +6,10 @@
 
 @plugin "daisyui/theme" {
   /* I've renamed the theme to make it clear it's your custom version. */
-  name: "light";
+  name: "fucked";
   default: false;
   prefersdark: false;
-  color-scheme: "light";
+  color-scheme: "fucked";
 
   /* --- Base Colors --- */
   /* We've increased the difference between base colors for better separation. */
@@ -50,6 +49,42 @@
   --border-btn: 1px;           /* Default border width for buttons */
   --tab-border: 1px;           /* Default border width for tabs */
   --tab-radius: 0.5rem;        /* Gives tabs a rounded look */
+}
+
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(45% 0.24 277.023);
+  --color-primary-content: oklch(93% 0.034 272.788);
+  --color-secondary: oklch(65% 0.241 354.308);
+  --color-secondary-content: oklch(94% 0.028 342.258);
+  --color-accent: oklch(77% 0.152 181.912);
+  --color-accent-content: oklch(38% 0.063 188.416);
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
 }
 
 @plugin "daisyui/theme" {
@@ -231,245 +266,3 @@
   --noise: 0;
 }
 
-
-:root {
-  color-scheme: light dark;
-}
-
-@layer base {
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
-
-  a {
-    @apply text-primary transition-colors;
-  }
-  
-  a:hover {
-    @apply opacity-80;
-  }
-}
-
-@layer components {
-  /* Enhanced content container with better borders and depth */
-  .content-container {
-    /* Removed @apply rounded-lg due to Tailwind v4/daisyUI v5 utility class availability issues. Use daisyUI theme radius token instead. Ref: https://daisyui.com/docs/utilities/ */
-    @apply bg-base-100 border-2 border-base-300 p-6 my-6;
-    border-radius: var(--radius-box);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    transition: all 0.2s ease-in-out;
-  }
-
-  .content-container:hover {
-    @apply border-primary border-opacity-20;
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    transform: translateY(-1px);
-  }
-
-  /* Blog post specific content styling with enhanced depth */
-  .blog-content {
-    @apply content-container max-w-4xl mx-auto;
-    @apply border-2 border-base-300;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  }
-
-  /* Badge meta styling */
-  .article-meta {
-    @apply flex flex-wrap gap-2 mb-8 justify-center lg:justify-start;
-  }
-
-  /* Prose styling for markdown content */
-  .markdown-content {
-    @apply prose prose-lg dark:prose-invert max-w-none;
-  }
-
-  .markdown-content h1,
-  .markdown-content h2, 
-  .markdown-content h3,
-  .markdown-content h4,
-  .markdown-content h5,
-  .markdown-content h6 {
-    @apply font-cal text-primary;
-  }
-
-  .markdown-content a {
-    @apply text-secondary no-underline;
-  }
-
-  .markdown-content a:hover {
-    @apply text-secondary opacity-80;
-  }
-
-  .markdown-content code {
-    @apply text-accent bg-base-200 px-1 py-0.5 rounded;
-  }
-
-  .markdown-content pre {
-    @apply bg-base-200 border border-base-300;
-  }
-
-  .markdown-content blockquote {
-    @apply border-l-4 border-l-primary bg-base-200 bg-opacity-50 px-4 py-2 rounded-r;
-  }
-
-  /* Section headers */
-  .section-header {
-    @apply text-3xl font-bold mb-6 pb-2 border-b border-base-200 font-cal;
-  }
-
-  /* Page header styles */
-  .page-header {
-    @apply mb-8 text-center lg:text-left;
-  }
-
-  .page-header.centered {
-    @apply text-center;
-  }
-
-  .page-title {
-    @apply font-bold mb-4 text-primary font-cal;
-  }
-
-  .page-title.size-sm {
-    @apply text-2xl md:text-3xl;
-  }
-
-  .page-title.size-md {
-    @apply text-3xl md:text-4xl;
-  }
-
-  .page-title.size-lg {
-    @apply text-4xl md:text-5xl;
-  }
-
-  .page-title.size-xl {
-    @apply text-5xl md:text-6xl;
-  }
-
-  .page-subtitle {
-    @apply text-lg text-base-content opacity-80 max-w-3xl mx-auto lg:mx-0;
-  }
-
-  .page-header.centered .page-subtitle {
-    @apply mx-auto;
-  }
-
-  /* Main content wrapper */
-  .main-content {
-    @apply container mx-auto px-4 py-12;
-  }
-
-  /* Footer styling */
-  .article-footer {
-    @apply mt-12 pt-6 border-t border-base-300;
-  }
-}
-
-@layer utilities {
-  .font-cal {
-    font-family: 'Cal Sans', 'Inter', system-ui, -apple-system, sans-serif;
-  }
-
-  /* Responsive layout utilities */
-  .container-responsive {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  /* Focus and accessibility improvements */
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-base-100;
-  }
-
-  /* Enhanced animation utilities */
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out;
-  }
-
-  /* Glass morphism utility */
-  .glass-morphism {
-    @apply bg-base-100 bg-opacity-80 backdrop-blur-md border border-base-200 border-opacity-50;
-  }
-}
-
-/* Animation keyframes */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(20px); 
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
-}
-
-/* Print styles */
-@media print {
-  @page {
-    size: A4;
-    margin: 1.5cm;
-  }
-  
-  body {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    background: white !important;
-    color: black !important;
-    font-size: 12pt;
-    line-height: 1.5;
-  }
-
-  .content-container {
-    box-shadow: none !important;
-    border: none !important;
-    page-break-inside: avoid;
-    background: white !important;
-  }
-
-  .page-title, .section-header {
-    color: #1e40af !important;
-    border-bottom: 2px solid #e5e7eb !important;
-    page-break-after: avoid;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    page-break-after: avoid;
-    color: #1e40af !important;
-  }
-
-  a {
-    color: #1e40af !important;
-    text-decoration: none !important;
-  }
-
-  .markdown-content a {
-    color: #1e40af !important;
-  }
-  
-  /* Add page break before sections with this class */
-  .page-break-before {
-    page-break-before: always;
-  }
-  
-  /* Ensure URLs are visible in print */
-  a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: 0.8em;
-    font-weight: normal;
-    opacity: 0.8;
-  }
-
-  /* Hide print button and interactive elements */
-  .print\\:hidden {
-    display: none !important;
-  }
-}

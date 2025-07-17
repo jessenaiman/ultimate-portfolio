@@ -93,7 +93,7 @@ const themes: ThemeName[] = [
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
         </svg>
       </div>
-      <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-200 rounded-box w-52">
+      <ul tabindex="0" class="dropdown-content z-1 menu p-2 shadow bg-base-200 rounded-box w-52">
         {themes.slice(0, 5).map(theme => (
           <li><a data-set-theme={theme} class="text-sm capitalize">{theme}</a></li>
         ))}
@@ -107,7 +107,7 @@ const themes: ThemeName[] = [
         <div class="badge badge-primary badge-lg p-4 text-lg">Component Library</div>
       </div>
       <h1 class="text-5xl font-bold mb-6">
-        <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+        <span class="bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary">
           DaisyUI
         </span>
       </h1>

@@ -45,7 +45,7 @@ const iconMap = {
         </svg>
       </div>
       <!-- Mobile Menu -->
-      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+      <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         {navigation.map((item) => (
           !item.children ? (
             <li>
@@ -106,7 +106,7 @@ const iconMap = {
                 <Icon name={iconMap[item.name as keyof typeof iconMap] || "mdi:circle"} class="w-4 h-4" />
                 {item.displayName}
               </summary>
-              <ul class="p-2 bg-base-100 rounded-t-none z-[1] w-52">
+              <ul class="p-2 bg-base-100 rounded-t-none z-1 w-52">
                 {item.children.map((child) => (
                   <li>
                     <a href={child.path} class:list={[isActivePath(child.path) ? "active" : ""]} data-astro-prefetch>
@@ -134,7 +134,7 @@ const iconMap = {
         </svg>
         Theme
       </div>
-      <ul tabindex="0" class="dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52">
+      <ul tabindex="0" class="dropdown-content z-1 p-2 shadow-2xl bg-base-300 rounded-box w-52">
         <li>
           <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Light" value="light" />
         </li>

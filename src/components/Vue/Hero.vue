@@ -10,7 +10,7 @@
             enter-from-class="opacity-0 -translate-x-12"
             enter-to-class="opacity-100 translate-x-0"
           >
-            <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-br from-teal-300 via-emerald-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
+            <h1 class="text-5xl md:text-6xl font-bold bg-linear-to-br from-teal-300 via-emerald-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
               Vue + Astro:<br/>
               <span class="text-4xl md:text-5xl">Where Innovation Meets Speed</span>
             </h1>
@@ -36,13 +36,13 @@
             <div class="flex gap-4">
               <button
                 @click="() => activeDemo = (activeDemo % 3) + 1"
-                class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-0.5"
+                class="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-emerald-500 to-emerald-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-0.5"
               >
                 Try Demo {{ activeDemo }}
               </button>
               <button
                 @click="scrollToFeatures"
-                class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-400 to-emerald-500 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-0.5 group"
+                class="flex items-center gap-2 px-6 py-3 bg-linear-to-r from-emerald-400 to-emerald-500 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-0.5 group"
               >
                 View Features
                 <svg 
@@ -180,8 +180,8 @@
               </div>
 
               <!-- Decorative Elements -->
-              <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 rounded-full blur-xl"></div>
-              <div class="absolute -top-4 -left-4 w-32 h-32 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 rounded-full blur-xl"></div>
+              <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-linear-to-br from-emerald-500/20 to-cyan-500/20 rounded-full blur-xl"></div>
+              <div class="absolute -top-4 -left-4 w-32 h-32 bg-linear-to-br from-teal-500/20 to-emerald-500/20 rounded-full blur-xl"></div>
             </div>
           </Transition>
         </div>

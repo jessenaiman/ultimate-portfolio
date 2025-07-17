@@ -1,39 +1,19 @@
 ---
+// Simple wrapper that forwards props to unified BaseLayout
+// Documentation: https://docs.astro.build/en/guides/layouts/
 import BaseLayout from "../components/shared/BaseLayout.astro";
 
 interface Props {
   title: string;
   description?: string;
-  showMenu?: boolean;
-  showFooter?: boolean;
+  bgColor?: string;
+  maxWidth?: 'none' | 'prose' | 'container';
+  variant?: 'default' | 'documentation' | 'showcase';
 }
 
-const { title, description = "Portfolio site", showMenu = true, showFooter = true } = Astro.props;
+const props = Astro.props;
 ---
-<BaseLayout {title} {description}>
-  {showMenu && (
-    <header class="navbar bg-base-200 shadow-md sticky top-0 z-50">
-      <div class="container mx-auto px-4">
-        <div class="flex-1">
-          <a href="/" class="btn btn-ghost normal-case text-xl">Home</a>
-        </div>
-        <nav class="flex gap-2">
-          <a href="/posts" class="btn btn-ghost">Posts</a>
-          <a href="/contact" class="btn btn-ghost">Contact</a>
-        </nav>
-      </div>
-    </header>
-  )}
 
-  <main class="container mx-auto px-4 py-8">
-    <slot />
-  </main>
-
-  {showFooter && (
-    <footer class="footer items-center p-4 bg-base-200 text-base-content mt-auto">
-      <div class="container mx-auto text-center">
-        © {new Date().getFullYear()} • Built with Astro, TailwindCSS & DaisyUI
-      </div>
-    </footer>
-  )}
+<BaseLayout {...props}>
+  <slot />
 </BaseLayout>

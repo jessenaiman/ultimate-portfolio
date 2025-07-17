@@ -10,7 +10,7 @@ const Features = () => {
 
   <div class="bg-gray-800 rounded-lg p-4 mb-4">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] rounded-full flex items-center justify-center">
+      <div class="w-10 h-10 bg-linear-to-r from-[#00DC82] to-[#36E4DA] rounded-full flex items-center justify-center">
         <span class="text-white text-lg">🚀</span>
       </div>
       <div>
@@ -35,7 +35,7 @@ const Features = () => {
     </div>
   </div>
 
-  <button class="w-full py-2 px-4 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] text-white rounded-lg hover:opacity-90 transition-opacity">
+  <button class="w-full py-2 px-4 bg-linear-to-r from-[#00DC82] to-[#36E4DA] text-white rounded-lg hover:opacity-90 transition-opacity">
     Click Me!
   </button>
 </div>`);
@@ -63,7 +63,7 @@ const Features = () => {
 
   <div class="bg-gray-800 rounded-lg p-4 mb-4">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] rounded-full flex items-center justify-center">
+      <div class="w-10 h-10 bg-linear-to-r from-[#00DC82] to-[#36E4DA] rounded-full flex items-center justify-center">
         <span class="text-white text-lg">🚀</span>
       </div>
       <div>
@@ -88,7 +88,7 @@ const Features = () => {
     </div>
   </div>
 
-  <button class="w-full py-2 px-4 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] text-white rounded-lg hover:opacity-90 transition-opacity">
+  <button class="w-full py-2 px-4 bg-linear-to-r from-[#00DC82] to-[#36E4DA] text-white rounded-lg hover:opacity-90 transition-opacity">
     Click Me!
   </button>
 </div>`;
@@ -104,7 +104,7 @@ const Features = () => {
       </div>
       
       <div class="bg-gray-800 rounded-xl p-6 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-[#00DC82]/10 to-[#36E4DA]/10"></div>
+        <div class="absolute inset-0 bg-linear-to-r from-[#00DC82]/10 to-[#36E4DA]/10"></div>
         
         <div class="relative">
           <div class="flex justify-center mb-6">
@@ -115,7 +115,7 @@ const Features = () => {
           
           <div class="flex justify-center items-center space-x-4">
             <button id="decrement" class="group relative px-6 py-3 rounded-lg bg-gray-900 text-white overflow-hidden transition-all duration-300 hover:scale-105">
-              <div class="absolute inset-0 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] opacity-0 group-hover:opacity-20 transition-opacity"></div>
+              <div class="absolute inset-0 bg-linear-to-r from-[#00DC82] to-[#36E4DA] opacity-0 group-hover:opacity-20 transition-opacity"></div>
               <div class="relative flex items-center">
                 <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
@@ -124,7 +124,7 @@ const Features = () => {
             </button>
             
             <button id="increment" class="group relative px-6 py-3 rounded-lg bg-gray-900 text-white overflow-hidden transition-all duration-300 hover:scale-105">
-              <div class="absolute inset-0 bg-gradient-to-r from-[#00DC82] to-[#36E4DA] opacity-0 group-hover:opacity-20 transition-opacity"></div>
+              <div class="absolute inset-0 bg-linear-to-r from-[#00DC82] to-[#36E4DA] opacity-0 group-hover:opacity-20 transition-opacity"></div>
               <div class="relative flex items-center">
                 <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>

@@ -16,33 +16,24 @@ export default defineConfig({
   output: "static",
   integrations: [ 
     icon({
-    include: {
-      mdi: ['*']
-        }
-      }), 
-      react({
-        include: ["**/React|Remix/**/*.{jsx,tsx}"],
-      }), 
-      svelte({
-        // Explicitly set the compiler options for Svelte 4
-        compilerOptions: {
-          hydratable: true,
-        },
-      }), 
-      vue({
-        // Vue 3 specific options
-        template: {
-          compilerOptions: {
-            // Enable reactivity transform
-            reactivityTransform: true,
-          },
-        },
-      }), 
-      solidJs({
-        include: ["**/Solid/**/*.{jsx,tsx}"],
-      }), 
-      sitemap(), expressiveCode()],
-
+      include: {
+        mdi: ['*']
+          }
+        }), 
+    react({
+      include: ["**/React/**/*.{jsx,tsx}"],
+    }),
+    svelte({
+      include: ["**/Svelte/**/*.{jsx,tsx}"],
+    }), 
+    vue({
+      include: ["**/Vue/**/*.{jsx,tsx}"],
+    }), 
+    solidJs({
+      include: ["**/Solid/**/*.{jsx,tsx}"],
+    }),
+    sitemap(), 
+    expressiveCode()],
   build: {
     // Enable modern browser builds for better performance
     format: 'file',

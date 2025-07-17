@@ -5,7 +5,7 @@
           Theme
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </div>
-        <ul tabindex="0" class="dropdown-content z-[1] p-2 shadow-2xl bg-base-300 rounded-box w-52">
+        <ul tabindex="0" class="dropdown-content z-1 p-2 shadow-2xl bg-base-300 rounded-box w-52">
           <li v-for="theme in themes" :key="theme.value">
             <input 
               type="radio" 

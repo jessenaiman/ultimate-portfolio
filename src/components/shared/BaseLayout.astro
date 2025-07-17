@@ -1,19 +1,224 @@
 ---
-const { title, description = "Portfolio site" } = Astro.props;
+// Modern professional layout using latest DaisyUI 5+ and TailwindCSS 4+ features
+// Documentation: https://docs.astro.build/en/guides/layouts/
+// DaisyUI 5+ Themes: https://daisyui.com/docs/themes/
+// TailwindCSS 4+ Typography: https://tailwindcss.com/docs/typography-plugin
+import Head from "../core/Head.astro";
+import Menu from "../ui/Menu.astro";
+import Footer from "../ui/Footer.astro";
 import "../../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  bgColor?: string;
+  maxWidth?: 'none' | 'prose' | 'container';
+  variant?: 'default' | 'documentation' | 'showcase';
+}
+
+const { 
+  title, 
+  description = "Professional web development portfolio showcasing modern frameworks and best practices", 
+  bgColor,
+  maxWidth = 'prose',
+  variant = 'default'
+} = Astro.props;
+
+// Modern container classes using DaisyUI 5+ design system
+const containerClasses = {
+  none: "w-full",
+  prose: "max-w-4xl mx-auto px-6 py-8", // Using DaisyUI spacing without external prose
+  container: "container mx-auto max-w-7xl px-6 py-8"
+};
+
+const variantClasses = {
+  default: "space-y-6",
+  documentation: "space-y-8",
+  showcase: "space-y-12"
+};
 ---
-<html lang="en" data-theme="light">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <slot name="head" />
-  </head>
-  <body class="bg-base-100 text-base-content font-sans flex flex-col min-h-screen">
-    <!-- Inserted Menu.astro navbar: https://daisyui.com/components/navbar/ -->
-    <!-- Astro layout conventions: https://docs.astro.build/en/guides/layouts/ -->
-    <Menu />
-    <slot />
+
+<html lang="en" data-theme="light" class="scroll-smooth">
+  <Head title={title} bgColor={bgColor} />
+  <body class="bg-base-100 text-base-content antialiased flex flex-col min-h-screen">
+    <!-- Navigation with modern DaisyUI navbar -->
+    <div class="navbar bg-base-100 border-b border-base-300 sticky top-0 z-50 backdrop-blur-lg bg-base-100/90">
+      <Menu />
+    </div>
+    
+    <!-- Main content with DaisyUI spacing -->
+    <main class="flex-1 bg-base-100">
+      <div class={`${containerClasses[maxWidth]} ${variantClasses[variant]}`}>
+        <slot />
+      </div>
+    </main>
+    
+    <!-- Footer with DaisyUI styling -->
+    <footer class="footer footer-center bg-base-200 text-base-content border-t border-base-300 p-6">
+      <Footer />
+    </footer>
   </body>
 </html>
+
+<style>
+  /* Professional Typography using DaisyUI 5+ design tokens */
+  /* Documentation: https://daisyui.com/docs/themes/ */
+  
+  /* Article and documentation content styling */
+  .prose {
+    color: oklch(var(--bc));
+    line-height: 1.7;
+    max-width: none;
+  }
+  
+  /* Professional heading hierarchy with DaisyUI colors */
+  .prose h1 {
+    color: oklch(var(--bc));
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+    letter-spacing: -0.025em;
+  }
+  
+  .prose h2 {
+    color: oklch(var(--bc));
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    letter-spacing: -0.025em;
+  }
+  
+  .prose h3 {
+    color: oklch(var(--bc));
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  
+  .prose h4 {
+    color: oklch(var(--bc));
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  /* Modern code blocks using DaisyUI colors */
+  .prose pre {
+    background: oklch(var(--b2));
+    color: oklch(var(--bc));
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    border: 1px solid oklch(var(--b3));
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+  }
+  
+  /* Inline code with modern styling */
+  .prose code:not(pre code) {
+    background: oklch(var(--p) / 0.1);
+    color: oklch(var(--p));
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+  
+  /* Professional link styling */
+  .prose a {
+    color: oklch(var(--p));
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid oklch(var(--p) / 0.3);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .prose a:hover {
+    border-bottom-color: oklch(var(--p));
+  }
+  
+  /* List styling with proper spacing */
+  .prose ul, .prose ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .prose ul {
+    list-style-type: disc;
+  }
+  
+  .prose ol {
+    list-style-type: decimal;
+  }
+  
+  .prose li {
+    color: oklch(var(--bc));
+    line-height: 1.7;
+    margin: 0.5rem 0;
+  }
+  
+  /* Blockquote with modern accent */
+  .prose blockquote {
+    border-left: 4px solid oklch(var(--p));
+    background: oklch(var(--b2) / 0.5);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+  }
+  
+  /* Table styling for documentation */
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid oklch(var(--b3));
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+  
+  .prose th {
+    background: oklch(var(--b2));
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: oklch(var(--bc));
+    border-bottom: 1px solid oklch(var(--b3));
+  }
+  
+  .prose td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid oklch(var(--b3));
+    color: oklch(var(--bc));
+  }
+  
+  /* Horizontal rule */
+  .prose hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, oklch(var(--b3)), transparent);
+    margin: 2rem 0;
+  }
+  
+  /* Paragraph spacing */
+  .prose p {
+    margin-bottom: 1rem;
+    color: oklch(var(--bc));
+    line-height: 1.7;
+  }
+  
+  /* Strong and emphasis */
+  .prose strong {
+    font-weight: 600;
+    color: oklch(var(--bc));
+  }
+  
+  .prose em {
+    font-style: italic;
+  }
+</style>
