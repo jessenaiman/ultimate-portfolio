@@ -2,9 +2,9 @@
 // Modern framework documentation with professional DaisyUI 5+ tabbed interface
 // Documentation: https://daisyui.com/components/tab/
 import BaseLayout from "../components/shared/BaseLayout.astro";
-import { getEntry } from "astro:content";
 import FrameworkTabs from "../components/framework/FrameworkTabs.astro";
 import FrameworkFeature from "../components/framework/Feature.astro";
+import { Code } from "astro:components";
 import CodeBlock from "../components/ui/CodeBlock.astro";
 
 // Tab configuration and content is now managed inside FrameworkTabs.astro
@@ -354,7 +354,7 @@ const daisyuiFeatures = [
         <h2 class="text-3xl font-bold mb-6">Astro Component Example</h2>
         <div class="card bg-base-200 shadow-lg overflow-hidden">
           <div class="card-body p-0">
-            <CodeBlock code={astroExampleComponent} language="astro" />
+            <Code code={astroExampleComponent} language="astro" />
           </div>
         </div>
       </section>
@@ -418,7 +418,7 @@ const daisyuiFeatures = [
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
             <h3 class="text-xl font-semibold mb-4">Example Code</h3>
-            <CodeBlock code={tailwindExampleComponent} language="html" />
+            <Code code={tailwindExampleComponent} />
           </div>
           <div>
             <h3 class="text-xl font-semibold mb-4">Preview</h3>

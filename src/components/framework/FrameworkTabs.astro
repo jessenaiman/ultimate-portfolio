@@ -15,7 +15,8 @@ const tabs = [
     badge: 'NEW',
     badgeColor: 'secondary',
     gradient: 'from-primary/10 to-secondary/10',
-    description: 'Design System & Standards'
+    description: 'Design System & Standards',
+    content: StyleguideContent
   },
   {
     id: 'astro',
@@ -23,7 +24,8 @@ const tabs = [
     icon: 'mdi:rocket',
     badge: 'v4.0',
     gradient: 'from-blue-500/10 to-purple-500/10',
-    description: 'Modern Static Site Generator'
+    description: 'Modern Static Site Generator',
+    content: AstroContent
   },
   {
     id: 'tailwind',
@@ -31,7 +33,8 @@ const tabs = [
     icon: 'mdi:tailwind',
     badge: 'v4.0',
     gradient: 'from-cyan-500/10 to-blue-500/10',
-    description: 'Utility-First CSS Framework'
+    description: 'Utility-First CSS Framework',
+    content: TailwindContent
   },
   {
     id: 'daisyui',
@@ -39,40 +42,38 @@ const tabs = [
     icon: 'mdi:palette-swatch',
     badge: 'v5.0',
     gradient: 'from-pink-500/10 to-purple-500/10',
-    description: 'Component Library for Tailwind CSS'
+    description: 'Component Library for Tailwind CSS',
+    content: DaisyContent
   }
 ];
 ---
 
 <!-- DaisyUI Tabs: https://daisyui.com/components/tab/ -->
 <div class="mb-16">
-  <!-- Using the correct DaisyUI tabs-lift structure from https://daisyui.com/components/tab/#lifted-tabs -->
   <div class="tabs tabs-lift">
-    {tabs.map((tab, index) => (
-      <>
-        <label class="tab">
-          <input 
-            type="radio" 
-            name="framework_tabs" 
-            checked={index === 0} 
-          />
-          <span class="iconify mr-2" data-icon={tab.icon}></span>
-          {tab.name}
-          {tab.badge && (
-            <span class={`badge ml-2 ${tab.badgeColor ? `badge-${tab.badgeColor}` : 'badge-primary'}`}>
-              {tab.badge}
-            </span>
-          )}
-        </label>
-        <div class="tab-content bg-base-100 border-base-300 p-6">
-          <div class="prose prose-base max-w-none">
-            {tab.id === 'styleguide' && <StyleguideContent />}
-            {tab.id === 'astro' && <AstroContent />}
-            {tab.id === 'tailwind' && <TailwindContent />}
-            {tab.id === 'daisyui' && <DaisyContent />}
+    {tabs.map((tab, index) => {
+      const Content = tab.content;
+      return (
+        <>
+          <label class="tab">
+            <input 
+              type="radio" 
+              name="framework_tabs" 
+              checked={index === 0} 
+            />
+            <span class="iconify mr-2" data-icon={tab.icon}></span>
+            {tab.name}
+            {tab.badge && (
+              <span class={`badge ml-2 ${tab.badgeColor ? `badge-${tab.badgeColor}` : 'badge-primary'}`}>
+                {tab.badge}
+              </span>
+            )}
+          </label>
+          <div class="tab-content bg-base-100 border-base-300 p-6">
+            <Content />
           </div>
-        </div>
-      </>
-    ))}
+        </>
+      );
+    })}
   </div>
 </div>

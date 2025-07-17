@@ -112,6 +112,17 @@ const docs = defineCollection({
   }),
 });
 
+// Define the info collection for framework documentation
+const info = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+  }),
+});
+
 export const collections = {
   'posts': posts,
   'jobs': jobs,
@@ -121,4 +132,5 @@ export const collections = {
   'personal': personal,
   'resume': resume,
   'docs': docs,
+  'info': info,
 };

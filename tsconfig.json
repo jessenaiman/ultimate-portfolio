@@ -9,7 +9,7 @@
     "src/components/Solid/**/*"
   ],
   "compilerOptions": {
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "types": [
       "react",
       "react-dom"
@@ -19,6 +19,6 @@
         "./node_modules/@types/react"
       ]
     },
-    "jsxImportSource": "solid-js"
+    "jsxImportSource": "react"
   }
 }
