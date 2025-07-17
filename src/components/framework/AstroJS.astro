@@ -1,0 +1,142 @@
+---
+// src/components/framework/AstroJS.astro
+import FrameworkFeature from './Feature.astro';
+import CodeBlock from '../ui/CodeBlock.astro';
+import { Content as AstroContent } from '../../content/info/astrojs.md';
+
+// Define Astro features with descriptions
+const features = [
+  {
+    title: 'Islands Architecture',
+    content: "Ship less JavaScript with Astro's component islands. Load UI components only when needed and improve performance with automatic partial hydration.",
+    icon: '🏝️',
+    delay: 100
+  },
+  {
+    title: 'Server-First API Design',
+    content: "Move expensive hydration off the main thread for faster page loads. Then enhance with client-side JavaScript as needed.",
+    icon: '⚡',
+    delay: 200
+  },
+  {
+    title: 'Zero JS By Default',
+    content: "Astro renders HTML on the server and strips away any unused JavaScript automatically, making every page fast by default.",
+    icon: '🚫',
+    delay: 300
+  },
+  {
+    title: 'Edge-Ready Deployments',
+    content: "Deploy anywhere with adapter-based deployments, including Netlify, Vercel, Cloudflare, and more.",
+    icon: '🌐',
+    delay: 400
+  },
+  {
+    title: 'UI-Agnostic',
+    content: "Bring your own UI framework - React, Preact, Svelte, Vue, Solid, Lit and more.",
+    icon: '🧩',
+    delay: 500
+  }
+];
+
+// Example Astro component code
+const exampleComponent = `---
+// src/components/Example.astro
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+// Type definitions for blog posts
+interface Post {
+  data: {
+    title: string;
+    description: string;
+  };
+  slug: string;
+}
+
+// Fetch posts at build time with type annotation
+const posts = (await getCollection('blog')) as unknown as Post[];
+---
+
+<Layout title="Welcome to Astro">
+  <main>
+    <h1>Welcome to Astro</h1>
+    <div class="grid">
+      {posts.map((post: Post) => (
+        <article class="card">
+          <h2>{post.data.title}</h2>
+          <p>{post.data.description}</p>
+          <a href={"/blog/" + post.slug}>Read more</a>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>`;
+---
+
+<article class="space-y-12">
+  <!-- Hero Section - Using DaisyUI Hero Component -->
+  <section class="hero bg-base-200 rounded-box p-8">
+    <div class="hero-content flex-col text-center">
+      <div class="flex justify-center mb-6">
+        <div class="bg-gradient-to-r from-primary to-secondary p-1 rounded-full">
+          <div class="bg-base-100 p-6 rounded-full flex items-center justify-center">
+            <span class="text-5xl">🚀</span>
+          </div>
+        </div>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">AstroJS Integration</h1>
+      <p class="text-xl text-base-content/80 max-w-3xl mx-auto">
+        The web framework that scales with you. Astro combines the power of a modern component-based architecture with the performance of static HTML generation.
+      </p>
+      <div class="mt-6">
+        <a href="https://docs.astro.build" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Documentation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {features.map(feature => (
+        <FrameworkFeature 
+          title={feature.title}
+          description={feature.content}
+          icon={feature.icon}
+          delay={feature.delay}
+        />
+      ))}
+    </div>
+  </section>
+  
+  <!-- Interactive Code Example -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-6">Astro Component Example</h2>
+    <div class="card bg-base-200 shadow-lg overflow-hidden">
+      <div class="card-body p-0">
+        <CodeBlock code={exampleComponent} language="astro" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Markdown Documentation Content -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-6">Documentation</h2>
+    <div class="prose prose-base max-w-none">
+      <AstroContent />
+    </div>
+  </section>
+
+  <!-- Framework Integrations -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-6">Framework Integrations</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {['React', 'Vue', 'Svelte', 'Solid', 'Preact', 'Alpine', 'Lit', 'Qwik'].map(framework => (
+        <div class="card bg-base-200 shadow-sm p-4 flex items-center justify-center hover:bg-base-300 transition-colors">
+          <span class="text-2xl mr-2" data-icon={`mdi:${framework.toLowerCase()}`}></span>
+          <span>{framework}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+</article>

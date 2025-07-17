@@ -2,19 +2,159 @@
 // Modern framework documentation with professional DaisyUI 5+ tabbed interface
 // Documentation: https://daisyui.com/components/tab/
 import BaseLayout from "../components/shared/BaseLayout.astro";
-import { getEntry, render } from "astro:content";
+import { getEntry } from "astro:content";
+import FrameworkTabs from "../components/framework/FrameworkTabs.astro";
+import FrameworkFeature from "../components/framework/Feature.astro";
+import CodeBlock from "../components/ui/CodeBlock.astro";
 
-// Safely get content for all framework pages
-const styleguide = await getEntry("docs", "styleguide");
-const astroContent = await getEntry("info", "astrojs");
-const tailwindContent = await getEntry("info", "tailwindcss");
-const daisyuiContent = await getEntry("info", "daisyui");
+// Tab configuration and content is now managed inside FrameworkTabs.astro
 
-// Render content to get the actual HTML components
-const StyleguideContent = styleguide ? (await render(styleguide)).Content : null;
-const AstroContent = astroContent ? (await render(astroContent)).Content : null;
-const TailwindContent = tailwindContent ? (await render(tailwindContent)).Content : null;
-const DaisyUIContent = daisyuiContent ? (await render(daisyuiContent)).Content : null;
+// Define Astro features with descriptions
+const astroFeatures = [
+  {
+    title: 'Islands Architecture',
+    content: "Ship less JavaScript with Astro's component islands. Load UI components only when needed and improve performance with automatic partial hydration.",
+    icon: '🏝️',
+    delay: 100
+  },
+  {
+    title: 'Server-First API Design',
+    content: "Move expensive hydration off the main thread for faster page loads. Then enhance with client-side JavaScript as needed.",
+    icon: '⚡',
+    delay: 200
+  },
+  {
+    title: 'Zero JS By Default',
+    content: "Astro renders HTML on the server and strips away any unused JavaScript automatically, making every page fast by default.",
+    icon: '🚫',
+    delay: 300
+  },
+  {
+    title: 'Edge-Ready Deployments',
+    content: "Deploy anywhere with adapter-based deployments, including Netlify, Vercel, Cloudflare, and more.",
+    icon: '🌐',
+    delay: 400
+  },
+  {
+    title: 'UI-Agnostic',
+    content: "Bring your own UI framework - React, Preact, Svelte, Vue, Solid, Lit and more.",
+    icon: '🧩',
+    delay: 500
+  }
+];
+
+// Example Astro component code
+const astroExampleComponent = `---
+// src/components/Example.astro
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+// Type definitions for blog posts
+interface Post {
+  data: {
+    title: string;
+    description: string;
+  };
+  slug: string;
+}
+
+// Fetch posts at build time with type annotation
+const posts = (await getCollection('blog')) as unknown as Post[];
+---
+
+<Layout title="Welcome to Astro">
+  <main>
+    <h1>Welcome to Astro</h1>
+    <div class="grid">
+      {posts.map((post: Post) => (
+        <article class="card">
+          <h2>{post.data.title}</h2>
+          <p>{post.data.description}</p>
+          <a href={"/blog/" + post.slug}>Read more</a>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>`;
+
+// Define Tailwind features with descriptions
+const tailwindFeatures = [
+  {
+    title: 'Rapid Development',
+    content: "Build modern websites without leaving your HTML. Tailwind's utility classes help you work within the constraints of a system instead of littering your stylesheets with arbitrary values.",
+    icon: '🚀',
+    delay: 100
+  },
+  {
+    title: 'A Design That\'s Uniquely Yours',
+    content: "Unlike other frameworks that dictate how your site looks, Tailwind provides low-level utility classes that let you build completely custom designs without ever leaving your HTML.",
+    icon: '🎨',
+    delay: 200
+  },
+  {
+    title: 'Pixel-Perfect Consistency',
+    content: "Every utility class in Tailwind is part of a carefully crafted design system, ensuring your projects maintain consistent spacing, sizing, colors, and more.",
+    icon: '✨',
+    delay: 300
+  },
+  {
+    title: 'Optimized for Performance and SEO',
+    content: "Tailwind automatically removes all unused CSS when building for production, which means your final CSS bundle is the smallest it could possibly be.",
+    icon: '⚡',
+    delay: 400
+  },
+  {
+    title: 'Effortless Maintenance and Scalability',
+    content: "Tailwind's utility-first approach promotes reusability and consistency, making it easier to maintain and scale your projects as they grow.",
+    icon: '🧩',
+    delay: 500
+  }
+];
+
+// Example Tailwind component
+const tailwindExampleComponent = `<!-- Example using Tailwind CSS -->
+<button class="btn btn-primary">
+  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+      d="M13 10V3L4 14h7v7l9-11h-7z" />
+  </svg>
+  Click me
+</button>`;
+
+// Define DaisyUI features with descriptions
+const daisyuiFeatures = [
+  {
+    title: 'Rapid Development',
+    content: "Build modern websites without leaving your HTML. DaisyUI's component classes help you work within the constraints of a system instead of littering your stylesheets with arbitrary values.",
+    icon: '🚀',
+    delay: 100
+  },
+  {
+    title: 'A Design That\'s Uniquely Yours',
+    content: "Unlike other frameworks that dictate how your site looks, DaisyUI provides low-level component classes that let you build completely custom designs without ever leaving your HTML.",
+    icon: '🎨',
+    delay: 200
+  },
+  {
+    title: 'Pixel-Perfect Consistency',
+    content: "Every component class in DaisyUI is part of a carefully crafted design system, ensuring your projects maintain consistent spacing, sizing, colors, and more.",
+    icon: '✨',
+    delay: 300
+  },
+  {
+    title: 'Optimized for Performance and SEO',
+    content: "DaisyUI automatically removes all unused CSS when building for production, which means your final CSS bundle is the smallest it could possibly be.",
+    icon: '⚡',
+    delay: 400
+  },
+  {
+    title: 'Effortless Maintenance and Scalability',
+    content: "DaisyUI's component-first approach promotes reusability and consistency, making it easier to maintain and scale your projects as they grow.",
+    icon: '🧩',
+    delay: 500
+  }
+];
+
 ---
 
 <BaseLayout 
@@ -23,109 +163,386 @@ const DaisyUIContent = daisyuiContent ? (await render(daisyuiContent)).Content :
   maxWidth="container"
   variant="documentation"
 >
-  <!-- Hero Section with Modern Design -->
-  <div class="hero bg-gradient-to-br from-primary/10 to-secondary/10 rounded-3xl mb-12">
-    <div class="hero-content text-center py-16">
-      <div class="max-w-3xl">
-        <h1 class="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+  <!-- Hero Section with Enhanced Design -->
+  <div class="hero bg-gradient-to-br from-base-200 to-base-300 rounded-3xl mb-12 shadow-2xl transform transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
+    <div class="hero-content text-center py-16 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="inline-block px-4 py-2 mb-6 text-sm font-semibold text-primary bg-primary/10 rounded-full backdrop-blur-sm">
+          Developer Documentation
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6 leading-tight">
           Framework & Styling Guide
         </h1>
-        <p class="text-xl text-base-content/80 leading-relaxed">
-          Professional documentation for Astro 5+, TailwindCSS 4+, DaisyUI 5+, and modern web development best practices. 
-          Showcasing the latest features and implementation patterns.
+        <p class="text-lg md:text-xl text-base-content/80 leading-relaxed max-w-3xl mx-auto">
+          Professional documentation for <span class="font-semibold text-primary">Astro 5+</span>, <span class="font-semibold text-blue-500">TailwindCSS 4+</span>, and <span class="font-semibold text-pink-500">DaisyUI 5+</span>.
+          <br class="hidden sm:inline" />
+          Showcasing the latest features and implementation patterns with modern web development best practices.
         </p>
-        <div class="flex gap-4 justify-center mt-8">
-          <div class="badge badge-primary badge-lg">Astro 5+</div>
-          <div class="badge badge-secondary badge-lg">TailwindCSS 4+</div>
-          <div class="badge badge-accent badge-lg">DaisyUI 5+</div>
+        <div class="flex flex-wrap gap-3 justify-center mt-8">
+          <div class="badge badge-lg badge-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors duration-300">
+            <span class="iconify mr-1.5 inline-block" data-icon="mdi:rocket"></span>
+            Astro 5+
+          </div>
+          <div class="badge badge-lg bg-blue-500/10 text-blue-500 border-blue-500/20 hover:bg-blue-500/20 transition-colors duration-300">
+            <span class="iconify mr-1.5 inline-block" data-icon="mdi:tailwind"></span>
+            TailwindCSS 4+
+          </div>
+          <div class="badge badge-lg bg-pink-500/10 text-pink-500 border-pink-500/20 hover:bg-pink-500/20 transition-colors duration-300">
+            <span class="iconify mr-1.5 inline-block" data-icon="mdi:flower"></span>
+            DaisyUI 5+
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modern Tab Interface using DaisyUI 5+ -->
-  <div class="bg-base-100 rounded-2xl shadow-xl border border-base-300 overflow-hidden">
-    <div role="tablist" class="tabs tabs-bordered bg-base-200">
-      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="Styleguide Overview" checked />
-      <div role="tabpanel" class="tab-content">
-        <div class="prose max-w-none p-8">
-          {StyleguideContent && <StyleguideContent />}
-          {!StyleguideContent && (
-            <div class="alert alert-warning">
-              <span>Styleguide content not available</span>
-            </div>
-          )}
+  <!-- Framework Tabs Component - Using DaisyUI tabs: https://daisyui.com/components/tab/ -->
+  <FrameworkTabs />
+
+  <!-- Section Navigation -->
+  <div class="sticky top-4 z-10 my-8">
+    <div class="navbar bg-base-200 rounded-box shadow-sm">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+            <span class="iconify" data-icon="mdi:menu"></span>
+            <span class="ml-2">Sections</span>
+          </div>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a href="#astrojs-demo">AstroJS Demo</a></li>
+            <li><a href="#tailwindcss-demo">Tailwind CSS Demo</a></li>
+            <li><a href="#daisyui-demo">DaisyUI Demo</a></li>
+          </ul>
+        </div>
+        <span class="text-sm font-semibold hidden lg:inline-flex items-center px-2">Framework Demos:</span>
+      </div>
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1">
+          <li><a href="#astrojs-demo" class="btn btn-sm btn-ghost">
+            <span class="iconify mr-1" data-icon="mdi:rocket"></span>
+            AstroJS
+          </a></li>
+          <li><a href="#tailwindcss-demo" class="btn btn-sm btn-ghost">
+            <span class="iconify mr-1" data-icon="mdi:tailwind"></span>
+            Tailwind CSS
+          </a></li>
+          <li><a href="#daisyui-demo" class="btn btn-sm btn-ghost">
+            <span class="iconify mr-1" data-icon="mdi:palette-swatch"></span>
+            DaisyUI
+          </a></li>
+        </ul>
+      </div>
+      <div class="navbar-end">
+        <a href="#top" class="btn btn-ghost btn-sm">
+          <span class="iconify" data-icon="mdi:arrow-up"></span>
+          <span class="ml-1 hidden sm:inline">Top</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technology Highlights Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+    <!-- Styleguide Card -->
+    <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+      <div class="card-body items-center text-center">
+        <div class="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+          <span class="iconify text-3xl" data-icon="mdi:palette"></span>
+        </div>
+        <h3 class="card-title">Styleguide</h3>
+        <p class="text-sm text-base-content/70 mb-4">Design System & Standards</p>
+        <div class="card-actions">
+          <button class="btn btn-sm btn-primary" onclick="document.querySelector('input[aria-label=\'Styleguide\']').click(); window.scrollTo({ top: 0, behavior: 'smooth' });">
+            Learn More
+          </button>
         </div>
       </div>
+    </div>
 
-      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="Astro 5+" />
-      <div role="tabpanel" class="tab-content">
-        <div class="prose max-w-none p-8">
-          {AstroContent && <AstroContent />}
-          {!AstroContent && (
-            <div class="alert alert-warning">
-              <span>Astro content not available</span>
-            </div>
-          )}
+    <!-- Astro Card -->
+    <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+      <div class="card-body items-center text-center">
+        <div class="w-16 h-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+          <span class="iconify text-3xl" data-icon="mdi:rocket"></span>
+        </div>
+        <h3 class="card-title">Astro 5+</h3>
+        <p class="text-sm text-base-content/70 mb-4">Modern Static Site Generator</p>
+        <div class="card-actions">
+          <button class="btn btn-sm btn-primary" onclick="document.querySelector('input[aria-label=\'Astro\']').click(); window.scrollTo({ top: 0, behavior: 'smooth' });">
+            Learn More
+          </button>
         </div>
       </div>
+    </div>
 
-      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="TailwindCSS 4+" />
-      <div role="tabpanel" class="tab-content">
-        <div class="prose max-w-none p-8">
-          {TailwindContent && <TailwindContent />}
-          {!TailwindContent && (
-            <div class="alert alert-warning">
-              <span>TailwindCSS content not available</span>
-            </div>
-          )}
+    <!-- Tailwind Card -->
+    <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+      <div class="card-body items-center text-center">
+        <div class="w-16 h-16 rounded-2xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4">
+          <span class="iconify text-3xl" data-icon="mdi:tailwind"></span>
+        </div>
+        <h3 class="card-title">TailwindCSS 4+</h3>
+        <p class="text-sm text-base-content/70 mb-4">Utility-First CSS Framework</p>
+        <div class="card-actions">
+          <button class="btn btn-sm btn-primary" onclick="document.querySelector('input[aria-label=\'Tailwind\']').click(); window.scrollTo({ top: 0, behavior: 'smooth' });">
+            Learn More
+          </button>
         </div>
       </div>
+    </div>
 
-      <input type="radio" name="framework_tabs" role="tab" class="tab text-lg font-semibold" aria-label="DaisyUI 5+" />
-      <div role="tabpanel" class="tab-content">
-        <div class="prose max-w-none p-8">
-          {DaisyUIContent && <DaisyUIContent />}
-          {!DaisyUIContent && (
-            <div class="alert alert-warning">
-              <span>DaisyUI content not available</span>
-            </div>
-          )}
+    <!-- DaisyUI Card -->
+    <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+      <div class="card-body items-center text-center">
+        <div class="w-16 h-16 rounded-2xl bg-pink-500/10 text-pink-500 flex items-center justify-center mb-4">
+          <span class="iconify text-3xl" data-icon="mdi:flower"></span>
+        </div>
+        <h3 class="card-title">DaisyUI 5+</h3>
+        <p class="text-sm text-base-content/70 mb-4">Tailwind Component Library</p>
+        <div class="card-actions">
+          <button class="btn btn-sm btn-primary" onclick="document.querySelector('input[aria-label=\'DaisyUI\']').click(); window.scrollTo({ top: 0, behavior: 'smooth' });">
+            Learn More
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Professional Features Section with Enhanced Responsive Design -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16 px-4">
-    <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-      <div class="card-body text-center p-6">
-        <div class="text-5xl mb-4 filter drop-shadow-lg">🚀</div>
-        <h3 class="card-title justify-center text-lg font-bold text-base-content mb-3">Modern Architecture</h3>
-        <p class="text-base-content/70 text-sm leading-relaxed">
-          Built with Astro 5+ for optimal performance and developer experience with modern web standards.
-        </p>
-      </div>
-    </div>
+  <!-- Framework Demo Sections -->
+  <div class="mt-16 space-y-24">
+    <!-- AstroJS Demo Section -->
+    <section id="astrojs-demo" class="space-y-12">
+      <h2 class="text-3xl font-bold">AstroJS Demo</h2>
+      
+      <!-- Hero Section - Using DaisyUI Hero Component -->
+      <section class="hero bg-base-200 rounded-box p-8">
+        <div class="hero-content flex-col text-center">
+          <div class="flex justify-center mb-6">
+            <div class="bg-gradient-to-r from-primary to-secondary p-1 rounded-full">
+              <div class="bg-base-100 p-6 rounded-full flex items-center justify-center">
+                <span class="text-5xl">🚀</span>
+              </div>
+            </div>
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">AstroJS Integration</h1>
+          <p class="text-xl text-base-content/80 max-w-3xl mx-auto">
+            The web framework that scales with you. Astro combines the power of a modern component-based architecture with the performance of static HTML generation.
+          </p>
+          <div class="mt-6">
+            <a href="https://docs.astro.build" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Documentation</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {astroFeatures.map(feature => (
+            <FrameworkFeature 
+              title={feature.title}
+              description={feature.content}
+              icon={feature.icon}
+              delay={feature.delay}
+            />
+          ))}
+        </div>
+      </section>
+      
+      <!-- Interactive Code Example -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">Astro Component Example</h2>
+        <div class="card bg-base-200 shadow-lg overflow-hidden">
+          <div class="card-body p-0">
+            <CodeBlock code={astroExampleComponent} language="astro" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Framework Integrations -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">Framework Integrations</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {['React', 'Vue', 'Svelte', 'Solid', 'Preact', 'Alpine', 'Lit', 'Qwik'].map(framework => (
+            <div class="card bg-base-200 shadow-sm p-4 flex items-center justify-center hover:bg-base-300 transition-colors">
+              <span class="text-2xl mr-2" data-icon={`mdi:${framework.toLowerCase()}`}></span>
+              <span>{framework}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    </section>
     
-    <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-      <div class="card-body text-center p-6">
-        <div class="text-5xl mb-4 filter drop-shadow-lg">🎨</div>
-        <h3 class="card-title justify-center text-lg font-bold text-base-content mb-3">Design System</h3>
-        <p class="text-base-content/70 text-sm leading-relaxed">
-          Professional UI with TailwindCSS 4+ and DaisyUI 5+ components for modern interfaces.
-        </p>
-      </div>
-    </div>
+    <!-- Tailwind Demo Section -->
+    <section id="tailwindcss-demo" class="space-y-12">
+      <h2 class="text-3xl font-bold">Tailwind CSS Demo</h2>
+      
+      <!-- Hero Section - Using DaisyUI Hero Component -->
+      <section class="hero bg-base-200 rounded-box p-8">
+        <div class="hero-content flex-col text-center">
+          <div class="flex justify-center mb-6">
+            <div class="bg-gradient-to-r from-cyan-500 to-blue-500 p-1 rounded-full">
+              <div class="bg-base-100 p-6 rounded-full flex items-center justify-center">
+                <span class="text-5xl">🎨</span>
+              </div>
+            </div>
+          </div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">Tailwind CSS Integration</h1>
+          <p class="text-xl text-base-content/80 max-w-3xl mx-auto">
+            A utility-first CSS framework packed with classes that can be composed to build any design, directly in your markup.
+          </p>
+          <div class="mt-6">
+            <a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Documentation</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tailwindFeatures.map(feature => (
+            <FrameworkFeature 
+              title={feature.title}
+              description={feature.content}
+              icon={feature.icon}
+              delay={feature.delay}
+            />
+          ))}
+        </div>
+      </section>
+      
+      <!-- Interactive Code Example -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">Try Tailwind CSS</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Example Code</h3>
+            <CodeBlock code={tailwindExampleComponent} language="html" />
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold mb-4">Preview</h3>
+            <div class="p-8 border border-base-300 rounded-box bg-base-100 flex items-center justify-center">
+              <button class="btn btn-primary">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Click me
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Utility Examples -->
+      <section class="mt-12">
+        <h2 class="text-3xl font-bold mb-6">Utility Examples</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Spacing Utilities -->
+          <div class="card bg-base-200 shadow-lg">
+            <div class="card-body">
+              <h3 class="card-title">Spacing Utilities</h3>
+              <div class="grid grid-cols-3 gap-2 mt-4">
+                <div class="p-2 bg-primary/20 text-center">p-2</div>
+                <div class="p-4 bg-primary/30 text-center">p-4</div>
+                <div class="p-6 bg-primary/40 text-center">p-6</div>
+                <div class="px-4 py-2 bg-secondary/20 text-center">px-4 py-2</div>
+                <div class="m-2 bg-secondary/30 text-center">m-2</div>
+                <div class="mx-auto w-1/2 bg-secondary/40 text-center">mx-auto</div>
+              </div>
+              <p class="text-lg">Paragraph text with <span class="font-bold">bold</span> and <span class="italic">italic</span> styles.</p>
+            </div>
+          </div>
+
+          <!-- Flex/Grid Utilities -->
+          <div class="card bg-base-200/50 p-6 rounded-box">
+            <h3 class="text-xl font-semibold mb-4">Flex & Grid</h3>
+            <div class="flex flex-col space-y-2">
+              <div class="flex gap-2">
+                <div class="flex-1 bg-primary p-2 text-center rounded">flex-1</div>
+                <div class="flex-1 bg-secondary p-2 text-center rounded">flex-1</div>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="bg-accent p-2 text-center rounded">1</div>
+                <div class="bg-accent p-2 text-center rounded">2</div>
+                <div class="bg-accent p-2 text-center rounded">3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
     
-    <div class="card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 sm:col-span-2 lg:col-span-1">
-      <div class="card-body text-center p-6">
-        <div class="text-5xl mb-4 filter drop-shadow-lg">📚</div>
-        <h3 class="card-title justify-center text-lg font-bold text-base-content mb-3">Documentation</h3>
-        <p class="text-base-content/70 text-sm leading-relaxed">
-          Comprehensive guides with official documentation references and best practices.
+    <!-- DaisyUI Demo Section -->
+    <section id="daisyui-demo" class="space-y-12">
+      <h2 class="text-3xl font-bold">DaisyUI Demo</h2>
+      
+      <!-- Hero Section -->
+      <section class="text-center">
+        <div class="flex justify-center mb-6">
+          <div class="bg-gradient-to-r from-pink-500 to-purple-500 p-1 rounded-full">
+            <div class="bg-base-100 p-6 rounded-full flex items-center justify-center">
+              <span class="text-5xl" data-icon="mdi:palette">🎨</span>
+            </div>
+          </div>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">DaisyUI Integration</h1>
+        <p class="text-xl text-base-content/80 max-w-3xl mx-auto">
+          The most popular component library for Tailwind CSS. DaisyUI adds component classes to Tailwind CSS so you can build websites faster with less classes.
         </p>
-      </div>
-    </div>
+      </section>
+
+      <!-- Component Showcase -->
+      <section class="mt-12">
+        <h2 class="text-3xl font-bold mb-6">Component Showcase</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Example components can go here -->
+          <div class="card bg-base-200/50 p-6 rounded-box">
+            <h3 class="text-xl font-semibold mb-4">Buttons</h3>
+            <div class="flex flex-wrap gap-2">
+              <button class="btn btn-primary">Primary</button>
+              <button class="btn btn-secondary">Secondary</button>
+              <button class="btn btn-accent">Accent</button>
+            </div>
+          </div>
+          
+          <div class="card bg-base-200/50 p-6 rounded-box">
+            <h3 class="text-xl font-semibold mb-4">Alerts</h3>
+            <div class="space-y-2">
+              <div class="alert alert-info">
+                <span>This is an info alert</span>
+              </div>
+              <div class="alert alert-success">
+                <span>This is a success alert</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
   </div>
+
+  <!-- Add custom styles for typography and animations -->
+  <style>
+    
+    /* Hide scrollbar for tab header */
+    .no-scrollbar {
+      -ms-overflow-style: none;
+    }
+    
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    
+    /* Animation for tab content */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+
 </BaseLayout>

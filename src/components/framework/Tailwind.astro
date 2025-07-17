@@ -1,0 +1,146 @@
+---
+// src/components/framework/Tailwind.astro
+import FrameworkFeature from './Feature.astro';
+import CodeBlock from '../ui/CodeBlock.astro';
+
+// Define Tailwind features with descriptions
+const features = [
+  {
+    title: 'Rapid Development',
+    content: "Build modern websites without leaving your HTML. Tailwind's utility classes help you work within the constraints of a system instead of littering your stylesheets with arbitrary values.",
+    icon: '🚀',
+    delay: 100
+  },
+  {
+    title: 'A Design That\'s Uniquely Yours',
+    content: "Unlike other frameworks that dictate how your site looks, Tailwind provides low-level utility classes that let you build completely custom designs without ever leaving your HTML.",
+    icon: '🎨',
+    delay: 200
+  },
+  {
+    title: 'Pixel-Perfect Consistency',
+    content: "Every utility class in Tailwind is part of a carefully crafted design system, ensuring your projects maintain consistent spacing, sizing, colors, and more.",
+    icon: '✨',
+    delay: 300
+  },
+  {
+    title: 'Optimized for Performance and SEO',
+    content: "Tailwind automatically removes all unused CSS when building for production, which means your final CSS bundle is the smallest it could possibly be.",
+    icon: '⚡',
+    delay: 400
+  },
+  {
+    title: 'Effortless Maintenance and Scalability',
+    content: "Tailwind's utility-first approach promotes reusability and consistency, making it easier to maintain and scale your projects as they grow.",
+    icon: '🧩',
+    delay: 500
+  }
+];
+
+// Example Tailwind component
+const exampleComponent = `<!-- Example using Tailwind CSS -->
+<button class="btn btn-primary">
+  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+      d="M13 10V3L4 14h7v7l9-11h-7z" />
+  </svg>
+  Click me
+</button>`;
+
+---
+
+<article class="space-y-12">
+  <!-- Hero Section - Using DaisyUI Hero Component -->
+  <section class="hero bg-base-200 rounded-box p-8">
+    <div class="hero-content flex-col text-center">
+      <div class="flex justify-center mb-6">
+        <div class="bg-gradient-to-r from-cyan-500 to-blue-500 p-1 rounded-full">
+          <div class="bg-base-100 p-6 rounded-full flex items-center justify-center">
+            <span class="text-5xl">🎨</span>
+          </div>
+        </div>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Tailwind CSS Integration</h1>
+      <p class="text-xl text-base-content/80 max-w-3xl mx-auto">
+        A utility-first CSS framework packed with classes that can be composed to build any design, directly in your markup.
+      </p>
+      <div class="mt-6">
+        <a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Documentation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {features.map(feature => (
+        <FrameworkFeature 
+          title={feature.title}
+          description={feature.content}
+          icon={feature.icon}
+          delay={feature.delay}
+        />
+      ))}
+    </div>
+  </section>
+  
+  <!-- Interactive Code Example -->
+  <section class="mb-16">
+    <h2 class="text-3xl font-bold mb-6">Try Tailwind CSS</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Example Code</h3>
+        <CodeBlock code={exampleComponent} language="html" />
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Preview</h3>
+        <div class="p-8 border border-base-300 rounded-box bg-base-100 flex items-center justify-center">
+          <button class="btn btn-primary">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Click me
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Utility Examples -->
+  <section class="mt-12">
+    <h2 class="text-3xl font-bold mb-6">Utility Examples</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Spacing Utilities -->
+      <div class="card bg-base-200 shadow-lg">
+        <div class="card-body">
+          <h3 class="card-title">Spacing Utilities</h3>
+          <div class="grid grid-cols-3 gap-2 mt-4">
+            <div class="p-2 bg-primary/20 text-center">p-2</div>
+            <div class="p-4 bg-primary/30 text-center">p-4</div>
+            <div class="p-6 bg-primary/40 text-center">p-6</div>
+            <div class="px-4 py-2 bg-secondary/20 text-center">px-4 py-2</div>
+            <div class="m-2 bg-secondary/30 text-center">m-2</div>
+            <div class="mx-auto w-1/2 bg-secondary/40 text-center">mx-auto</div>
+          <p class="text-lg">Paragraph text with <span class="font-bold">bold</span> and <span class="italic">italic</span> styles.</p>
+        </div>
+      </div>
+
+      <!-- Flex/Grid Utilities -->
+      <div class="card bg-base-200/50 p-6 rounded-box">
+        <h3 class="text-xl font-semibold mb-4">Flex & Grid</h3>
+        <div class="flex flex-col space-y-2">
+          <div class="flex gap-2">
+            <div class="flex-1 bg-primary p-2 text-center rounded">flex-1</div>
+            <div class="flex-1 bg-secondary p-2 text-center rounded">flex-1</div>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="bg-accent p-2 text-center rounded">1</div>
+            <div class="bg-accent p-2 text-center rounded">2</div>
+            <div class="bg-accent p-2 text-center rounded">3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

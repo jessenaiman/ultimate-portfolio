@@ -1,0 +1,55 @@
+---
+// Import the markdown content directly
+import { Content as DaisyContent } from '../../content/info/daisyui.md';
+
+// Optional: Import frontmatter if needed
+import daisyInfo from '../../content/info/daisyui.md';
+
+---
+
+<article class="space-y-12">
+  <!-- Hero Section -->
+  <section class="text-center">
+    <div class="flex justify-center mb-6">
+      <div class="bg-gradient-to-r from-pink-500 to-purple-500 p-1 rounded-full">
+        <div class="bg-base-100 p-6 rounded-full flex items-center justify-center">
+          <span class="text-5xl" data-icon="mdi:palette">🎨</span>
+        </div>
+      </div>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">DaisyUI Integration</h1>
+  </section>
+
+  <!-- Markdown Content -->
+  <div class="prose prose-base max-w-none space-y-8">
+    <DaisyContent />
+  </div>
+
+  <!-- Component Showcase -->
+  <section class="mt-12">
+    <h2 class="text-3xl font-bold mb-6">Component Showcase</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Example components can go here -->
+      <div class="card bg-base-200/50 p-6 rounded-box">
+        <h3 class="text-xl font-semibold mb-4">Buttons</h3>
+        <div class="flex flex-wrap gap-2">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-accent">Accent</button>
+        </div>
+      </div>
+      
+      <div class="card bg-base-200/50 p-6 rounded-box">
+        <h3 class="text-xl font-semibold mb-4">Alerts</h3>
+        <div class="space-y-2">
+          <div class="alert alert-info">
+            <span>This is an info alert</span>
+          </div>
+          <div class="alert alert-success">
+            <span>This is a success alert</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

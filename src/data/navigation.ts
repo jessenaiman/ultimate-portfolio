@@ -34,48 +34,14 @@ export const navigationItems: NavigationItem[] = [
     path: '/portfolio',
     icon: 'mdi:briefcase'
   },
-  {
-    name: 'stack',
-    displayName: 'Website Stack',
-    features: 'Technology Stack',
-    path: '#',
+  { 
+    name: 'stack', 
+    displayName: 'Website Stack', 
+    features: 'Technology Stack Documentation', 
+    path: '/styleguide',
     icon: 'mdi:layers',
-    children: [
-      { 
-        name: 'astro', 
-        displayName: 'AstroJS', 
-        features: 'Static Site Generator', 
-        path: '/astrojs',
-        icon: 'mdi:rocket',
-        badge: 'v4.0'
-      },
-      { 
-        name: 'tailwind', 
-        displayName: 'TailwindCSS', 
-        features: 'Utility-First CSS Framework', 
-        path: '/tailwind',
-        icon: 'mdi:tailwind',
-        badge: 'v3.0'
-      },
-      { 
-        name: 'daisyui', 
-        displayName: 'DaisyUI', 
-        features: 'Tailwind Component Library', 
-        path: '/daisyui',
-        icon: 'mdi:flower',
-        badge: 'v4.0'
-      },
-      { 
-        name: 'styleguide', 
-        displayName: 'Styleguide', 
-        features: 'Design System & Standards', 
-        path: '/styleguide',
-        icon: 'mdi:palette-outline',
-        badge: 'NEW',
-        badgeColor: 'secondary',
-        isNew: true
-      }
-    ]
+    badge: 'UPDATED',
+    badgeColor: 'primary'
   },
   {
     name: 'frameworks',

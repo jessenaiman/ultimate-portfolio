@@ -5,54 +5,6 @@
 }
 
 @plugin "daisyui/theme" {
-  /* I've renamed the theme to make it clear it's your custom version. */
-  name: "fucked";
-  default: false;
-  prefersdark: false;
-  color-scheme: "fucked";
-
-  /* --- Base Colors --- */
-  /* We've increased the difference between base colors for better separation. */
-  --color-base-100: oklch(100% 0 0);        /* Main page background (pure white) */
-  --color-base-200: oklch(94% 0.008 285); /* Slightly darker for element backgrounds like cards. */
-  --color-base-300: oklch(92% 0.01 285);  /* Used for hover states and subtle borders. */
-  --color-base-content: oklch(21% 0.006 285.885);
-
-  /* --- Accent & State Colors (Your originals are great!) --- */
-  --color-primary: oklch(45% 0.24 277.023);
-  --color-primary-content: oklch(93% 0.034 272.788);
-  --color-secondary: oklch(65% 0.241 354.308);
-  --color-secondary-content: oklch(94% 0.028 342.258);
-  --color-accent: oklch(77% 0.152 181.912);
-  --color-accent-content: oklch(38% 0.063 188.416);
-  --color-neutral: oklch(14% 0.005 285.823);
-  --color-neutral-content: oklch(92% 0.004 286.32);
-  --color-info: oklch(74% 0.16 232.661);
-  --color-info-content: oklch(29% 0.066 243.157);
-  --color-success: oklch(76% 0.177 163.223);
-  --color-success-content: oklch(37% 0.077 168.94);
-  --color-warning: oklch(82% 0.189 84.429);
-  --color-warning-content: oklch(41% 0.112 45.904);
-  --color-error: oklch(71% 0.194 13.428);
-  --color-error-content: oklch(27% 0.105 12.094);
-
-  /* --- Borders & Radius --- */
-  /* Increased border-radius for a softer, more modern look. */
-  --radius-box: 1rem;     /* For cards, modals, etc. */
-  --radius-btn: 0.5rem;   /* For buttons */
-  --radius-badge: 1.9rem; /* For badges */
-
-  /* --- Animation & Other Details --- */
-  --animation-btn: 0.25s;      /* A slightly slower animation for a smoother feel on click */
-  --animation-input: 0.2s;     /* A smoother transition on input focus */
-  --btn-focus-scale: 0.95;     /* A satisfying press-down effect on buttons */
-  --border-btn: 1px;           /* Default border width for buttons */
-  --tab-border: 1px;           /* Default border width for tabs */
-  --tab-radius: 0.5rem;        /* Gives tabs a rounded look */
-}
-
-
-@plugin "daisyui/theme" {
   name: "light";
   default: false;
   prefersdark: false;

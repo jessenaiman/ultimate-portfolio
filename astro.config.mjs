@@ -6,8 +6,7 @@ import svelte from "@astrojs/svelte";
 import vue from "@astrojs/vue";
 import solidJs from "@astrojs/solid-js";
 import sitemap from "@astrojs/sitemap";
-import tailwindPlugin from "@tailwindcss/vite";
-
+import tailwindcss from "@tailwindcss/vite"
 import expressiveCode from 'astro-expressive-code';
 
 // https://astro.build/config
@@ -42,7 +41,7 @@ export default defineConfig({
 
   // Improved Vite configuration
   vite: {
-    plugins: [tailwindPlugin()],
+    plugins: [tailwindcss()],
     optimizeDeps: {
       include: [
         'react',

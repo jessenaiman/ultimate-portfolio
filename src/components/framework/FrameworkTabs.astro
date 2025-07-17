@@ -1,0 +1,78 @@
+---
+// Framework tabs component using DaisyUI tabs
+// Documentation: https://daisyui.com/components/tab/
+import { Content as AstroContent } from '../../content/info/astrojs.md';
+import { Content as TailwindContent } from '../../content/info/tailwindcss.md';
+import { Content as DaisyContent } from '../../content/info/daisyui.md';
+import { Content as StyleguideContent } from '../../content/info/styleguide.md';
+
+// Tab configuration with icons and content
+const tabs = [
+  {
+    id: 'styleguide',
+    name: 'Styleguide',
+    icon: 'mdi:palette-outline',
+    badge: 'NEW',
+    badgeColor: 'secondary',
+    gradient: 'from-primary/10 to-secondary/10',
+    description: 'Design System & Standards'
+  },
+  {
+    id: 'astro',
+    name: 'AstroJS',
+    icon: 'mdi:rocket',
+    badge: 'v4.0',
+    gradient: 'from-blue-500/10 to-purple-500/10',
+    description: 'Modern Static Site Generator'
+  },
+  {
+    id: 'tailwind',
+    name: 'Tailwind CSS',
+    icon: 'mdi:tailwind',
+    badge: 'v4.0',
+    gradient: 'from-cyan-500/10 to-blue-500/10',
+    description: 'Utility-First CSS Framework'
+  },
+  {
+    id: 'daisyui',
+    name: 'DaisyUI',
+    icon: 'mdi:palette-swatch',
+    badge: 'v5.0',
+    gradient: 'from-pink-500/10 to-purple-500/10',
+    description: 'Component Library for Tailwind CSS'
+  }
+];
+---
+
+<!-- DaisyUI Tabs: https://daisyui.com/components/tab/ -->
+<div class="mb-16">
+  <!-- Using the correct DaisyUI tabs-lift structure from https://daisyui.com/components/tab/#lifted-tabs -->
+  <div class="tabs tabs-lift">
+    {tabs.map((tab, index) => (
+      <>
+        <label class="tab">
+          <input 
+            type="radio" 
+            name="framework_tabs" 
+            checked={index === 0} 
+          />
+          <span class="iconify mr-2" data-icon={tab.icon}></span>
+          {tab.name}
+          {tab.badge && (
+            <span class={`badge ml-2 ${tab.badgeColor ? `badge-${tab.badgeColor}` : 'badge-primary'}`}>
+              {tab.badge}
+            </span>
+          )}
+        </label>
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+          <div class="prose prose-base max-w-none">
+            {tab.id === 'styleguide' && <StyleguideContent />}
+            {tab.id === 'astro' && <AstroContent />}
+            {tab.id === 'tailwind' && <TailwindContent />}
+            {tab.id === 'daisyui' && <DaisyContent />}
+          </div>
+        </div>
+      </>
+    ))}
+  </div>
+</div>
