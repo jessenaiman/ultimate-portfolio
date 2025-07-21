@@ -1,9 +1,9 @@
 ---
 // Framework tabs component using DaisyUI tabs
 // Documentation: https://daisyui.com/components/tab/
-import { Content as AstroContent } from '../../content/info/astrojs.md';
-import { Content as TailwindContent } from '../../content/info/tailwindcss.md';
-import { Content as DaisyContent } from '../../content/info/daisyui.md';
+import { Content as AstroContent } from '../../content/info/astrojs-styleguide.md';
+import { Content as TailwindContent } from '../../content/info/tailwind-styleguide.md';
+import { Content as DaisyContent } from '../../content/info/daisyui-styleguide.md';
 import { Content as StyleguideContent } from '../../content/info/styleguide.md';
 
 // Tab configuration with icons and content
@@ -50,27 +50,35 @@ const tabs = [
 
 <!-- DaisyUI Tabs: https://daisyui.com/components/tab/ -->
 <div class="mb-16">
-  <div class="tabs tabs-lift">
+  <div role="tablist" class="tabs tabs-lifted">
     {tabs.map((tab, index) => {
       const Content = tab.content;
+      const tabId = `tab-${tab.id}`;
       return (
         <>
-          <label class="tab">
-            <input 
-              type="radio" 
-              name="framework_tabs" 
-              checked={index === 0} 
-            />
-            <span class="iconify mr-2" data-icon={tab.icon}></span>
-            {tab.name}
-            {tab.badge && (
-              <span class={`badge ml-2 ${tab.badgeColor ? `badge-${tab.badgeColor}` : 'badge-primary'}`}>
-                {tab.badge}
-              </span>
-            )}
-          </label>
-          <div class="tab-content bg-base-100 border-base-300 p-6">
-            <Content />
+          <input 
+            type="radio" 
+            name="framework_tabs" 
+            role="tab"
+            class="tab"
+            aria-label={tab.name}
+            id={tabId}
+            checked={index === 0} 
+          />
+          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <div class="flex items-center mb-4">
+              <span class="iconify mr-2 text-2xl" data-icon={tab.icon}></span>
+              <h3 class="text-xl font-bold">{tab.name}</h3>
+              {tab.badge && (
+                <span class={`badge ml-2 ${tab.badgeColor ? `badge-${tab.badgeColor}` : 'badge-primary'}`}>
+                  {tab.badge}
+                </span>
+              )}
+            </div>
+            <p class="text-sm text-base-content/70 mb-4">{tab.description}</p>
+            <div class="prose prose-sm md:prose-base max-w-none bg-base-200/30 p-4 md:p-6 rounded-lg">
+              <Content />
+            </div>
           </div>
         </>
       );

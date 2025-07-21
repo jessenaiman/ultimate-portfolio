@@ -3,6 +3,7 @@ title: "Future Stack Resume"
 employer: "Jesse Naiman"
 description: "Employer for all things past, present and future"
 date: "2025-01-25"
+section: "resume"
 ---
 
 # Jesse Naiman

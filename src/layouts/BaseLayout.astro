@@ -1,0 +1,61 @@
+---
+// Modern professional layout using latest DaisyUI 5+ and TailwindCSS 4+ features
+// Documentation: https://docs.astro.build/en/guides/layouts/
+// DaisyUI 5+ Themes: https://daisyui.com/docs/themes/
+// TailwindCSS 4+ Typography: https://tailwindcss.com/docs/typography-plugin
+import Head from "../components/core/Head.astro";
+import Menu from "../components/ui/Menu.astro";
+import Footer from "../components/ui/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  bgColor?: string;
+  maxWidth?: 'none' | 'prose' | 'container';
+  variant?: 'default' | 'documentation' | 'showcase';
+}
+
+const { 
+  title, 
+  description = "Professional web development portfolio showcasing modern frameworks and best practices", 
+  bgColor,
+  maxWidth = 'prose',
+  variant = 'default'
+} = Astro.props;
+
+// Modern container classes using DaisyUI 5+ design system
+const containerClasses = {
+  none: "w-full",
+  prose: "max-w-4xl mx-auto px-6 py-8", // Using DaisyUI spacing without external prose
+  container: "container mx-auto max-w-7xl px-6 py-8"
+};
+
+const variantClasses = {
+  default: "space-y-6",
+  documentation: "space-y-8",
+  showcase: "space-y-12"
+};
+---
+
+<html lang="en" data-theme="light" class="scroll-smooth">
+  <Head title={title} bgColor={bgColor} />
+  <body class="bg-base-100 text-base-content antialiased flex flex-col min-h-screen">
+    <!-- Navigation with modern DaisyUI navbar -->
+    <div class="navbar bg-base-100 border-b border-base-300 sticky top-0 z-50 backdrop-blur-lg bg-base-100/90">
+      <Menu />
+    </div>
+    
+    <!-- Main content with DaisyUI spacing -->
+    <main class="flex-1 bg-base-100">
+      <div class={`${containerClasses[maxWidth]} ${variantClasses[variant]}`}>
+        <slot />
+      </div>
+    </main>
+    
+    <!-- Footer with DaisyUI styling -->
+    <footer class="footer footer-center bg-base-200 text-base-content border-t border-base-300 p-6">
+      <Footer />
+    </footer>
+  </body>
+</html>

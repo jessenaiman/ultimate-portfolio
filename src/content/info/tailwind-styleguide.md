@@ -1,0 +1,164 @@
+---
+title: "TailwindCSS 4+ Integration Guide for Astro 5+"
+description: "Complete guide to setting up TailwindCSS 4+ with Astro 5+ using the new Vite plugin and CSS configuration system."
+publishDate: "2025-07-15"
+tags: ["tailwindcss", "astro", "vite", "css", "web development"]
+---
+
+## TailwindCSS 4+ with Astro 5+: Modern Setup Guide
+
+TailwindCSS 4+ introduces a new architecture with improved performance and a CSS-first configuration approach. This guide shows you how to properly integrate TailwindCSS 4+ with Astro 5+ using the new `@tailwindcss/vite` plugin.
+
+### Quick Setup
+
+#### 1. Install TailwindCSS 4+ and Vite Plugin
+
+```bash
+# Install TailwindCSS 4+ and the official Vite plugin
+npm install tailwindcss @tailwindcss/vite
+```
+
+**Documentation Reference:** [TailwindCSS Installation Guide for Astro](https://tailwindcss.com/docs/installation/framework-guides/astro)
+
+#### 2. Configure Astro with TailwindCSS Vite Plugin
+
+Update your `astro.config.mjs` to use the new Vite plugin:
+
+```javascript
+// astro.config.mjs
+// @ts-check
+import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
+
+// https://astro.build/config
+export default defineConfig({
+  vite: {
+    plugins: [tailwindcss()],
+  },
+});
+```
+
+**Documentation Reference:** [Astro Styling Guide](https://docs.astro.build/en/guides/styling/)
+
+#### 3. Create Global CSS File
+
+Create `src/styles/global.css` and import TailwindCSS:
+
+```css
+/* src/styles/global.css */
+@import "tailwindcss";
+```
+
+#### 4. Import CSS in Your Layout
+
+Import the global stylesheet in your main layout:
+
+```astro
+---
+// src/layouts/Layout.astro
+import "../styles/global.css";
+---
+```
+
+### Key Differences from TailwindCSS 3.x
+
+#### Configuration Changes
+
+TailwindCSS 4+ introduces significant changes:
+
+- **No more `tailwind.config.js`**: TailwindCSS 4+ uses CSS-based configuration instead of JavaScript config files
+- **Vite Plugin**: Use `@tailwindcss/vite` instead of `@astrojs/tailwind` integration
+- **CSS-First**: Configuration is done directly in CSS files using `@theme` directive
+
+<!-- Documentation Reference: https://tailwindcss.com/docs/upgrade-guide -->
+
+#### Legacy Configuration Support
+
+If you need to use a legacy JavaScript config file, use the `@config` directive:
+
+```css
+/* Load legacy config if needed */
+@config "../../tailwind.config.js";
+@import "tailwindcss";
+```
+
+### Advanced Configuration
+
+#### Custom Theme Configuration
+
+Use the `@theme` directive in your CSS for custom configurations:
+
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(55% 0.3 240);
+  --color-secondary: oklch(70% 0.25 200);
+  --breakpoint-3xl: 120rem;
+  --font-sans: 'Inter', 'sans-serif';
+}
+```
+
+<!-- Documentation Reference: https://tailwindcss.com/docs/theme -->
+
+#### Custom Utilities
+
+Define custom utilities using `@utility`:
+
+```css
+@import "tailwindcss";
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+```
+
+### Performance Benefits
+
+- **Faster builds**: New Vite plugin provides better performance
+- **Smaller bundles**: Improved tree-shaking and optimization  
+- **Better DX**: Enhanced development experience with faster HMR
+
+### Migration from TailwindCSS 3.x
+
+If upgrading from TailwindCSS 3.x:
+
+1. **Remove old integration:**
+   ```bash
+   npm uninstall @astrojs/tailwind
+   ```
+
+2. **Remove from astro.config.mjs:**
+   ```javascript
+   // Remove this line
+   integrations: [tailwind()],
+   ```
+
+3. **Install new setup:**
+   ```bash
+   npm install tailwindcss @tailwindcss/vite
+   ```
+
+4. **Update configuration:**
+   - Move theme customizations from `tailwind.config.js` to CSS using `@theme`
+   - Replace JavaScript config with CSS-based configuration
+
+### Troubleshooting
+
+#### Common Issues
+
+- **Build errors**: Ensure you're using `@tailwindcss/vite` plugin, not the old integration
+- **Styles not loading**: Check that global CSS is imported in your layout
+- **Config not working**: Use `@config` directive for legacy JavaScript configs
+
+#### Best Practices
+
+- Keep CSS configuration in your main stylesheet
+- Use the new `@theme` directive for custom values
+- Leverage the Vite plugin for optimal performance
+
+**Documentation References:**
+- [TailwindCSS 4+ Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
+- [Astro Styling Guide](https://docs.astro.build/en/guides/styling/)
+- [TailwindCSS Vite Plugin](https://tailwindcss.com/docs/installation/using-vite)

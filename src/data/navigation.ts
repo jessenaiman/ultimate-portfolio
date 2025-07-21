@@ -44,45 +44,46 @@ export const navigationItems: NavigationItem[] = [
     badgeColor: 'primary'
   },
   {
-    name: 'frameworks',
-    displayName: 'Frameworks',
-    features: 'JavaScript Frameworks',
+    name: 'framework-demos',
+    displayName: 'Framework Demos',
+    features: 'Interactive Framework Examples',
     path: '#',
     icon: 'mdi:code-tags',
     children: [
+      // Updated framework demo paths to avoid reserved words (see: https://docs.astro.build/en/core-concepts/routing/)
       { 
         name: 'react', 
         displayName: 'React', 
         features: 'UI Library', 
-        path: '/react',
+        path: '/react-framework',
         icon: 'mdi:react'
       },
       { 
         name: 'vue', 
         displayName: 'Vue', 
         features: 'Progressive Framework', 
-        path: '/vue',
+        path: '/vue-framework',
         icon: 'mdi:vuejs'
       },
       { 
         name: 'svelte', 
         displayName: 'Svelte', 
         features: 'Compiler as Framework', 
-        path: '/svelte',
+        path: '/svelte-framework',
         icon: 'mdi:language-typescript'
       },
       { 
         name: 'solid', 
         displayName: 'SolidJS', 
         features: 'Reactive UI Library', 
-        path: '/solid',
+        path: '/solid-framework',
         icon: 'mdi:language-javascript'
       },
       { 
         name: 'remix', 
         displayName: 'Remix', 
         features: 'Full Stack Framework', 
-        path: '/remix',
+        path: '/remix-framework',
         icon: 'mdi:code-brackets'
       }
     ]
@@ -157,12 +158,5 @@ export const navigationItems: NavigationItem[] = [
         icon: 'mdi:calculator'
       }
     ]
-  },
-  { 
-    name: 'ml', 
-    displayName: 'Machine Learning', 
-    features: 'AI Solutions', 
-    path: '/machine',
-    icon: 'mdi:robot-outline'
   }
 ];

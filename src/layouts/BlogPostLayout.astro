@@ -1,7 +1,7 @@
 ---
 // 1. The frontmatter prop gives access to frontmatter and other data
 // Documentation: https://docs.astro.build/en/guides/layouts/
-import BaseLayout from "../components/shared/BaseLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 const { frontmatter } = Astro.props;
 ---
 <BaseLayout title={frontmatter.title} description={frontmatter.description}>

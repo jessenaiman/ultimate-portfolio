@@ -1,17 +1,16 @@
 ---
-import VueLayout from '../layouts/VueLayout.astro';
+import VueLayout from '../layouts/Layout.astro';
 import CodeModal from '../components/ui/CodeModal.astro';
 import DemoCard from '../components/ui/DemoCard.astro';
 
 // Import Vue components
-import ThemeSwitcherDemo from '../components/Vue/demos/ThemeSwitcherDemo.vue';
 import TypeWriterDemo from '../components/Vue/demos/TypeWriterDemo.vue';
 import CounterDemo from '../components/Vue/demos/CounterDemo.vue';
 
 // Import markdown content
 import { getEntry } from 'astro:content';
-const vueInfo = await getEntry('info', 'vue');
-const { Content: VueContent } = await vueInfo.render();
+const vueInfo = await getEntry('info', 'vue-framework');
+const { Content: VueContent } = await vueInfo.rendered;
 
 // Import raw code for display
 import ThemeSwitcherDemoRaw from '../components/Vue/demos/ThemeSwitcherDemo.vue?raw';

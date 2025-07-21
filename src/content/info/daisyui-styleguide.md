@@ -1,0 +1,277 @@
+---
+title: "DaisyUI 5+ Integration Guide for TailwindCSS 4+"
+description: "Complete guide to setting up DaisyUI 5+ with TailwindCSS 4+ and Astro 5+ using the new CSS plugin system."
+publishDate: "2025-07-15"
+tags: ["daisyui", "tailwindcss", "astro", "components", "ui"]
+---
+
+## DaisyUI 5+ with TailwindCSS 4+ Setup Guide
+
+DaisyUI 5+ is designed specifically for TailwindCSS 4+ and introduces a new CSS-based plugin system. This guide shows you how to properly integrate DaisyUI 5+ with TailwindCSS 4+ in Astro 5+.
+
+<!-- Documentation Reference: https://daisyui.com/docs/install/ -->
+
+### Requirements
+
+- **TailwindCSS 4+**: DaisyUI 5 requires TailwindCSS 4
+- **No `tailwind.config.js`**: TailwindCSS v4 only needs `@import "tailwindcss";` in the CSS file
+- **CSS Plugin System**: DaisyUI 5 uses `@plugin "daisyui";` in CSS instead of JavaScript config
+
+### Quick Setup
+
+#### 1. Install DaisyUI 5+
+
+```bash
+# Install DaisyUI 5+ as a development dependency
+npm install -D daisyui@latest
+```
+
+**Documentation Reference:** [DaisyUI Installation Guide](https://daisyui.com/docs/install/)
+
+#### 2. Add DaisyUI Plugin to CSS
+
+Update your `src/styles/global.css` to include DaisyUI:
+
+```css
+/* src/styles/global.css */
+@import "tailwindcss";
+@plugin "daisyui";
+```
+
+**Documentation Reference:** [DaisyUI CSS Integration](https://daisyui.com/docs/install/)
+
+#### 3. Basic Configuration
+
+For basic usage with default settings:
+
+```css
+/* Basic DaisyUI setup with default themes */
+@import "tailwindcss";
+@plugin "daisyui";
+```
+
+### Advanced Configuration
+
+#### Custom Theme Configuration
+
+Configure DaisyUI with specific themes and settings:
+
+```css
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+  root: ":root";
+  include: ;
+  exclude: ;
+  prefix: ;
+  logs: true;
+}
+```
+
+#### Multiple Themes Setup
+
+Enable multiple built-in themes:
+
+```css
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light, dark, cupcake, bumblebee --default, emerald, corporate, 
+          synthwave --prefersdark, retro, cyberpunk, valentine, halloween,
+          garden, forest, aqua, lofi, pastel, fantasy, wireframe, black,
+          luxury, dracula, cmyk, autumn, business, acid, lemonade, night,
+          coffee, winter, dim, nord, sunset;
+  root: ":root";
+  prefix: daisy-;
+  logs: false;
+}
+```
+
+**Documentation Reference:** [DaisyUI Themes Configuration](https://daisyui.com/docs/themes/)
+
+### Theme Switching
+
+#### Method 1: Theme Controller Component
+
+Use DaisyUI's theme controller for automatic theme switching:
+
+```html
+<!-- Theme selector checkbox -->
+<input type="checkbox" value="dark" class="theme-controller" />
+
+<!-- Theme selector radio buttons -->
+<input type="radio" name="theme" value="light" class="theme-controller" />
+<input type="radio" name="theme" value="dark" class="theme-controller" />
+```
+
+#### Method 2: Data Attribute
+
+Set theme directly on HTML element:
+
+```html
+<html data-theme="dark">
+<!-- Your content -->
+</html>
+```
+
+**Documentation Reference:** [DaisyUI Theme Controller](https://daisyui.com/components/theme-controller/)
+
+### Component Usage
+
+#### Basic Components
+
+```html
+<!-- Button variants -->
+<button class="btn">Default</button>
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-accent">Accent</button>
+
+<!-- Card component -->
+<div class="card w-96 bg-base-100 shadow-xl">
+  <figure><img src="image.jpg" alt="Example" /></figure>
+  <div class="card-body">
+    <h2 class="card-title">Card Title</h2>
+    <p>Card description content.</p>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary">Action</button>
+    </div>
+  </div>
+</div>
+
+<!-- Alert component -->
+<div role="alert" class="alert alert-success">
+  <span>Your purchase has been confirmed!</span>
+</div>
+```
+
+#### Form Components
+
+```html
+<!-- Input field -->
+<input type="text" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
+
+<!-- Select dropdown -->
+<select class="select select-bordered w-full max-w-xs">
+  <option disabled selected>Pick one</option>
+  <option>Option 1</option>
+  <option>Option 2</option>
+</select>
+
+<!-- Checkbox -->
+<input type="checkbox" class="checkbox checkbox-primary" />
+
+<!-- Toggle -->
+<input type="checkbox" class="toggle toggle-primary" />
+```
+
+### Color System
+
+#### DaisyUI Semantic Colors
+
+DaisyUI provides semantic color names that automatically adapt to themes:
+
+- `primary` - Primary brand color
+- `secondary` - Secondary brand color  
+- `accent` - Accent color
+- `neutral` - Neutral color
+- `base-100`, `base-200`, `base-300` - Base surface colors
+- `info`, `success`, `warning`, `error` - Status colors
+
+#### Usage Examples
+
+```html
+<!-- Using semantic colors -->
+<div class="bg-primary text-primary-content p-4">Primary section</div>
+<div class="bg-base-200 text-base-content p-4">Base section</div>
+<button class="btn btn-success">Success button</button>
+```
+
+**Documentation Reference:** [DaisyUI Colors](https://daisyui.com/docs/colors/)
+
+### Custom Themes
+
+#### Creating Custom Themes
+
+```css
+@import "tailwindcss";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: oklch(98% 0.02 240);
+  --color-base-200: oklch(95% 0.03 240);
+  --color-base-300: oklch(92% 0.04 240);
+  --color-base-content: oklch(20% 0.05 240);
+  --color-primary: oklch(55% 0.3 240);
+  --color-primary-content: oklch(98% 0.01 240);
+  --color-secondary: oklch(70% 0.25 200);
+  --color-secondary-content: oklch(98% 0.01 200);
+
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+```
+
+**Documentation Reference:** [DaisyUI Theme Generator](https://daisyui.com/theme-generator/)
+
+### CDN Alternative
+
+If you prefer using CDN instead of npm:
+
+```html
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+```
+
+### Best Practices
+
+#### Component Naming Convention
+
+DaisyUI 5 uses semantic class naming:
+
+- `component`: Main component class (e.g., `btn`, `card`)
+- `part`: Child parts of components (e.g., `card-body`, `card-title`)
+- `style`: Style variations (e.g., `btn-outline`, `alert-soft`)
+- `color`: Color variants (e.g., `btn-primary`, `badge-success`)
+- `size`: Size variants (e.g., `btn-lg`, `input-sm`)
+- `modifier`: Behavioral modifiers (e.g., `btn-active`, `collapse-open`)
+
+#### Customization with Tailwind
+
+```html
+<!-- Extend DaisyUI components with Tailwind utilities -->
+<button class="btn btn-primary px-8 py-4">Extended Button</button>
+
+<!-- Force override with ! if needed (use sparingly) -->
+<button class="btn bg-red-500!">Force Red Background</button>
+```
+
+### Troubleshooting
+
+#### Common Issues
+
+- **Styles not applying**: Ensure you're using `@plugin "daisyui";` not `@tailwindcss/plugin`
+- **Themes not working**: Check that `data-theme` attribute is set correctly
+- **Build errors**: Ensure you're using TailwindCSS 4+ with DaisyUI 5+
+
+#### Migration from DaisyUI 4.x
+
+1. **Update to TailwindCSS 4+**: Remove `tailwind.config.js`
+2. **Update CSS imports**: Replace JavaScript config with CSS `@plugin`
+3. **Check theme names**: Some theme names may have changed
+4. **Update component usage**: Review component class names for changes
+
+**Documentation References:**
+- [DaisyUI 5 Documentation](https://daisyui.com)
+- [DaisyUI 4 to 5 Upgrade Guide](https://daisyui.com/docs/upgrade/)
+- [DaisyUI Components Reference](https://daisyui.com/components/)
+- [DaisyUI Theme Documentation](https://daisyui.com/docs/themes/)

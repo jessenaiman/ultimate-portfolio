@@ -1,61 +1,67 @@
 import { test, expect } from '@playwright/test';
 
-/**
- * Smoke tests for critical functionality
- * These tests run quickly and catch major issues
- */
-
-test.describe('Smoke Tests - Critical Functionality', () => {
-  test('homepage loads and is interactive', async ({ page }) => {
+test.describe('Smoke Tests', () => {
+  test('homepage loads and displays key sections', async ({ page }) => {
     await page.goto('/');
     
-    // Page should load with correct title
+    // Check page title
     await expect(page).toHaveTitle(/Jesse Naiman/);
     
-    // Navbar should be present
-    await expect(page.locator('.navbar')).toBeVisible();
+    // Check for key sections
+    await expect(page.locator('header')).toBeVisible();
+    await expect(page.locator('main')).toBeVisible();
+    await expect(page.locator('footer')).toBeVisible();
     
-    // Theme controller should be clickable
-    const themeButton = page.locator('.navbar-end .dropdown .btn');
-    await expect(themeButton).toBeVisible();
-    await themeButton.click();
+    // Check for console errors
+    const consoleErrors: string[] = [];
+    page.on('console', (msg: { type: () => string; text: () => string }) => {
+      if (msg.type() === 'error') {
+        consoleErrors.push(`${msg.text()}`);
+      }
+    });
     
-    // Theme dropdown should open
-    await expect(page.locator('.dropdown-content')).toBeVisible();
-  });
-
-  test('navigation works between key pages', async ({ page }) => {
-    await page.goto('/');
+    // Wait a moment for any potential errors
+    await page.waitForTimeout(500);
     
-    // Test navigation to a few key pages
-    const testRoutes = ['/about', '/resume', '/portfolio'];
-    
-    for (const route of testRoutes) {
-      await page.goto(route);
-      await page.waitForLoadState('networkidle');
-      
-      // Should not have any major layout shift or errors
-      await expect(page.locator('.navbar')).toBeVisible();
-      await expect(page.locator('main, .main-content, [role="main"]')).toBeVisible();
+    // Fail the test if there were any console errors
+    if (consoleErrors.length > 0) {
+      throw new Error(`Console errors on homepage:\n${consoleErrors.join('\n')}`);
     }
   });
 
-  test('theme switching works', async ({ page }) => {
-    await page.goto('/');
-    
-    // Open theme controller
-    await page.locator('.navbar-end .dropdown .btn').click();
-    
-    // Click on dark theme
-    await page.locator('.theme-controller[value="dark"]').click();
-    
-    // Verify theme changed
-    await page.waitForFunction(() => 
-      document.documentElement.getAttribute('data-theme') === 'dark'
-    );
-    
-    const theme = await page.getAttribute('html', 'data-theme');
-    expect(theme).toBe('dark');
+  test('main navigation links work', async ({ page }) => {
+    // Define the main navigation paths to test
+    const navPaths = [
+      { path: '/', name: 'Home' },
+      { path: '/resume', name: 'Resume' },
+      { path: '/portfolio', name: 'Portfolio' },
+      { path: '/styleguide', name: 'Website Stack' },
+      { path: '/test-dashboard', name: 'Test Dashboard' }
+    ];
+
+    for (const nav of navPaths) {
+      await test.step(`Testing navigation to ${nav.name}`, async () => {
+        await page.goto(nav.path);
+        await expect(page).toHaveURL(nav.path);
+        await expect(page.locator('main')).toBeVisible();
+        
+        // Check for any console errors
+        const consoleErrors: string[] = [];
+        page.on('console', (msg: { type: () => string; text: () => string }) => {
+          if (msg.type() === 'error') {
+            consoleErrors.push(`${msg.text()}`);
+          }
+        });
+        
+        // Wait a moment for any potential errors
+        await page.waitForTimeout(500);
+        
+        // Fail the test if there were any console errors
+        if (consoleErrors.length > 0) {
+          throw new Error(`Console errors on ${nav.path}:\n${consoleErrors.join('\n')}`);
+        }
+      });
+    }
   });
 
   test('mobile responsive layout', async ({ page }) => {

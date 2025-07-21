@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+// Astro 5+ markdown import pattern (see: https://docs.astro.build/en/guides/markdown-content/#importing-markdown-files)
+// Direct markdown import for content body (see: https://docs.astro.build/en/guides/markdown-content/#importing-markdown-files)
+import { Content as ReactContent } from '../content/info/react-framework.md';
+import InteractiveChat from '../components/React/Chat';
+
+// Features of React
+// Hero section values defined in .astro file for clarity
+const hero = {
+  title: "React: Building Dynamic User Interfaces",
+  description: "Learn about React and how to use it in this Astro project.",
+  badge: "JavaScript Library",
+  links: [
+    { href: "https://reactjs.org/docs/getting-started.html", label: "Get Started", primary: true },
+    { href: "https://github.com/facebook/react", label: "GitHub", primary: false }
+  ]
+};
+
+const features = [
+  {
+    title: "Component-Based",
+    description: "Build encapsulated components that manage their own state, then compose them to make complex UIs."
+  },
+  {
+    title: "Learn Once, Write Anywhere",
+    description: "We don't make assumptions about your tech stack, so you can develop new features without rewriting existing code."
+  },
+  {
+    title: "Declarative",
+    description: "React makes it painless to create interactive UIs. Design simple views for each state in your application."
+  }
+];
+
+// React component examples with syntax highlighting
+const componentExamples = {
+  basic: `// Basic React Component
+function Welcome() {
+  return <h1 className="text-blue-500">Hello, React Developer!</h1>;
+}
+
+// Using the component
+const App = () => (
+  <div>
+    <Welcome />
+  </div>
+);`,
+  state: `// React Component with State
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button 
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={() => setCount(count + 1)}
+      >
+        Click me
+      </button>
+    </div>
+  );
+}`,
+  effect: `// React Component with Side Effects
+import { useState, useEffect } from 'react';
+
+function Example() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    // Fetch data when component mounts
+    fetch('https://api.example.com/data')
+      .then(response => response.json())
+      .then(data => setData(data));
+  }, []); // Empty array means this effect runs once on mount
+  
+  return (
+    <div>
+      {data ? (
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
+  );
+}`
+};
+
+---
+
+<Layout
+  title={hero.title}
+  description={hero.description}
+  variant="documentation"
+>
+  <main class="container mx-auto px-4 py-8 max-w-7xl">
+    <!-- Hero Section using DaisyUI Hero component (see: https://daisyui.com/components/hero/) -->
+    <section class="hero bg-base-200 mb-8 rounded-xl">
+      <div class="hero-content flex-col text-center py-12">
+        <div class="badge badge-primary badge-lg p-4 text-lg mb-4">{hero.badge}</div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">{hero.title}</h1>
+        <p class="text-lg max-w-3xl mx-auto mb-6">{hero.description}</p>
+        <div class="flex justify-center gap-4">
+          {hero.links.map(link => (
+            <a href={link.href} class={link.primary ? "btn btn-primary" : "btn btn-outline"}>
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content (Markdown body, direct import pattern)
+         See: https://docs.astro.build/en/guides/markdown-content/#importing-markdown-files -->
+    <article class="prose max-w-none">
+      <ReactContent />
+    </article>
+
+    <!-- Code Examples Section -->
+    <!-- Code Examples Section (DaisyUI Tabs, no custom JS)
+     See: https://daisyui.com/components/tab/ -->
+<section class="mb-16 mt-12">
+  <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Code Examples</h2>
+  <div class="w-full max-w-2xl mx-auto">
+    <div class="tabs tabs-boxed justify-center mb-6">
+      <input type="radio" name="code_examples" role="tab" class="tab" aria-label="Basic" checked />
+      <div role="tabpanel" class="tab-content bg-base-200 rounded-lg p-6">
+        <pre><code class="language-jsx">{componentExamples.basic}</code></pre>
+      </div>
+      <input type="radio" name="code_examples" role="tab" class="tab" aria-label="State" />
+      <div role="tabpanel" class="tab-content bg-base-200 rounded-lg p-6">
+        <pre><code class="language-jsx">{componentExamples.state}</code></pre>
+      </div>
+      <input type="radio" name="code_examples" role="tab" class="tab" aria-label="Effect" />
+      <div role="tabpanel" class="tab-content bg-base-200 rounded-lg p-6">
+        <pre><code class="language-jsx">{componentExamples.effect}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Features Section -->
+    <section class="grid md:grid-cols-3 gap-8 mb-16">
+      {features.map((feature, index) => (
+        <div  class="card bg-base-200">
+          <div class="card-body">
+            <h3 class="card-title">{feature.title}</h3>
+            <p>{feature.description}</p>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <!-- Interactive Chat Component -->
+    <section class="mb-16">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Ask About React</h2>
+      <InteractiveChat />
+    </section>
+
+    <!-- Call to Action -->
+    <section class="text-center mb-8">
+      <div class="card bg-base-200 max-w-3xl mx-auto">
+        <div class="card-body">
+          <h2 class="card-title justify-center mb-4">Ready to start building with React?</h2>
+          <p class="mb-6">Get started with the official React documentation and tutorials.</p>
+          <div class="flex justify-center gap-4">
+            <a href="https://reactjs.org/docs/getting-started.html" class="btn btn-primary">
+              Documentation
+            </a>
+            <a href="https://reactjs.org/tutorial/tutorial.html" class="btn btn-outline">
+              Tutorial
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+</Layout>

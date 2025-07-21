@@ -1,112 +1,98 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { cred } from '../../data/site';
+import { getCollection } from 'astro:content';
+
+// Get personal info from content collection
+const personalEntries = await getCollection('personal');
+const personalInfo = personalEntries.find(entry => entry.id === 'info.md');
+
+// Extract the data we need from the value field
+const personalData = personalInfo?.data.value && typeof personalInfo.data.value === 'string' 
+  ? JSON.parse(personalInfo.data.value as string) 
+  : {};
+const { name, title, email, location, github, telegram } = personalData;
 
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="footer p-10 bg-base-200 text-base-content">
-  <div class="w-full max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <!-- AI & ML Section -->
-      <nav>
-        <h6 class="footer-title">AI & Machine Learning</h6>
-        <a href="/ai/overview" class="link link-hover">AI Overview</a>
-        <a href="/ai/flowise-chat" class="link link-hover">Chat GPT</a>
-        <a href="/pollinate-ai" class="link link-hover">Pollinate AI</a>
-        <a href="/blockchain-ai" class="link link-hover">Blockchain AI</a>
-      </nav>
-      
-      <!-- Quality Control Section -->
-      <nav>
-        <h6 class="footer-title">Quality Control</h6>
-        <a href="/test-dashboard" class="link link-hover">Test Dashboard</a>
-        <a href="/qa-process" class="link link-hover">QA Process</a>
-        <a href="/testing" class="link link-hover">Testing Tools</a>
-        <a href="/reports" class="link link-hover">Reports</a>
-      </nav>
-      
-      <!-- Resources -->
-      <nav>
-        <h6 class="footer-title">Resources</h6>
-        <a href="/documentation" class="link link-hover">Documentation</a>
-        <a href="/tutorials" class="link link-hover">Tutorials</a>
-        <a href="/blog" class="link link-hover">Blog</a>
-        <a href="/support" class="link link-hover">Support</a>
-      </nav>
-      
-      <!-- Contact & Social -->
-      <div>
-        <h6 class="footer-title">Connect</h6>
-        <div class="flex gap-4">
-          <a 
-            href="https://github.com/Marve10s" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="btn btn-ghost btn-square"
-            aria-label="GitHub"
-          >
-            <Icon name="mdi:github" class="w-6 h-6" />
-          </a>
-          <a 
-            href="https://t.me/dicewizard"
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="btn btn-ghost btn-square"
-            aria-label="Telegram"
-          >
-            <Icon name="mdi:telegram" class="w-6 h-6" />
-          </a>
-          <a 
-            href={`mailto:${cred.email}`}
-            class="btn btn-ghost btn-square"
-            aria-label="Email"
-          >
-            <Icon name="mdi:email" class="w-6 h-6" />
-          </a>
-        </div>
-        
-        <!-- Email Subscription -->
-        <div class="form-control w-full mt-4">
-          <label class="label">
-            <span class="label-text">Subscribe to our newsletter</span>
-          </label>
-          <div class="relative">
-            <input 
-              type="email" 
-              placeholder="your@email.com" 
-              class="input input-bordered w-full pr-16"
-            />
-            <button class="btn btn-primary absolute right-0 top-0 rounded-l-none">
-              Subscribe
-            </button>
-          </div>
-        </div>
-      </div>
+<footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+  <!-- About/Logo Section -->
+  <aside>
+    <div class="flex flex-col items-start">
+      <h2 class="text-xl font-bold">{name}</h2>
+      <p class="mt-2">{title}</p>
+      <p class="mt-1">{location}</p>
     </div>
-    
-    <!-- Copyright & Credits -->
-    <div class="border-t border-base-300 pt-6 mt-8">
-      <div class="flex flex-col md:flex-row justify-between items-center">
-        <div class="text-sm text-base-content/70">
-          &copy; {currentYear} {cred.name}. All rights reserved.
-        </div>
-        <div class="flex items-center gap-4 mt-4 md:mt-0">
-          <span class="text-sm">
-            Built with 
-            <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="link link-hover">
-              Astro
-            </a>
-          </span>
-          <span class="text-base-content/20">•</span>
-          <span class="text-sm">
-            Styled with 
-            <a href="https://daisyui.com" target="_blank" rel="noopener noreferrer" class="link link-hover">
-              DaisyUI
-            </a>
-          </span>
-        </div>
-      </div>
+  </aside>
+  
+  <!-- AI & ML Section -->
+  <nav>
+    <h6 class="footer-title">AI & Machine Learning</h6>
+    <a href="/ai/overview" class="link link-hover">AI Overview</a>
+    <a href="/ai/flowise-chat" class="link link-hover">Chat GPT</a>
+    <a href="/pollinate-ai" class="link link-hover">Pollinate AI</a>
+    <a href="/blockchain-ai" class="link link-hover">Blockchain AI</a>
+  </nav>
+  
+  <!-- Quality Control Section -->
+  <nav>
+    <h6 class="footer-title">Quality Control</h6>
+    <a href="/test-dashboard" class="link link-hover">Test Dashboard</a>
+    <a href="/qa-process" class="link link-hover">QA Process</a>
+    <a href="/testing" class="link link-hover">Testing Tools</a>
+    <a href="/reports" class="link link-hover">Reports</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title">Resources</h6>
+    <a href="/documentation" class="link link-hover">Documentation</a>
+    <a href="/tutorials" class="link link-hover">Tutorials</a>
+    <a href="/blog" class="link link-hover">Blog</a>
+    <a href="/support" class="link link-hover">Support</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title">Connect</h6>
+    <div class="flex gap-4">
+      {github && (
+        <a 
+          href={github} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="btn btn-ghost btn-square"
+          aria-label="GitHub"
+        >
+          <Icon name="mdi:github" class="w-6 h-6" />
+        </a>
+      )}
+      {telegram && (
+        <a 
+          href={telegram}
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="btn btn-ghost btn-square"
+          aria-label="Telegram"
+        >
+          <Icon name="mdi:telegram" class="w-6 h-6" />
+        </a>
+      )}
+      {email && (
+        <a 
+          href={`mailto:${email}`}
+          class="btn btn-ghost btn-square"
+          aria-label="Email"
+        >
+          <Icon name="mdi:email" class="w-6 h-6" />
+        </a>
+      )}
     </div>
-  </div>
+    <p class="mt-4 text-sm">&copy; {currentYear} {name || 'Jesse Naiman'}</p>
+  </nav>
 </footer>
+
+<!-- Secondary Footer with Credits -->
+<div class="bg-base-300 py-4 text-center text-sm text-base-content/70">
+  <div class="flex flex-col md:flex-row justify-center items-center gap-2">
+    <span>Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="link link-hover">Astro</a></span>
+    <span class="hidden md:inline">•</span>
+    <span>Styled with <a href="https://daisyui.com" target="_blank" rel="noopener noreferrer" class="link link-hover">DaisyUI</a></span>
+  </div>
+</div>

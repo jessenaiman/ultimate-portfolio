@@ -1,12 +1,36 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Layout from '../layouts/Layout.astro';
+import { navigationItems } from '../data/navigation';
+
+// This would be populated from your test results in a real implementation
+// For now, we'll show a static representation
+const testResults = [
+  { name: 'Navigation: Home (/)', status: 'passed', duration: '1.2s' },
+  { name: 'Navigation: Resume (/resume)', status: 'passed', duration: '0.8s' },
+  { name: 'Navigation: Portfolio (/portfolio)', status: 'passed', duration: '0.9s' },
+  { name: 'Navigation: Website Stack (/styleguide)', status: 'passed', duration: '1.1s' },
+  { name: 'Homepage renders correctly', status: 'passed', duration: '1.5s' },
+];
+
+const passedTests = testResults.filter(test => test.status === 'passed').length;
+const totalTests = testResults.length;
+const coveragePercentage = Math.round((passedTests / totalTests) * 100);
+
+// Get navigation items for the test coverage section
+const navItems = navigationItems
+  .filter(item => !item.path.startsWith('http') && item.path !== '#')
+  .map(item => ({
+    name: item.displayName,
+    path: item.path,
+    status: testResults.some(test => test.name.includes(item.path)) ? 'covered' : 'not-covered'
+  }));
 ---
 
 <Layout title="Test Dashboard - Quality Assurance">
   <div class="main-content">
     <div class="page-header centered">
-      <h1 class="page-title size-lg">Quality Assurance Dashboard</h1>
+      <h1 class="page-title size-lg">Test Coverage Dashboard</h1>
       <p class="page-subtitle">
         Comprehensive test coverage ensuring 100% reliability and performance
       </p>
@@ -186,10 +210,45 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
       
-      <div id="results-panel" class="tab-panel bg-base-100 border-base-300 rounded-box p-6 hidden">
+      <div id="results-panel" class="tab-panel bg-base-100 border-base-300 rounded-box p-6">
         <div class="flex items-center gap-2 mb-6">
           <Icon name="mdi:check-circle-outline" class="w-8 h-8 text-success" />
-          <h2 class="text-2xl font-bold">Test Results</h2>
+          <h2 class="text-2xl font-bold">Smoke Test Results</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="stats shadow">
+            <div class="stat">
+              <div class="stat-figure text-success">
+                <Icon name="mdi:check-circle" class="w-8 h-8" />
+              </div>
+              <div class="stat-title">Passing Tests</div>
+              <div class="stat-value">{passedTests}</div>
+              <div class="stat-desc">Out of {totalTests} total tests</div>
+            </div>
+          </div>
+          
+          <div class="stats shadow">
+            <div class="stat">
+              <div class="stat-figure text-info">
+                <Icon name="mdi:shield-check" class="w-8 h-8" />
+              </div>
+              <div class="stat-title">Test Coverage</div>
+              <div class="stat-value">{coveragePercentage}%</div>
+              <div class="stat-desc">Of critical paths tested</div>
+            </div>
+          </div>
+          
+          <div class="stats shadow">
+            <div class="stat">
+              <div class="stat-figure text-secondary">
+                <Icon name="mdi:clock-outline" class="w-8 h-8" />
+              </div>
+              <div class="stat-title">Last Run</div>
+              <div class="stat-value">Just now</div>
+              <div class="stat-desc">Automated testing</div>
+            </div>
+          </div>
         </div>
         
         <div class="stats shadow mb-8 w-full">
@@ -227,110 +286,35 @@ import Layout from '../layouts/Layout.astro';
           </div>
         </div>
         
-        <div class="overflow-x-auto">
-          <table class="table table-zebra">
+        <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
+          <table class="table">
             <thead>
-              <tr>
-                <th>Test Name</th>
+              <tr class="bg-base-200">
+                <th class="w-1/2">Test Name</th>
                 <th>Status</th>
                 <th>Duration</th>
-                <th>Last Run</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <div class="flex items-center gap-2">
-                    <div class="tooltip" data-tip="UI tests ensure consistent brand experience across all devices">
-                      <Icon name="mdi:language-typescript" class="w-5 h-5 text-blue-500" />
-                    </div>
-                    <span>TailwindCSS page loads correctly</span>
-                  </div>
-                </td>
-                <td><span class="badge badge-success">Passed</span></td>
-                <td>210ms</td>
-                <td>Today</td>
-                <td>
-                  <div class="tooltip" data-tip="View test details">
-                    <a href="/tailwind" class="btn btn-xs btn-outline">
+              {testResults.map((test) => (
+                <tr>
+                  <td class="font-mono text-sm">{test.name}</td>
+                  <td>
+                    <span class={`badge ${test.status === 'passed' ? 'badge-success' : 'badge-error'} gap-2`}>
+                      <Icon name={test.status === 'passed' ? 'mdi:check-circle' : 'mdi:close-circle'} class="w-4 h-4" />
+                      {test.status === 'passed' ? 'Passed' : 'Failed'}
+                    </span>
+                  </td>
+                  <td class="font-mono text-sm">{test.duration}</td>
+                  <td>
+                    <button class="btn btn-ghost btn-xs" disabled>
                       <Icon name="mdi:eye" class="w-4 h-4" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="flex items-center gap-2">
-                    <Icon name="mdi:language-typescript" class="w-5 h-5 text-blue-500" />
-                    <span>Interactive demo updates preview</span>
-                  </div>
-                </td>
-                <td><span class="badge badge-success">Passed</span></td>
-                <td>185ms</td>
-                <td>Today</td>
-                <td>
-                  <div class="tooltip" data-tip="View test details">
-                    <a href="/tailwind" class="btn btn-xs btn-outline">
-                      <Icon name="mdi:eye" class="w-4 h-4" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="flex items-center gap-2">
-                    <Icon name="mdi:react" class="w-5 h-5 text-blue-400" />
-                    <span>React component renders correctly</span>
-                  </div>
-                </td>
-                <td><span class="badge badge-success">Passed</span></td>
-                <td>150ms</td>
-                <td>Today</td>
-                <td>
-                  <div class="tooltip" data-tip="View test details">
-                    <a href="/react" class="btn btn-xs btn-outline">
-                      <Icon name="mdi:eye" class="w-4 h-4" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="flex items-center gap-2">
-                    <Icon name="mdi:vuejs" class="w-5 h-5 text-green-500" />
-                    <span>Vue component lifecycle</span>
-                  </div>
-                </td>
-                <td><span class="badge badge-success">Passed</span></td>
-                <td>165ms</td>
-                <td>Today</td>
-                <td>
-                  <div class="tooltip" data-tip="View test details">
-                    <a href="/vue" class="btn btn-xs btn-outline">
-                      <Icon name="mdi:eye" class="w-4 h-4" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="flex items-center gap-2">
-                    <Icon name="mdi:language-javascript" class="w-5 h-5 text-yellow-500" />
-                    <span>Svelte reactivity test</span>
-                  </div>
-                </td>
-                <td><span class="badge badge-success">Passed</span></td>
-                <td>140ms</td>
-                <td>Today</td>
-                <td>
-                  <div class="tooltip" data-tip="View test details">
-                    <a href="/svelte" class="btn btn-xs btn-outline">
-                      <Icon name="mdi:eye" class="w-4 h-4" />
-                    </a>
-                  </div>
-                </td>
-              </tr>
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

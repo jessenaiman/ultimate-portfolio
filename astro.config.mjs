@@ -26,7 +26,8 @@ export default defineConfig({
       include: ["**/Svelte/**/*.{jsx,tsx}"],
     }), 
     vue({
-      include: ["**/Vue/**/*.{jsx,tsx}"],
+      jsx: true,
+      include: ["**/*.vue", "**/Vue/**/*.{jsx,tsx}"],
     }), 
     solidJs({
       include: ["**/Solid/**/*.{jsx,tsx}"],

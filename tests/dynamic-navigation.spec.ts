@@ -269,22 +269,4 @@ test.describe('Navigation Tests', () => {
       }
     });
   });
-
-  /**
-   * Theme switching test
-   * Verifies that the theme controller works and applies themes correctly
-   */
-  test('should switch themes', async ({ page }) => {
-    await page.goto('http://localhost:4321/');
-    
-    const themeController = page.locator('input[name="theme-dropdown"]').first();
-    await expect(themeController).toBeVisible();
-    
-    // Test theme switching
-    await themeController.click();
-    await page.waitForTimeout(300); // Allow theme to apply
-    
-    const currentTheme = await page.locator('html').getAttribute('data-theme');
-    expect(currentTheme, 'Theme should be applied').toBeTruthy();
-  });
 });

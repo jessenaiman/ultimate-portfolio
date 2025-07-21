@@ -27,7 +27,7 @@ const InteractiveShowcase: React.FC = () => {
     },
     {
       id: 4,
-      content: "Sick,let's chat, I'm starting",
+      content: "Let's chat, I'm starting",
       sender: "user"
     }
   ]);

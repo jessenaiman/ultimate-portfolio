@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/ui/Hero.astro';
+import { Content as VueContent } from '../content/info/vue-framework.md';
+import DemoCard from '../components/ui/DemoCard.astro';
+import CodeModal from '../components/ui/CodeModal.astro';
+
+// Import Vue components for interactive demos
+import TypeWriterDemo from '../components/Vue/demos/TypeWriterDemo.vue';
+import CounterDemo from '../components/Vue/demos/CounterDemo.vue';
+
+// Import raw code for display
+import TypeWriterDemoRaw from '../components/Vue/demos/TypeWriterDemo.vue?raw';
+import CounterDemoRaw from '../components/Vue/demos/CounterDemo.vue?raw';
+
+// Define headline and subheading for this page
+const headline = "Vue.js Framework";
+const subheading = "The Progressive JavaScript Framework for building modern web interfaces.";
+---
+
+<Layout title={headline} description={subheading}>
+  <!-- Use the unified Hero component -->
+  <Hero headline={headline} subheading={subheading}>
+    <!-- Actions slot for page-specific buttons -->
+    <div slot="actions" class="flex justify-center space-x-4">
+      <a href="#demos" class="btn btn-primary">View Demos</a>
+      <a href="https://vuejs.org" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Official Docs</a>
+    </div>
+  </Hero>
+
+  <main class="container mx-auto px-4 py-16">
+    <article class="prose max-w-none mb-16">
+      <VueContent />
+    </article>
+
+    <div class="divider my-12" id="demos">Interactive Demos</div>
+
+    <!-- Interactive Demos Section -->
+    <section class="mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <DemoCard title="TypeWriter Effect" modalId="typewriter-code-modal">
+          <TypeWriterDemo client:load />
+        </DemoCard>
+        <DemoCard title="Counter" modalId="counter-code-modal">
+          <CounterDemo client:load />
+        </DemoCard>
+      </div>
+    </section>
+  </main>
+
+  <!-- Component Code Modals -->
+  <CodeModal id="typewriter-code-modal" title="TypeWriter Component" code={TypeWriterDemoRaw} lang="vue" />
+  <CodeModal id="counter-code-modal" title="Counter Component" code={CounterDemoRaw} lang="vue" />
+</Layout>

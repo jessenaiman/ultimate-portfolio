@@ -1,5 +1,4 @@
 ---
-layout: '../../layouts/Layout.astro'
 tag:
   - Hire
 title: Hire The Dice Wizard Storyteller

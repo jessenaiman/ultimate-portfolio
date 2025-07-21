@@ -51,10 +51,13 @@
     "vue": "^3.5.17"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.2",
+    "@playwright/test": "^1.54.1",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.11",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitest/ui": "^3.2.4",
     "daisyui": "^5.0.43",
-    "svelte": "^5.36.2"
+    "svelte": "^5.36.2",
+    "vitest": "^3.2.4"
   }
 }

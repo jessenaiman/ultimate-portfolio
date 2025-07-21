@@ -1,8 +1,14 @@
 {
-  "degree": "Computer Science",
   "institution": "University of Toronto",
-  "date": "2000 - 2004",
+  "degree": "Bachelor of Science",
+  "field": "Computer Science",
+  "startDate": "2000-09-01",
+  "endDate": "2004-05-31",
   "location": "Toronto, ON",
   "description": "Specialized in Software Engineering and Web Development. Coursework included Data Structures, Algorithms, Database Systems, and Web Technologies.",
-  "gpa": "3.7/4.0"
+  "achievements": [
+    "Graduated with Honors",
+    "GPA: 3.7/4.0",
+    "Dean's List for 4 consecutive years"
+  ]
 }
