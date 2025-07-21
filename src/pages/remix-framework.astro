@@ -1,213 +1,79 @@
 ---
+// src/pages/remix-framework.astro
+// An honest demo of interactive Remix components in Astro.
 import Layout from '../layouts/Layout.astro';
-// Direct markdown import for content body (see: https://docs.astro.build/en/guides/markdown-content/#importing-markdown-files)
+import Hero from '../components/ui/Hero.astro';
+import { Code } from 'astro:components';
 import { Content as RemixContent } from '../content/info/remix-framework.md';
 
-const hero = {
-  title: "Remix: Embrace the Web",
-  description: "Remix is a full stack web framework that lets you focus on the user interface and work back through web fundamentals to deliver a fast, slick, resilient user experience.",
-  badge: "Web Framework",
-  links: [
-    { href: "https://remix.run/docs/en/main", label: "Get Started", primary: true },
-    { href: "https://github.com/remix-run/remix", label: "GitHub", primary: false }
-  ]
-}
+// Import interactive React components (used by Remix integration)
+import Chat from '../components/React/Chat.tsx';
+import Machine from '../components/React/Machine.tsx';
 
-const features = [
-  {
-    title: "Full Stack",
-    description: "Remix is a full stack web framework that lets you focus on the user interface and work back through web standards to deliver a fast, slick, and resilient user experience."
-  },
-  {
-    title: "Web Standards",
-    description: "Remix leverages web standards like HTML, CSS, and HTTP to deliver fast user experiences and developer productivity."
-  },
-  {
-    title: "Progressive Enhancement",
-    description: "Build experiences that work without JavaScript and then progressively enhance with client-side JavaScript."
-  }
-];
+// Import raw source code for display
+import chatSource from '../components/React/Chat.tsx?raw';
+import machineSource from '../components/React/Machine.tsx?raw';
 
-const componentExamples = {
-  basic: `// Basic Remix Route
-export default function Index() {
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Welcome to Remix!</h1>
-      <p>This is a basic Remix route.</p>
-    </div>
-  );
-}`,
-  loader: `// Remix Route with Data Loading
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+---
 
-export const loader = async () => {
-  const data = await fetchSomeData();
-  return json({ data });
-};
+<Layout title="Remix Framework Demo" description="An honest demonstration of interactive Remix (React) components running in an Astro project.">
+  <Hero headline="Remix Framework Demo" subheading="Live, interactive Remix (React) components hydrated on the client." />
 
-export default function DataRoute() {
-  const { data } = useLoaderData();
-  
-  return (
-    <div>
-      <h1>Data from Loader</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
-  );
-}`,
-  action: `// Remix Form with Action
-import { json, redirect } from '@remix-run/node';
-import { Form, useActionData } from '@remix-run/react';
-
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const name = formData.get('name');
-  
-  if (!name) {
-    return json({ error: 'Name is required' });
-  }
-  
-  await saveToDatabase({ name });
-  return redirect('/success');
-};
-
-export default function FormRoute() {
-  const actionData = useActionData();
-  
-  return (
-    <div>
-      <h1>Submit Form</h1>
-      <Form method="post">
-        <label>
-          Name:
-          <input name="name" className="border p-2" />
-        </label>
-        {actionData?.error && (
-          <p className="text-red-500">{actionData.error}</p>
-        )}
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 mt-2">
-          Submit
-        </button>
-      </Form>
-    </div>
-  );
-}`
-};
-
-export default function RemixFramework() {
-  return (
-    <Layout
-      title={hero.title || "Remix: Full Stack Web Framework"}
-      description={hero.description || "Learn about Remix and how to use it in this Astro project"}
-      variant="documentation"
-    >
-      <main class="container mx-auto px-4 py-8 max-w-7xl">
-        <!-- Hero Section with Brief Summary -->
-        <section class="hero h-screen bg-base-200">
-          <div class="hero-content text-center">
-            <div class="badge badge-primary badge-lg p-4 text-lg">Full Stack Framework</div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">{hero.title}</h1>
-            <p class="text-lg max-w-3xl mx-auto mb-6">{hero.description}</p>
-            <div class="flex justify-center gap-4">
-              <a href="https://remix.run/docs/en/main" class="btn btn-primary">
-                Get Started
-              </a>
-              <a href="https://github.com/remix-run/remix" class="btn btn-outline">
-                GitHub
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <!-- Main Content -->
-        <article class="prose max-w-none">
-          <RemixContent />
-        </article>
->
-  <main class="container mx-auto px-4 py-8 max-w-7xl">
-    <!-- Hero Section with Brief Summary -->
-    <section class="hero h-screen bg-base-200">
-      <div class="hero-content text-center">
-        <div class="badge badge-primary badge-lg p-4 text-lg">Full Stack Framework</div>
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">{hero.title}</h1>
-        <p class="text-lg max-w-3xl mx-auto mb-6">{hero.description}</p>
-        <div class="flex justify-center gap-4">
-          <a href="https://remix.run/docs/en/main" class="btn btn-primary">
-            Get Started
-          </a>
-          <a href="https://github.com/remix-run/remix" class="btn btn-outline">
-            GitHub
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Main Content -->
-    <article class="prose max-w-none">
+  <div class="container mx-auto px-4 py-16">
+    <!-- Markdown Content Section -->
+    <section class="prose max-w-none mb-16 bg-base-200/30 p-6 rounded-lg">
       <RemixContent />
-    </article>
+    </section>
 
-    <!-- Features Section -->
-    <section class="my-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {features.map(feature => (
-          <div class="card bg-base-200 shadow-xl">
-            <div class="card-body">
-              <h3 class="card-title">{feature.title}</h3>
-              <p>{feature.description}</p>
+    <!-- Interactive Demos -->
+    <div class="space-y-16">
+      <!-- Chat Demo -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Live Demo -->
+        <div class="card bg-base-200/60 shadow-xl h-full">
+          <div class="card-body">
+            <h3 class="card-title">Interactive Chat</h3>
+            <p class="text-sm text-base-content/70">A chat interface demonstrating component state, props, and event handling.</p>
+            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+              <Chat client:only='react' />
             </div>
           </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- Code Examples Section -->
-    <section class="my-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Code Examples</h2>
-      
-      <!-- DaisyUI Tabs: https://daisyui.com/components/tab/ -->
-      <div role="tablist" class="tabs tabs-lifted mb-4">
-        <input type="radio" name="code_tabs" role="tab" class="tab" aria-label="Basic Route" checked />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-          <h3 class="text-xl font-bold mb-4">Basic Route</h3>
-          <pre class="language-jsx"><code>{componentExamples.basic}</code></pre>
         </div>
-        
-        <input type="radio" name="code_tabs" role="tab" class="tab" aria-label="Data Loading" />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-          <h3 class="text-xl font-bold mb-4">Data Loading</h3>
-          <pre class="language-jsx"><code>{componentExamples.loader}</code></pre>
-        </div>
-        
-        <input type="radio" name="code_tabs" role="tab" class="tab" aria-label="Form Actions" />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-          <h3 class="text-xl font-bold mb-4">Form Actions</h3>
-          <pre class="language-jsx"><code>{componentExamples.action}</code></pre>
+        <!-- Source Code Collapse -->
+        <div class="w-full">
+            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
+                <input type="checkbox" /> 
+                <div class="collapse-title text-xl font-medium">View Source Code</div>
+                <div class="collapse-content">
+                  <Code code={chatSource} lang="tsx" theme="github-dark" />
+                </div>
+            </div>
         </div>
       </div>
-    </section>
 
-    <!-- Interactive Demo Section -->
-    <section class="my-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Interactive Demo</h2>
-      <div class="card bg-base-200 shadow-xl">
-        <div class="card-body">
-          <p class="text-center">This section would contain an interactive Remix demo component.</p>
-          <div class="flex justify-center mt-4">
-            <button class="btn btn-primary">Try it out</button>
+      <!-- Machine Demo -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Live Demo -->
+        <div class="card bg-base-200/60 shadow-xl h-full">
+          <div class="card-body">
+            <h3 class="card-title">State Machine</h3>
+            <p class="text-sm text-base-content/70">A component demonstrating a state machine implementation in React.</p>
+            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+              <Machine client:only='react' />
+            </div>
           </div>
         </div>
+        <!-- Source Code Collapse -->
+        <div class="w-full">
+            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
+                <input type="checkbox" /> 
+                <div class="collapse-title text-xl font-medium">View Source Code</div>
+                <div class="collapse-content">
+                  <Code code={machineSource} lang="tsx" theme="github-dark" />
+                </div>
+            </div>
+        </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 </Layout>
-
-<style>
-  /* Syntax highlighting styles */
-  pre {
-    @apply rounded-lg overflow-x-auto;
-  }
-</style>

@@ -40,8 +40,6 @@ export const navigationItems: NavigationItem[] = [
     features: 'Technology Stack Documentation', 
     path: '/styleguide',
     icon: 'mdi:layers',
-    badge: 'UPDATED',
-    badgeColor: 'primary'
   },
   {
     name: 'framework-demos',
@@ -129,27 +127,13 @@ export const navigationItems: NavigationItem[] = [
       }
     ]
   },
-  {
-    name: 'demos',
-    displayName: 'Demos',
-    features: 'Interactive Examples',
-    path: '#',
-    icon: 'mdi:view-dashboard',
-    children: [
-      { 
-        name: 'blog', 
-        displayName: 'Blog', 
-        features: 'Content Management', 
-        path: '/blog',
-        icon: 'mdi:post'
-      },
-      { 
-        name: 'color-picker', 
-        displayName: 'Color Picker', 
-        features: 'Interactive Tool', 
-        path: '/color-picker',
-        icon: 'mdi:palette'
-      },
+  { 
+    name: 'blog', 
+    displayName: 'Blog', 
+    features: 'Project Showcase', 
+    path: '/blog',
+    icon: 'mdi:briefcase'
+  },
       { 
         name: 'math', 
         displayName: 'Math Tools', 
@@ -157,6 +141,4 @@ export const navigationItems: NavigationItem[] = [
         path: '/math',
         icon: 'mdi:calculator'
       }
-    ]
-  }
 ];

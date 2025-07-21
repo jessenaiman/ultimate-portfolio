@@ -15,7 +15,7 @@ const { id, title, code, lang = 'astro' } = Astro.props;
   <div class="modal-box max-w-4xl max-h-[80vh]">
     <h3 class="font-bold text-xl mb-4">{title}</h3>
     <div class="rounded-box overflow-hidden">
-      <Code code={code} lang={lang} theme="github-dark" />
+      <Code code={code} theme="github-dark" />
     </div>
     <div class="modal-action mt-4">
       <form method="dialog">

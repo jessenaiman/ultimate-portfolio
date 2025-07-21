@@ -1,19 +1,17 @@
 ---
 // Simple wrapper that forwards props to unified BaseLayout
 // Documentation: https://docs.astro.build/en/guides/layouts/
-import BaseLayout from "../layouts/BaseLayout.astro";
+import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title: string;
   description?: string;
-  bgColor?: string;
   maxWidth?: 'none' | 'prose' | 'container';
-  variant?: 'default' | 'documentation' | 'showcase';
 }
 
-const props = Astro.props;
+const { title, description, maxWidth } = Astro.props;
 ---
 
-<BaseLayout {...props}>
+<BaseLayout title={title} description={description} maxWidth={maxWidth}>
   <slot />
 </BaseLayout>

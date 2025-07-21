@@ -2,13 +2,12 @@
 trigger: always_on
 ---
 
+**RULES**
+- Do not waste tokens apologizing
+- Do not waste tokens explaining how solutions work before checking the stack trace
+- Do not waste tokens providing solutions before getting confirmation 
 
-
-## 🛠️ Tech Stack & Structure
-
-This is a portfolio website that demonstrates the use of multiple frameworks as orchestrated by Astro. Each page should be considered an isolated marketing and employment opportunity.
-
-### Core Website Packages:
+This is a portfolio website that demonstrates the use of multiple frameworks as orchestrated by Astro. 
 
 - **Astro 5+ (`.astro`)**: The primary tool for building the site shell. Astro components are used for layouts and static content.
 - **DaisyUI 5+ **: Use @web https://daisyui.com/llms.txt or context7 to confirm and document code changes with links for developers to perform code review
@@ -25,31 +24,16 @@ This is a portfolio website that demonstrates the use of multiple frameworks as 
 ## Header and Footer:
 - These should be referenced as components from BaseLayout components 
 
-### Demo Webpages:
+### Framework Webpages:
 
 - **Framework Components are demo pages to demonstrate to employers (`.tsx`, `.svelte`, `.vue`, `.jsx`)**: React, Svelte, Vue, and Solid are used for islands of interactivity.
+- Each page should be considered an isolated marketing and employment opportunity.
 
 ### Blog Pages: 
 
 - Guide url: https://docs.astro.build/en/guides/markdown-content/
 - Use frontmatter according to the astrojs 5+ documentation and do not deviate  
 
-Example: 
-
-```astro
----
-import * as greatPost from './posts/great-post.md';
-const posts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
----
-
-<p>{greatPost.frontmatter.title}</p>
-<p>Written by: {greatPost.frontmatter.author}</p>
-
-<p>Post Archive:</p>
-<ul>
-  {posts.map(post => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
-</ul>
-```
 
 ## 💅 Styling Strategy
 - **Styling**: A combination of `daisyUI` and `TailwindCSS` is used for all styling.

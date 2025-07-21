@@ -1,0 +1,44 @@
+---
+// A reusable tab component for showing a live demo and its source code.
+// Uses DaisyUI's radio-button-based tab system for CSS-only functionality.
+// https://daisyui.com/components/tab/
+
+interface Props {
+  // A unique name is required for the radio button group to work correctly.
+  // Pass a unique identifier from the parent, like the demo's title or ID.
+  groupName: string;
+}
+
+const { groupName } = Astro.props;
+---
+
+<div role="tablist" class="tabs tabs-lifted w-full">
+  <!-- Demo Tab (default) -->
+  <input
+    type="radio"
+    name={groupName}
+    role="tab"
+    class="tab"
+    aria-label="Live Demo"
+    checked
+  />
+  <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+    <div class="p-4">
+      <slot name="demo" />
+    </div>
+  </div>
+
+  <!-- Source Code Tab -->
+  <input
+    type="radio"
+    name={groupName}
+    role="tab"
+    class="tab"
+    aria-label="Source Code"
+  />
+  <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+    <div class="p-4">
+      <slot name="source" />
+    </div>
+  </div>
+</div>

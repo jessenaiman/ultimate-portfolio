@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import { Content as VueContent } from '../content/info/vue-framework.md';
 import DemoCard from '../components/ui/DemoCard.astro';
-import CodeModal from '../components/ui/CodeModal.astro';
+import { Code } from 'astro:components';
 
 // Import Vue components for interactive demos
 import TypeWriterDemo from '../components/Vue/demos/TypeWriterDemo.vue';
@@ -20,7 +20,7 @@ const subheading = "The Progressive JavaScript Framework for building modern web
 
 <Layout title={headline} description={subheading}>
   <!-- Use the unified Hero component -->
-  <Hero headline={headline} subheading={subheading}>
+  <Hero headline={headline} subheading={subheading} icon="logos:vue">
     <!-- Actions slot for page-specific buttons -->
     <div slot="actions" class="flex justify-center space-x-4">
       <a href="#demos" class="btn btn-primary">View Demos</a>
@@ -38,17 +38,23 @@ const subheading = "The Progressive JavaScript Framework for building modern web
     <!-- Interactive Demos Section -->
     <section class="mb-16">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <DemoCard title="TypeWriter Effect" modalId="typewriter-code-modal">
-          <TypeWriterDemo client:load />
+        <DemoCard
+          title="TypeWriter Effect"
+          description="A simple typewriter effect created with Vue."
+          groupName="vue-typewriter-demo"
+        >
+          <TypeWriterDemo slot="demo" client:load />
+          <Code slot="source" code={TypeWriterDemoRaw} lang="vue" title="TypeWriterDemo.vue" />
         </DemoCard>
-        <DemoCard title="Counter" modalId="counter-code-modal">
-          <CounterDemo client:load />
+        <DemoCard
+          title="Counter"
+          description="A basic counter to demonstrate state management."
+          groupName="vue-counter-demo"
+        >
+          <CounterDemo slot="demo" client:load />
+          <Code slot="source" code={CounterDemoRaw} lang="vue" title="CounterDemo.vue" />
         </DemoCard>
       </div>
     </section>
   </main>
-
-  <!-- Component Code Modals -->
-  <CodeModal id="typewriter-code-modal" title="TypeWriter Component" code={TypeWriterDemoRaw} lang="vue" />
-  <CodeModal id="counter-code-modal" title="Counter Component" code={CounterDemoRaw} lang="vue" />
 </Layout>

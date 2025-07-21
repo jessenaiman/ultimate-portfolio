@@ -1,270 +1,76 @@
 ---
 import Layout from '../layouts/Layout.astro';
-// Direct markdown import for content body (see: https://docs.astro.build/en/guides/markdown-content/#importing-markdown-files)
+import Hero from '../components/ui/Hero.astro';
+import { Code } from 'astro:components';
 import { Content as SvelteContent } from '../content/info/svelte-framework.md';
 
-const hero = {
-  title: "Svelte: Write Less Code, Build More",
-  description: "Discover Svelte, the revolutionary framework that shifts complexity from runtime to compile time, resulting in smaller bundles and lightning-fast performance.",
-  badge: "JavaScript Compiler",
-  links: [
-    { href: "https://svelte.dev/docs", label: "Get Started", primary: true },
-    { href: "https://github.com/sveltejs/svelte", label: "GitHub", primary: false }
-  ]
-};
+// Import interactive Svelte components
+import SvelteHero from '../components/Svelte/Hero.svelte';
+import SvelteMathTools from '../components/Svelte/MathTools.svelte';
 
-// Svelte component examples
-const componentExamples = {
-  basic: `<!-- Basic Svelte Component -->
-<script>
-  let name = 'world';
-</script>
-
-<h1>Hello {name}!</h1>
-
-<style>
-  h1 {
-    color: #ff3e00;
-  }
-</style>`,
-
-  reactive: `<!-- Reactive Declarations -->
-<script>
-  let count = 0;
-  $: doubled = count * 2;
-  $: if (count >= 10) {
-    alert('Count is dangerously high!');
-    count = 9;
-  }
-
-  function handleClick() {
-    count += 1;
-  }
-</script>
-
-<button on:click={handleClick}>
-  Clicked {count} {count === 1 ? 'time' : 'times'}
-</button>
-
-<p>{count} doubled is {doubled}</p>`,
-
-  transition: `<!-- Transitions & Animations -->
-<script>
-  import { fade, fly } from 'svelte/transition';
-  import { elasticOut } from 'svelte/easing';
-  
-  let visible = true;
-</script>
-
-<button on:click={() => visible = !visible}>
-  {visible ? 'Hide' : 'Show'}
-</button>
-
-{#if visible}
-  <div 
-    in:fly={{ y: 200, duration: 2000, easing: elasticOut }}
-    out:fade>
-    Flies in, fades out
-  </div>
-{/if}`
-};
-
-// Features of Svelte
-const features = [
-  {
-    title: "Compile-Time Framework",
-    description: "Svelte shifts the work into a compile step that happens when you build your app, resulting in highly optimized vanilla JavaScript."
-  },
-  {
-    title: "No Virtual DOM",
-    description: "Svelte compiles your components to code that surgically updates the DOM when the state of your app changes, avoiding the overhead of virtual DOM diffing."
-  },
-  {
-    title: "Truly Reactive",
-    description: "Svelte's reactivity is built into the language, automatically updating the DOM when your component state changes without requiring explicit state management."
-  },
-  {
-    title: "Less Code",
-    description: "Svelte's elegant, intuitive syntax requires significantly less boilerplate than other frameworks, resulting in smaller bundles and faster development."
-  },
-  {
-    title: "Built-in Animations",
-    description: "Svelte includes powerful built-in transition and animation systems that make creating smooth, engaging user interfaces straightforward."
-  }
-];
+// Import raw source code for display
+import svelteHeroSource from '../components/Svelte/Hero.svelte?raw';
+import svelteMathToolsSource from '../components/Svelte/MathTools.svelte?raw';
 ---
 
-<Layout
-  title="Svelte: Write Less Code, Build More"
->
-  <main class="container mx-auto px-4 py-12 max-w-7xl">
-    <!-- Hero Section -->
-    <section class="hero min-h-screen bg-base-200">
-      <div class="hero-content text-center">
-        <div class="max-w-md">
-          <h1 class="text-5xl font-bold">{hero.title}</h1>
-          <p class="py-6">{hero.description}</p>
-          <div class="flex justify-center gap-4">
-            <a href="https://svelte.dev" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-              Official Documentation
-            </a>
-            <button class="btn btn-outline" onclick="document.getElementById('learn-more-modal').showModal()">
-              Learn More
-            </button>
-          </div>
-        </div>
-      </div>
+<Layout title="Svelte Framework Demo" description="An honest demonstration of interactive Svelte components running in an Astro project.">
+  <Hero headline="Svelte Framework Demo" subheading="Live, interactive Svelte components hydrated on the client." />
+
+  <div class="container mx-auto px-4 py-16">
+    <!-- Markdown Content Section -->
+    <section class="prose max-w-none mb-16 bg-base-200/30 p-6 rounded-lg">
+      <SvelteContent />
     </section>
 
-    <!-- Markdown Rendering -->
-    <article class="prose max-w-none">
-      <SvelteContent />
-    </article>
-
-    <!-- Learn More Modal -->
-    <dialog id="learn-more-modal" class="modal modal-bottom sm:modal-middle">
-      <div class="modal-box prose max-w-3xl">
-        <h3 class="font-bold text-lg">{hero.title}</h3>
-        <div class="modal-action">
-          <form method="dialog">
-            <button class="btn">Close</button>
-          </form>
-        </div>
-      </div>
-    </dialog>
-
-    <!-- Features Section -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {features.map(feature => (
-          <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
-            <div class="card-body">
-              <h3 class="card-title">{feature.title}</h3>
-              <p>{feature.description}</p>
+    <!-- Interactive Demos -->
+    <div class="space-y-16">
+      <!-- Svelte Hero Demo -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Live Demo -->
+        <div class="card bg-base-200/60 shadow-xl h-full">
+          <div class="card-body">
+            <h3 class="card-title">Interactive Hero</h3>
+            <p class="text-sm text-base-content/70">A hero section with interactive elements, built with Svelte.</p>
+            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+              <SvelteHero client:only='svelte' />
             </div>
           </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- Code Examples Section -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Code Examples</h2>
-      
-      <!-- Tabs for different examples -->
-      <div class="tabs tabs-boxed justify-center mb-6">
-        <a class="tab tab-active" data-tab="basic">Basic Component</a>
-        <a class="tab" data-tab="reactive">Reactivity</a>
-        <a class="tab" data-tab="transition">Transitions</a>
-      </div>
-      
-      <!-- Code blocks -->
-      <div class="code-blocks">
-        <div class="code-block active" id="basic-block">
-          <div class="mockup-code bg-primary text-primary-content">
-            <pre><code>{componentExamples.basic}</code></pre>
-          </div>
         </div>
-        
-        <div class="code-block hidden" id="reactive-block">
-          <div class="mockup-code bg-secondary text-secondary-content">
-            <pre><code>{componentExamples.reactive}</code></pre>
-          </div>
-        </div>
-        
-        <div class="code-block hidden" id="transition-block">
-          <div class="mockup-code bg-accent text-accent-content">
-            <pre><code>{componentExamples.transition}</code></pre>
-          </div>
+        <!-- Source Code Collapse -->
+        <div class="w-full">
+            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
+                <input type="checkbox" /> 
+                <div class="collapse-title text-xl font-medium">View Source Code</div>
+                <div class="collapse-content">
+                  <Code code={svelteHeroSource} lang="svelte" theme="github-dark" />
+                </div>
+            </div>
         </div>
       </div>
-    </section>
 
-    <!-- Svelte Ecosystem Section -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Svelte Ecosystem</h2>
-      <div class="flex flex-wrap justify-center gap-3">
-        <div class="badge badge-lg p-4">SvelteKit</div>
-        <div class="badge badge-lg p-4">Svelte Store</div>
-        <div class="badge badge-lg p-4">Svelte Transitions</div>
-        <div class="badge badge-lg p-4">Svelte Actions</div>
-        <div class="badge badge-lg p-4">Svelte Motion</div>
-        <div class="badge badge-lg p-4">Svelte Headless UI</div>
-        <div class="badge badge-lg p-4">Svelte Forms</div>
-        <div class="badge badge-lg p-4">Svelte DnD</div>
-      </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="text-center mb-16">
-      <div class="card bg-base-200 max-w-3xl mx-auto">
-        <div class="card-body">
-          <h2 class="card-title justify-center mb-4">Ready to start building with Svelte?</h2>
-          <p class="mb-6">Get started with the official Svelte tutorial and documentation.</p>
-          <div class="card-actions justify-center">
-            <a href="https://svelte.dev/tutorial/basics" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-              Start Learning
-            </a>
+      <!-- Svelte Math Tools Demo -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Live Demo -->
+        <div class="card bg-base-200/60 shadow-xl h-full">
+          <div class="card-body">
+            <h3 class="card-title">Math Tools</h3>
+            <p class="text-sm text-base-content/70">A set of math tools demonstrating reactivity and state management in Svelte.</p>
+            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+              <SvelteMathTools client:only='svelte' />
+            </div>
           </div>
         </div>
+        <!-- Source Code Collapse -->
+        <div class="w-full">
+            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
+                <input type="checkbox" /> 
+                <div class="collapse-title text-xl font-medium">View Source Code</div>
+                <div class="collapse-content">
+                  <Code code={svelteMathToolsSource} lang="svelte" theme="github-dark" />
+                </div>
+            </div>
+        </div>
       </div>
-    </section>
-  </main>
-
-  <!-- Chat with Svelte Expert Button -->
-  <div class="fixed bottom-4 right-4 z-50">
-    <button id="chat-button" class="btn btn-primary btn-circle">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-      </svg>
-    </button>
+    </div>
   </div>
-
-  <script is:inline>
-    // Tab switching functionality
-    document.addEventListener('DOMContentLoaded', () => {
-      const tabs = document.querySelectorAll('.tab');
-      const codeBlocks = document.querySelectorAll('.code-block');
-      
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Remove active class from all tabs
-          tabs.forEach(t => t.classList.remove('tab-active'));
-          // Add active class to clicked tab
-          tab.classList.add('tab-active');
-          
-          // Hide all code blocks
-          codeBlocks.forEach(block => block.classList.add('hidden'));
-          // Show the selected code block
-          const blockId = `${tab.dataset.tab}-block`;
-          document.getElementById(blockId).classList.remove('hidden');
-        });
-      });
-    });
-  </script>
-
-  <!-- Flowise Chat Integration -->
-  <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-    document.getElementById('chat-button').addEventListener('click', () => {
-      Chatbot.init({
-        chatflowid: "5565a6be-fe2a-4866-9fc6-1f341513dd86",
-        apiHost: "https://flowise.omega-spiral.com",
-        chatflowConfig: {
-          // Send framework-specific context
-          topK: 5,
-          temperature: 0.7,
-          systemPrompt: "You are a Svelte expert assistant. Help the user with Svelte-related questions."
-        },
-        theme: {
-          button: {
-            backgroundColor: "#FF3E00",
-            right: 20,
-            bottom: 80
-          }
-        }
-      })
-    })
-  </script>
 </Layout>

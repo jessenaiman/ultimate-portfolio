@@ -9,31 +9,31 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite"
 import expressiveCode from 'astro-expressive-code';
 
+import mdx from "@astrojs/mdx";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://portfolio.omega-spiral.com/",
   output: "static",
-  integrations: [ 
-    icon({
-      include: {
-        mdi: ['*']
-          }
-        }), 
-    react({
-      include: ["**/React/**/*.{jsx,tsx}"],
-    }),
-    svelte({
-      include: ["**/Svelte/**/*.{jsx,tsx}"],
-    }), 
-    vue({
-      jsx: true,
-      include: ["**/*.vue", "**/Vue/**/*.{jsx,tsx}"],
-    }), 
-    solidJs({
-      include: ["**/Solid/**/*.{jsx,tsx}"],
-    }),
-    sitemap(), 
-    expressiveCode()],
+  integrations: [icon({
+    include: {
+      mdi: ['*'],
+      logos: ['*']
+        }
+      }), react({
+    include: ["**/React/**/*.{jsx,tsx}"],
+  }), svelte({
+    include: ["**/Svelte/**/*.svelte"],
+  }), vue({
+    jsx: true,
+    include: ["**/*.vue", "**/Vue/**/*.{jsx,tsx}"],
+  }), solidJs({
+    include: ["**/Solid/**/*.{jsx,tsx}"],
+  }), sitemap(), expressiveCode({
+    frames: {
+      showFileNames: true,
+    }
+  }), mdx()],
   build: {
     // Enable modern browser builds for better performance
     format: 'file',

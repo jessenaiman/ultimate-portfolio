@@ -1,46 +1,46 @@
 <script>
 import MathTools from './MathTools.svelte';
-  import { onMount } from 'svelte';
-  import { fade, slide } from 'svelte/transition';
+import { onMount } from 'svelte';
+import { fade, slide } from 'svelte/transition';
 
-  let mounted = false;
-  let activeTab = 'state';
-  let count = 0;
-  let todos = [];
-  let newTodo = '';
-  let showCompleted = false;
+let mounted = false;
+let activeTab = 'state';
+let count = 0;
+let todos = [];
+let newTodo = '';
+let showCompleted = false;
 
-  // Reactive statements
-  $: doubledCount = count * 2;
-  $: completedTodos = todos.filter(todo => todo.completed).length;
-  $: pendingTodos = todos.filter(todo => !todo.completed).length;
-  $: filteredTodos = showCompleted ? todos : todos.filter(todo => !todo.completed);
+// Reactive statements
+$: doubledCount = count * 2;
+$: completedTodos = todos.filter(todo => todo.completed).length;
+$: pendingTodos = todos.filter(todo => !todo.completed).length;
+$: filteredTodos = showCompleted ? todos : todos.filter(todo => !todo.completed);
 
-  // Methods
-  function addTodo() {
+// Methods
+function addTodo() {
     if (newTodo.trim()) {
       todos = [...todos, { text: newTodo, completed: false, id: Date.now() }];
       newTodo = '';
     }
   }
 
-  function toggleTodo(id) {
+function toggleTodo(id) {
     todos = todos.map(todo => 
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     );
   }
 
-  function removeTodo(id) {
+function removeTodo(id) {
     todos = todos.filter(todo => todo.id !== id);
   }
 
-  onMount(() => {
+onMount(() => {
     mounted = true;
   });
 </script>
 
 <section id="devtools" class="py-16 px-4 sm:px-6">
-  <div class="max-w-4xl mx-auto">
+  <div class="mx-auto">
     {#if mounted}
       <div in:slide={{ duration: 800, delay: 200 }} class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-gray-800/50 overflow-hidden shadow-xl">
         <!-- Header -->

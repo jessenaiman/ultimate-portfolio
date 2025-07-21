@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const AlertDialogDemo = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <>
-      <button className="btn btn-error" onClick={() => setIsOpen(true)}>
+      <button className="btn btn-error" onClick={() => setIsOpen(true)} disabled={!isClient}>
         Delete account
       </button>
 
