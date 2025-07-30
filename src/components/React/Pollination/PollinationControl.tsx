@@ -1,27 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import TextTab from './TextTab';
-import ImageTab from './ImageTab';
-import ChatTab from './ChatTab';
+import React from 'react';
+import PollinateTabs from './PollinateTabs';
 
-// Ensure we're in a browser environment before rendering components that use hooks
-const isBrowser = typeof window !== 'undefined';
-
-// Define tab configuration without immediately rendering components
-const tabConfig = [
-  { value: 'text', label: 'usePollinationsText', shortLabel: 'Text', Component: TextTab },
-  { value: 'image', label: 'usePollinationsImage', shortLabel: 'Image', Component: ImageTab },
-  { value: 'chat', label: 'usePollinationsChat', shortLabel: 'Chat', Component: ChatTab }
-];
-
-export default function PollinationsDemo() {
-  const [activeTab, setActiveTab] = useState<'text' | 'image' | 'chat'>('text');
-  const [isClient, setIsClient] = useState(false);
-  
-  // Use effect to ensure we only render components with hooks on the client side
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
+export default function PollinationControl() {
   return (
     <div className="container mx-auto p-4 bg-base-200 text-base-content max-w-4xl rounded-lg shadow-lg">
       <h1 className="text-4xl font-bold mb-2 text-center">
@@ -32,30 +12,7 @@ export default function PollinationsDemo() {
       <h2 className="text-xl mb-8 text-center opacity-80">This playground is designed to showcase the versatility and hackability of the Pollinations API</h2>
 
       <div className="w-full">
-        <div role="tablist" className="tabs tabs-lifted w-full grid grid-cols-3">
-          {tabConfig.map((tab) => (
-            <button
-              key={tab.value}
-              role="tab"
-              className={`tab ${activeTab === tab.value ? 'tab-active' : ''}`}
-              onClick={() => setActiveTab(tab.value as 'text' | 'image' | 'chat')}
-            >
-              <span className="hidden sm:inline">{tab.label}</span>
-              <span className="sm:hidden">{tab.shortLabel}</span>
-            </button>
-          ))}
-        </div>
-        <div className="p-4 bg-base-200 rounded-b-box">
-          {isClient && (() => {
-            const ActiveTabComponent = tabConfig.find(tab => tab.value === activeTab)?.Component;
-            return ActiveTabComponent ? <ActiveTabComponent /> : null;
-          })()}
-          {!isClient && (
-            <div className="flex justify-center items-center h-32">
-              <div className="loading loading-spinner loading-lg"></div>
-            </div>
-          )}
-        </div>
+        <PollinateTabs />
       </div>
 
       <footer className="mt-8 text-center opacity-80">

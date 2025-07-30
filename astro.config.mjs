@@ -7,9 +7,11 @@ import vue from "@astrojs/vue";
 import solidJs from "@astrojs/solid-js";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite"
-import expressiveCode from 'astro-expressive-code';
+import astroExpressiveCode from 'astro-expressive-code';
 
 import mdx from "@astrojs/mdx";
+
+import db from '@astrojs/db';
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,11 +31,16 @@ export default defineConfig({
     include: ["**/*.vue", "**/Vue/**/*.{jsx,tsx}"],
   }), solidJs({
     include: ["**/Solid/**/*.{jsx,tsx}"],
-  }), sitemap(), expressiveCode({
-    frames: {
-      showFileNames: true,
+  }), sitemap(), astroExpressiveCode({
+    themes: ['dracula', 'github-light'],
+    styleOverrides: {
+      // You can also override styles
+      borderRadius: '0.5rem',
+      frames: {
+        shadowColor: '#124',
+      },
     }
-  }), mdx()],
+  }), mdx(), db()],
   build: {
     // Enable modern browser builds for better performance
     format: 'file',

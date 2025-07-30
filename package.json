@@ -19,9 +19,10 @@
     "test:e2e": "playwright test -c playwright.config.ts"
   },
   "dependencies": {
+    "@astrojs/db": "^0.15.1",
     "@astrojs/mdx": "^4.3.1",
     "@astrojs/react": "^4.3.0",
-    "@astrojs/sitemap": "^3.4.1",
+    "@astrojs/sitemap": "^3.4.2",
     "@astrojs/solid-js": "^5.1.0",
     "@astrojs/svelte": "^7.1.0",
     "@astrojs/vue": "^5.1.0",
@@ -30,7 +31,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@xtreat/astro-iconify": "^1.2.7",
-    "astro": "^5.11.1",
+    "astro": "^5.12.5",
     "astro-expressive-code": "^0.41.3",
     "astro-icon": "^1.1.5",
     "astro-seo": "^0.8.4",
