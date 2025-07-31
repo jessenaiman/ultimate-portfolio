@@ -23,11 +23,10 @@ export default defineConfig({
       logos: ['*']
         }
       }), react({
-    include: ["**/React/**/*.{jsx,tsx}"],
+    include: ["**/React/**/*.{jsx,tsx}"]
   }), svelte({
     include: ["**/Svelte/**/*.svelte"],
   }), vue({
-    jsx: true,
     include: ["**/*.vue", "**/Vue/**/*.{jsx,tsx}"],
   }), solidJs({
     include: ["**/Solid/**/*.{jsx,tsx}"],

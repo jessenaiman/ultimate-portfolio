@@ -5,7 +5,6 @@ import { useState } from "react"
 export default function Calculator() {
   const [displayValue, setDisplayValue] = useState("0")
   const [graphPoints, setGraphPoints] = useState<{ x: number; y: number }[]>([])
-  const [currentTab, setCurrentTab] = useState("calculator")
 
   // Scientific functions
   const scientificFunctions = {
@@ -50,19 +49,10 @@ export default function Calculator() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
-      <div role="tablist" className="tabs tabs-bordered">
-        <input
-          type="radio"
-          name="calculator_tabs"
-          role="tab"
-          className="tab"
-          aria-label="Calculator"
-          checked={currentTab === "calculator"}
-          onChange={() => setCurrentTab("calculator")}
-        />
-        <div role="tabpanel" className={`tab-content p-5 ${currentTab === "calculator" ? "block" : "hidden"}`}>
-          <div className="p-6 border rounded shadow bg-base-200">
+    <div className="w-full max-w-md mx-auto">
+      <div role="tablist" className="tabs tabs-lifted">
+        <input type="radio" name="calculator_tabs" role="tab" className="tab" aria-label="Calculator" defaultChecked />
+        <div role="tabpanel" className="tab-content bg-base-200 border-base-300 rounded-box p-6">
             <input
               type="text"
               value={displayValue}
@@ -71,100 +61,39 @@ export default function Calculator() {
             />
             <div className="grid grid-cols-4 gap-2">
               {/* Scientific Functions */}
-              <button className="btn btn-outline" onClick={() => handleScientific("sin")}>
-                sin
-              </button>
-              <button className="btn btn-outline" onClick={() => handleScientific("cos")}>
-                cos
-              </button>
-              <button className="btn btn-outline" onClick={() => handleScientific("tan")}>
-                tan
-              </button>
-              <button className="btn btn-outline" onClick={() => handleScientific("log")}>
-                log
-              </button>
-              <button className="btn btn-outline" onClick={() => handleScientific("ln")}>
-                ln
-              </button>
-              <button className="btn btn-outline" onClick={() => handleScientific("sqrt")}>
-                √
-              </button>
-              <button className="btn btn-outline" onClick={() => handleScientific("pow2")}>
-                x²
-              </button>
-              <button className="btn btn-outline" onClick={() => handleScientific("pow3")}>
-                x³
-              </button>
+              <button className="btn btn-outline" onClick={() => handleScientific("sin")}>sin</button>
+              <button className="btn btn-outline" onClick={() => handleScientific("cos")}>cos</button>
+              <button className="btn btn-outline" onClick={() => handleScientific("tan")}>tan</button>
+              <button className="btn btn-outline" onClick={() => handleScientific("log")}>log</button>
+              <button className="btn btn-outline" onClick={() => handleScientific("ln")}>ln</button>
+              <button className="btn btn-outline" onClick={() => handleScientific("sqrt")}>√</button>
+              <button className="btn btn-outline" onClick={() => handleScientific("pow2")}>x²</button>
+              <button className="btn btn-outline" onClick={() => handleScientific("pow3")}>x³</button>
 
               {/* Numbers and Basic Operators */}
-              <button className="btn" onClick={() => handleNumber("7")}>
-                7
-              </button>
-              <button className="btn" onClick={() => handleNumber("8")}>
-                8
-              </button>
-              <button className="btn" onClick={() => handleNumber("9")}>
-                9
-              </button>
-              <button className="btn btn-primary" onClick={() => handleOperator("+")}>
-                +
-              </button>
-              <button className="btn" onClick={() => handleNumber("4")}>
-                4
-              </button>
-              <button className="btn" onClick={() => handleNumber("5")}>
-                5
-              </button>
-              <button className="btn" onClick={() => handleNumber("6")}>
-                6
-              </button>
-              <button className="btn btn-primary" onClick={() => handleOperator("-")}>
-                -
-              </button>
-              <button className="btn" onClick={() => handleNumber("1")}>
-                1
-              </button>
-              <button className="btn" onClick={() => handleNumber("2")}>
-                2
-              </button>
-              <button className="btn" onClick={() => handleNumber("3")}>
-                3
-              </button>
-              <button className="btn btn-primary" onClick={() => handleOperator("*")}>
-                ×
-              </button>
-              <button className="btn" onClick={() => handleNumber("0")}>
-                0
-              </button>
-              <button className="btn" onClick={() => handleNumber(".")}>
-                .
-              </button>
-              <button className="btn btn-accent" onClick={calculate}>
-                =
-              </button>
-              <button className="btn btn-primary" onClick={() => handleOperator("/")}>
-                ÷
-              </button>
-              <button className="btn btn-error col-span-4" onClick={clear}>
-                Clear
-              </button>
+              <button className="btn" onClick={() => handleNumber("7")}>7</button>
+              <button className="btn" onClick={() => handleNumber("8")}>8</button>
+              <button className="btn" onClick={() => handleNumber("9")}>9</button>
+              <button className="btn btn-primary" onClick={() => handleOperator("+")}>+</button>
+              <button className="btn" onClick={() => handleNumber("4")}>4</button>
+              <button className="btn" onClick={() => handleNumber("5")}>5</button>
+              <button className="btn" onClick={() => handleNumber("6")}>6</button>
+              <button className="btn btn-primary" onClick={() => handleOperator("-")}>-</button>
+              <button className="btn" onClick={() => handleNumber("1")}>1</button>
+              <button className="btn" onClick={() => handleNumber("2")}>2</button>
+              <button className="btn" onClick={() => handleNumber("3")}>3</button>
+              <button className="btn btn-primary" onClick={() => handleOperator("*")}>×</button>
+              <button className="btn" onClick={() => handleNumber("0")}>0</button>
+              <button className="btn" onClick={() => handleNumber(".")}>.</button>
+              <button className="btn btn-accent" onClick={calculate}>=</button>
+              <button className="btn btn-primary" onClick={() => handleOperator("/")}>÷</button>
+              <button className="btn btn-error col-span-4" onClick={clear}>Clear</button>
             </div>
-          </div>
         </div>
 
-        <input
-          type="radio"
-          name="calculator_tabs"
-          role="tab"
-          className="tab"
-          aria-label="Graph"
-          checked={currentTab === "graph"}
-          onChange={() => setCurrentTab("graph")}
-        />
-        <div role="tabpanel" className={`tab-content p-5 ${currentTab === "graph" ? "block" : "hidden"}`}>
-          <div className="p-6 border rounded shadow bg-base-200">
-            <p>Graph functionality coming soon...</p>
-          </div>
+        <input type="radio" name="calculator_tabs" role="tab" className="tab" aria-label="Graph" />
+        <div role="tabpanel" className="tab-content bg-base-200 border-base-300 rounded-box p-6">
+          <p>Graph functionality coming soon...</p>
         </div>
       </div>
     </div>
