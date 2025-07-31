@@ -1,31 +1,16 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import PollinateTabs from "../components/React/Pollination/PollinateTabs.tsx";
-import { Content as PollinateContent } from "../content/info/pollinate-ai.md";
-
-const headline = "Pollinate AI Demo";
-const subheading = "Explore generative React Hooks for text, image, and chat.";
+import Layout from '../layouts/Layout.astro';
+import PollinationDemo from '../components/React/pollination/PollinationDemo.tsx';
 ---
 
-<Layout title={headline} description={subheading}>
-  <main class="container mx-auto px-4 py-16">
-
-    <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold mb-2">
-            <a href="https://github.com/pollinations/pollinations" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">
-              🌸 Pollinations Generative React Hooks 2.0.1 🌸
-            </a>
-        </h1>
-        <h2 class="text-xl opacity-80">This playground is designed to showcase the versatility and hackability of the Pollinations API</h2>
+<Layout title="Pollinations Hooks Demo">
+  <main class="p-4 md:p-8 max-w-4xl mx-auto">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold">Pollinations.ai Chat</h1>
+      <p class="py-2">A simple, working integration of a single React component.</p>
     </div>
 
-    <!-- Pollination Tabs React Component -->
-    <div class="my-8">
-      <PollinateTabs client:load />
-    </div>
+    <PollinationDemo client:only="react" />
 
-    <article class="prose max-w-none mb-16">
-      <PollinateContent />
-    </article>
   </main>
 </Layout>
