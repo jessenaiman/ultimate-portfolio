@@ -3,74 +3,68 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import { Code } from 'astro:components';
 import { Content as SvelteContent } from '../content/info/svelte-framework.md';
+import { Icon } from 'astro-icon/components';
 
 // Import interactive Svelte components
 import SvelteHero from '../components/Svelte/Hero.svelte';
-import SvelteMathTools from '../components/Svelte/MathTools.svelte';
+import TodoTools from '../components/Svelte/TodoTools.svelte';
 
 // Import raw source code for display
-import svelteHeroSource from '../components/Svelte/Hero.svelte?raw';
-import svelteMathToolsSource from '../components/Svelte/MathTools.svelte?raw';
+import todoToolsSource from '../components/Svelte/TodoTools.svelte?raw';
 ---
 
-<Layout title="Svelte Framework Demo" description="An honest demonstration of interactive Svelte components running in an Astro project.">
-  <Hero headline="Svelte Framework Demo" subheading="Live, interactive Svelte components hydrated on the client." />
+<Layout title="Svelte Framework Demo" description="An honest demonstration of an interactive Svelte component running in an Astro project.">
+  <div class="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+    <div class="container mx-auto px-4">
+      <Hero headline="Svelte Framework Demo" subheading="Live, interactive Svelte components hydrated on the client." />
+      <SvelteHero client:visible />
+    </div>
+  </div>
 
   <div class="container mx-auto px-4 py-16">
-    <!-- Markdown Content Section -->
     <section class="prose max-w-none mb-16 bg-base-200/30 p-6 rounded-lg">
       <SvelteContent />
     </section>
 
     <!-- Interactive Demos -->
-    <div class="space-y-16">
-      <!-- Svelte Hero Demo -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Live Demo -->
-        <div class="card bg-base-200/60 shadow-xl h-full">
-          <div class="card-body">
-            <h3 class="card-title">Interactive Hero</h3>
-            <p class="text-sm text-base-content/70">A hero section with interactive elements, built with Svelte.</p>
-            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-              <SvelteHero client:only='svelte' />
+    <div class="space-y-12">
+      <!-- Svelte TodoTools Demo -->
+      <label class="swap swap-flip w-full">
+        <input type="checkbox" class="hidden" />
+        
+        <!-- Front Side: Live Demo -->
+        <div class="swap-off w-full" style="transition-duration: 700ms;">
+          <div class="card bg-base-200/60 shadow-xl">
+            <div class="card-body">
+              <div class="flex justify-between items-center">
+                <h3 class="card-title"><Icon name="mdi:playlist-check" class="w-6 h-6 mr-2 text-secondary"/>Todo List</h3>
+                <div class="card-actions">
+                  <div class="btn btn-sm">View Source <Icon name="mdi:code-braces" class="w-4 h-4 ml-1"/></div>
+                </div>
+              </div>
+              <p class="text-sm text-base-content/70">A simple todo list manager built with Svelte.</p>
+              <div class="min-h-[300px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+                <TodoTools client:only='svelte' />
+              </div>
             </div>
           </div>
         </div>
-        <!-- Source Code Collapse -->
-        <div class="w-full">
-            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
-                <input type="checkbox" /> 
-                <div class="collapse-title text-xl font-medium">View Source Code</div>
-                <div class="collapse-content">
-                  <Code code={svelteHeroSource} lang="svelte" theme="github-dark" />
-                </div>
-            </div>
-        </div>
-      </div>
 
-      <!-- Svelte Math Tools Demo -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Live Demo -->
-        <div class="card bg-base-200/60 shadow-xl h-full">
-          <div class="card-body">
-            <h3 class="card-title">Math Tools</h3>
-            <p class="text-sm text-base-content/70">A set of math tools demonstrating reactivity and state management in Svelte.</p>
-            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-              <SvelteMathTools client:only='svelte' />
+        <!-- Back Side: Source Code -->
+        <div class="swap-on w-full" style="transition-duration: 700ms;">
+          <div class="card bg-base-300 shadow-xl">
+            <div class="card-body">
+              <div class="flex justify-between items-center">
+                <h3 class="card-title"><Icon name="mdi:code-braces" class="w-6 h-6 mr-2 text-secondary"/>TodoTools.svelte</h3>
+                <div class="card-actions">
+                  <div class="btn btn-sm">View Demo <Icon name="mdi:play" class="w-4 h-4 ml-1"/></div>
+                </div>
+              </div>
+              <Code code={todoToolsSource} lang="svelte" theme="github-dark" />
             </div>
           </div>
         </div>
-        <!-- Source Code Collapse -->
-        <div class="w-full">
-            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
-                <input type="checkbox" /> 
-                <div class="collapse-title text-xl font-medium">View Source Code</div>
-                <div class="collapse-content">
-                  <Code code={svelteMathToolsSource} lang="svelte" theme="github-dark" />
-                </div>
-            </div>
-        </div>
-      </div>
+      </label>
     </div>
   </div>
 </Layout>

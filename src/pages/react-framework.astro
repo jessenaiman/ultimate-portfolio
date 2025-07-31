@@ -5,6 +5,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import { Code } from 'astro:components';
 import { Content as ReactContent } from '../content/info/react-framework.md';
+import { Icon } from 'astro-icon/components';
 
 // Import interactive React components
 import ColorPickerHero from '../components/React/ColorPickerHero.tsx';
@@ -29,54 +30,84 @@ import calculatorSource from '../components/React/Calculator.tsx?raw';
     </section>
 
     <!-- Interactive Demos -->
-    <div class="space-y-16">
+    <div class="space-y-12">
+
       <!-- Color Picker Hero Demo -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Live Demo -->
-        <div class="card bg-base-200/60 shadow-xl h-full">
-          <div class="card-body">
-            <h3 class="card-title">Interactive Color Picker</h3>
-            <p class="text-sm text-base-content/70">A simple, stateful color picker built with React and Framer Motion for animations.</p>
-            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-              <ColorPickerHero client:only='react' />
+      <label class="swap swap-flip w-full">
+        <input type="checkbox" class="hidden" />
+        
+        <!-- Front Side: Live Demo -->
+        <div class="swap-off w-full">
+          <div class="card bg-base-200/60 shadow-xl">
+            <div class="card-body">
+              <div class="flex justify-between items-center">
+                <h3 class="card-title"><Icon name="mdi:eyedropper-variant" class="w-6 h-6 mr-2 text-primary"/>Interactive Color Picker</h3>
+                <div class="card-actions">
+                  <div class="btn btn-sm">View Source <Icon name="mdi:code-braces" class="w-4 h-4 ml-1"/></div>
+                </div>
+              </div>
+              <p class="text-sm text-base-content/70">A simple, stateful color picker built with React and Framer Motion for animations.</p>
+              <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+                <ColorPickerHero client:only='react' />
+              </div>
             </div>
           </div>
         </div>
-        <!-- Source Code Collapse -->
-        <div class="w-full">
-            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
-                <input type="checkbox" /> 
-                <div class="collapse-title text-xl font-medium">View Source Code</div>
-                <div class="collapse-content">
-                  <Code code={colorPickerSource} lang="tsx" title="ColorPickerHero.tsx" theme="github-dark" />
+
+        <!-- Back Side: Source Code -->
+        <div class="swap-on w-full">
+          <div class="card bg-base-300 shadow-xl">
+            <div class="card-body">
+              <div class="flex justify-between items-center">
+                <h3 class="card-title"><Icon name="mdi:code-braces" class="w-6 h-6 mr-2 text-primary"/>ColorPickerHero.tsx</h3>
+                <div class="card-actions">
+                  <div class="btn btn-sm">View Demo <Icon name="mdi:react" class="w-4 h-4 ml-1"/></div>
                 </div>
+              </div>
+              <Code code={colorPickerSource} lang="tsx" theme="github-dark" />
             </div>
+          </div>
         </div>
-      </div>
+      </label>
 
       <!-- Calculator Demo -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Live Demo -->
-        <div class="card bg-base-200/60 shadow-xl h-full">
-          <div class="card-body">
-            <h3 class="card-title">Calculator App</h3>
-            <p class="text-sm text-base-content/70">A functional calculator with state management for handling user input and calculations.</p>
-            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-              <Calculator client:only='react' />
+      <label class="swap swap-flip w-full">
+        <input type="checkbox" class="hidden" />
+
+        <!-- Front Side: Live Demo -->
+        <div class="swap-off w-full">
+          <div class="card bg-base-200/60 shadow-xl">
+            <div class="card-body">
+              <div class="flex justify-between items-center">
+                <h3 class="card-title"><Icon name="mdi:calculator-variant" class="w-6 h-6 mr-2 text-accent"/>Calculator App</h3>
+                <div class="card-actions">
+                  <div class="btn btn-sm">View Source <Icon name="mdi:code-braces" class="w-4 h-4 ml-1"/></div>
+                </div>
+              </div>
+              <p class="text-sm text-base-content/70">A functional calculator with state management for handling user input and calculations.</p>
+              <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+                <Calculator client:only='react' />
+              </div>
             </div>
           </div>
         </div>
-        <!-- Source Code Collapse -->
-        <div class="w-full">
-            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
-                <input type="checkbox" /> 
-                <div class="collapse-title text-xl font-medium">View Source Code</div>
-                <div class="collapse-content">
-                  <Code code={calculatorSource} lang="tsx" title="Calculator.tsx" theme="github-dark" />
+
+        <!-- Back Side: Source Code -->
+        <div class="swap-on w-full">
+          <div class="card bg-base-300 shadow-xl">
+            <div class="card-body">
+              <div class="flex justify-between items-center">
+                <h3 class="card-title"><Icon name="mdi:code-braces" class="w-6 h-6 mr-2 text-accent"/>Calculator.tsx</h3>
+                <div class="card-actions">
+                  <div class="btn btn-sm">View Demo <Icon name="mdi:react" class="w-4 h-4 ml-1"/></div>
                 </div>
+              </div>
+              <Code code={calculatorSource} lang="tsx" theme="github-dark" />
             </div>
+          </div>
         </div>
-      </div>
+      </label>
+
     </div>
   </div>
 </Layout>
