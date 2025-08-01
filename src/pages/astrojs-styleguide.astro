@@ -1,82 +1,52 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getEntry } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 import FrameworkFeature from '../components/framework/Feature.astro';
-import CodeBlock from '../components/ui/CodeBlock.astro';
-import CodeDesignSplit from '../components/ui/CodeDesignSplit.astro';
 
 // Get the AstroJS markdown content
-const astroContent = await getEntry('info', 'astrojs');
+const astroContent = await getEntry('info', 'astrojs-styleguide');
 
-// Extract sections from the markdown content
-const features = astroContent.body
-  .split('*   **')
-  .filter(section => section.trim() && section.includes('**'))
-  .map(section => {
-    const [title, ...content] = section.split('**');
-    return {
-      title: title.trim(),
-      content: content.join('').replace(':**', '').trim()
-    };
-  });
-
-// Example Astro component code
-const exampleComponent = `---
-// src/components/Example.astro
-import { getCollection } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
-
-// Type definitions for blog posts
-interface Post {
-  data: {
-    title: string;
-    description: string;
-  };
-  slug: string;
+// Handle case where content doesn't exist
+if (!astroContent) {
+  throw new Error('AstroJS content not found. Please ensure src/content/info/astrojs-styleguide.mdx exists.');
 }
 
-// Fetch posts at build time with type annotation
-const posts = (await getCollection('blog')) as unknown as Post[];
+// Render the content
+const { Content } = await render(astroContent);
+
+// Define features from the content
+const features = [
+  {
+    title: "Unmatched Performance",
+    content: "Astro's server-first approach means your website loads at lightning speed. Up to 40% faster than other frameworks."
+  },
+  {
+    title: "Islands Architecture", 
+    content: "Interactive components load independently on static pages, giving you the best of both worlds."
+  },
+  {
+    title: "SEO Optimized",
+    content: "Built for search engines with static HTML generation for better crawling and indexing."
+  },
+  {
+    title: "Framework Agnostic",
+    content: "Use with React, Vue, Svelte, or any UI library. Future-proof flexibility."
+  }
+];
+
 ---
 
-<Layout title="Welcome to Astro">
-  <main>
-    <h1>Welcome to Astro</h1>
-    <div class="grid">
-      {posts.map((post: Post) => (
-        <article class="card">
-          <h2>{post.data.title}</h2>
-          <p>{post.data.description}</p>
-          <a href={"/blog/" + post.slug}>Read more</a>
-        </article>
-      ))}
-    </div>
-  </main>
-</Layout>`;
----
-
-<Layout 
-  title="AstroJS Showcase | Ultimate Astro Template"
-  primaryBallColor="hsl(258.1 94.6% 51.2%)"
-  secondaryBallColor="hsl(262.1 83.3% 57.8%)"
-  gridColor="hsl(0 0% 100% / 0.03)"
-  diagonalColor="hsl(0 0% 100% / 0.05)"
-  vignetteColor="hsl(0 0% 0% / 0.5)"
->
+<Layout title="AstroJS Showcase | Ultimate Astro Template">
   <main class="container mx-auto px-4 py-12 max-w-7xl">
     <!-- Hero Section -->
     <section class="text-center mb-20">
       <div class="flex justify-center mb-6">
-        <div class="bg-linear-to-r from-primary to-secondary p-1 rounded-full">
-          <div class="bg-base-100 px-4 py-2 rounded-full text-sm font-medium">
-            Framework Showcase
-          </div>
+        <div class="badge badge-primary badge-lg">
+          Framework Showcase
         </div>
       </div>
-      <h1 class="text-5xl md:text-6xl font-bold mb-6">
-        <span class="bg-clip-text text-transparent bg-linear-to-r from-primary to-secondary">
-          AstroJS
-        </span>
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 text-primary">
+        AstroJS
       </h1>
       <p class="text-xl text-base-content/80 max-w-3xl mx-auto mb-8">
         {astroContent.data.description}
@@ -100,6 +70,11 @@ const posts = (await getCollection('blog')) as unknown as Post[];
       </div>
     </section>
 
+    <!-- Content Section -->
+    <section class="prose prose-lg max-w-4xl mx-auto mb-20">
+      <Content />
+    </section>
+
     <!-- Features Grid -->
     <section class="grid md:grid-cols-2 gap-8 mb-20">
       {features.map((feature, index) => (
@@ -114,7 +89,7 @@ const posts = (await getCollection('blog')) as unknown as Post[];
 
     <!-- Code Example -->
     <section class="mb-20">
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <h2 class="text-3xl font-bold">Example Component</h2>
         <div class="tabs tabs-boxed">
           <a class="tab tab-active">Astro</a>
@@ -122,85 +97,115 @@ const posts = (await getCollection('blog')) as unknown as Post[];
           <a class="tab">Vue</a>
         </div>
       </div>
-      <div class="mockup-code bg-base-200 rounded-lg">
-        <CodeBlock code={exampleComponent} language="astro" />
+      <div class="mockup-code">
+        <pre data-prefix="1"><code>---</code></pre>
+        <pre data-prefix="2"><code>import Layout from '../layouts/Layout.astro';</code></pre>
+        <pre data-prefix="3"><code>import &#123; getCollection &#125; from 'astro:content';</code></pre>
+        <pre data-prefix="4"><code>---</code></pre>
+        <pre data-prefix="5"><code>&lt;Layout title="Welcome to Astro"&gt;</code></pre>
+        <pre data-prefix="6"><code>  &lt;h1&gt;Welcome to Astro&lt;/h1&gt;</code></pre>
+        <pre data-prefix="7"><code>&lt;/Layout&gt;</code></pre>
       </div>
     </section>
 
     <!-- Performance Demo -->
     <section class="mb-20">
       <h2 class="text-3xl font-bold mb-6">Performance Benefits</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="card bg-base-200/50 p-6 text-center">
-          <div class="text-5xl font-bold text-primary mb-2">40%</div>
-          <p class="text-base-content/80">Faster than traditional React</p>
+      <div class="stats stats-vertical lg:stats-horizontal shadow">
+        <div class="stat">
+          <div class="stat-title">Performance Boost</div>
+          <div class="stat-value text-primary">40%</div>
+          <div class="stat-desc">Faster than traditional React</div>
         </div>
-        <div class="card bg-base-200/50 p-6 text-center">
-          <div class="text-5xl font-bold text-primary mb-2">0KB</div>
-          <p class="text-base-content/80">JavaScript by default</p>
+        <div class="stat">
+          <div class="stat-title">JavaScript Bundle</div>
+          <div class="stat-value text-primary">0KB</div>
+          <div class="stat-desc">JavaScript by default</div>
         </div>
-        <div class="card bg-base-200/50 p-6 text-center">
-          <div class="text-5xl font-bold text-primary mb-2">A+</div>
-          <p class="text-base-content/80">SEO & Accessibility</p>
+        <div class="stat">
+          <div class="stat-title">SEO Score</div>
+          <div class="stat-value text-primary">A+</div>
+          <div class="stat-desc">SEO & Accessibility</div>
         </div>
       </div>
     </section>
 
-    <!-- Interactive Demo -->
-    <section class="mb-20">
-      <h2 class="text-3xl font-bold mb-6">Interactive Demo</h2>
-      <CodeDesignSplit 
-        title="Example Component"
-        description="Toggle between code and design views to see how this Astro component works"
-        code={exampleComponent}
-        design={`
-          <div class="p-4">
-            <h1 class="text-2xl font-bold mb-4">Welcome to Astro</h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <article class="card bg-base-100 shadow-xl">
-                <div class="card-body">
-                  <h2 class="card-title">Sample Blog Post</h2>
-                  <p>This is an example of a blog post description that would be rendered by the component.</p>
-                  <div class="card-actions justify-end mt-4">
-                    <button class="btn btn-primary btn-sm">Read more</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card bg-base-100 shadow-xl">
-                <div class="card-body">
-                  <h2 class="card-title">Another Blog Post</h2>
-                  <p>This shows how multiple posts would be displayed in the grid layout.</p>
-                  <div class="card-actions justify-end mt-4">
-                    <button class="btn btn-primary btn-sm">Read more</button>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-        `}
-      />
-    </section>
+
 
     <!-- Integration with Other Frameworks -->
     <section class="mb-20">
       <h2 class="text-3xl font-bold mb-6">Framework Integrations</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         {['React', 'Vue', 'Svelte', 'Solid', 'Preact', 'Alpine', 'Lit', 'Qwik'].map(framework => (
-          <div class="card bg-base-200/50 p-4 flex items-center justify-center hover:bg-base-200/80 transition-colors">
-            <img 
-              src={"/assets/frameworks/" + framework.toLowerCase() + ".svg"}
-              alt={framework}
-              class="h-12 w-12 object-contain"
-              onerror={`this.onerror=null;this.src='https://via.placeholder.com/48?text='+this.alt`}
-            />
-            <span class="mt-2 font-medium">{framework}</span>
+          <div class="card bg-base-200 hover:bg-base-300 transition-colors cursor-pointer">
+            <div class="card-body items-center text-center p-4">
+              <div class="avatar placeholder">
+                <div class="bg-neutral text-neutral-content rounded-full w-12">
+                  <span class="text-xl">{framework.charAt(0)}</span>
+                </div>
+              </div>
+              <h3 class="card-title text-sm">{framework}</h3>
+            </div>
           </div>
         ))}
       </div>
     </section>
 
+    <!-- Getting Started -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold mb-8 text-center">Getting Started</h2>
+      <div class="steps steps-vertical lg:steps-horizontal w-full">
+        <div class="step step-primary">
+          <div class="card bg-base-200">
+            <div class="card-body">
+              <h3 class="card-title">Install Astro</h3>
+              <div class="mockup-code">
+                <pre data-prefix="$"><code>npm create astro@latest</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step step-primary">
+          <div class="card bg-base-200">
+            <div class="card-body">
+              <h3 class="card-title">Start Development</h3>
+              <div class="mockup-code">
+                <pre data-prefix="$"><code>npm run dev</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="card bg-base-200">
+            <div class="card-body">
+              <h3 class="card-title">Build & Deploy</h3>
+              <div class="mockup-code">
+                <pre data-prefix="$"><code>npm run build</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section class="mb-20">
+      <h2 class="text-3xl font-bold mb-8 text-center">Interactive Demo</h2>
+      <div class="mockup-browser bg-base-300 border">
+        <div class="mockup-browser-toolbar">
+          <div class="input">https://astro.build</div>
+        </div>
+        <div class="bg-base-200 flex justify-center px-4 py-16">
+          <div class="text-center">
+            <div class="loading loading-spinner loading-lg text-primary mb-4"></div>
+            <p class="text-base-content/60">Interactive demo coming soon...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Call to Action -->
-    <section class="text-center py-16 bg-linear-to-r from-primary/10 to-secondary/10 rounded-3xl">
+    <section class="text-center py-16 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-3xl">
       <h2 class="text-3xl font-bold mb-6">Ready to build something amazing?</h2>
       <p class="text-xl text-base-content/80 max-w-2xl mx-auto mb-8">
         Start building your next project with Astro today and experience the future of web development.
@@ -227,46 +232,6 @@ const posts = (await getCollection('blog')) as unknown as Post[];
         </a>
       </div>
     </section>
-            <div class="card-actions justify-end mt-4">
-              <button class="btn btn-primary btn-sm">Learn More</button>
-            </div>
-          </div>
-        </div>
-      ))}
-    </section>
-
-    <!-- Interactive Demo -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Interactive Demo</h2>
-      <div class="mockup-browser border border-base-300 bg-base-200">
-        <div class="mockup-browser-toolbar">
-          <div class="input border border-base-300">https://astro.build</div>
-        </div>
-        <div class="flex justify-center px-4 py-16 bg-base-300">
-          <p>Interactive demo coming soon...</p>
-        </div>
-      </div>
-    </section>
   </main>
 </Layout>
 
-<style is:global>
-  /* Remove any conflicting custom styles */
-  .mockup-code {
-    background-color: hsl(var(--n) / 0.5) !important;
-    color: hsl(var(--nc)) !important;
-  }
-  
-  .mockup-code pre:before {
-    display: none !important;
-  }
-  
-  /* Ensure proper spacing for the split view */
-  .code-view {
-    transition: all 0.3s ease;
-  }
-  
-  .design-view {
-    transition: all 0.3s ease;
-  }
-</style>

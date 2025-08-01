@@ -19,7 +19,12 @@ type ThemeName = 'light' | 'dark' | 'cupcake' | 'bumblebee' | 'emerald' | 'corpo
   'business' | 'acid' | 'lemonade' | 'night' | 'coffee' | 'winter';
 
 // Get the DaisyUI markdown content
-const daisyContent = await getEntry('info', 'daisyui');
+const daisyContent = await getEntry('info', 'daisyui-styleguide');
+
+// Handle case where content doesn't exist
+if (!daisyContent) {
+  throw new Error('DaisyUI content not found. Please ensure src/content/info/daisyui-styleguide.mdx exists.');
+}
 
 // Component examples as constants with proper typing
 const components: ComponentExamples = {
@@ -79,11 +84,6 @@ const themes: ThemeName[] = [
 
 <Layout 
   title="DaisyUI Showcase | Ultimate Astro Template"
-  primaryBallColor="hsl(220.9 39.3% 11%)"
-  secondaryBallColor="hsl(220.9 39.3% 18.8%)"
-  gridColor="hsl(0 0% 100% / 0.03)"
-  diagonalColor="hsl(0 0% 100% / 0.05)"
-  vignetteColor="hsl(0 0% 0% / 0.5)"
 >
   <!-- Theme Switcher -->
   <div class="fixed bottom-4 right-4 z-50">
@@ -145,7 +145,7 @@ const themes: ThemeName[] = [
         <button class="btn btn-ghost">Ghost</button>
         <button class="btn btn-link">Link</button>
       </div>
-      <Code language="html">{components.button}</Code>
+      <Code lang="html" code={components.button} />
     </section>
 
     <!-- Card -->
@@ -170,7 +170,7 @@ const themes: ThemeName[] = [
           </div>
         </div>
       </div>
-      <Code language="html">{components.card}</Code>
+      <Code lang="html" code={components.card} />
     </section>
 
     <!-- Alert -->
@@ -190,7 +190,7 @@ const themes: ThemeName[] = [
           <span>Your purchase has been confirmed!</span>
         </div>
       </div>
-      <Code language="html">{components.alert}</Code>
+      <Code lang="html" code={components.alert} />
     </section>
 
     <!-- Theme Selector -->
@@ -208,7 +208,7 @@ const themes: ThemeName[] = [
           </select>
         </div>
       </div>
-      <Code language="html">{components.theme}</Code>
+      <Code lang="html" code={components.theme} />
     </section>
 
     <!-- Additional Components Example -->

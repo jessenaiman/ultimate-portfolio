@@ -1,10 +1,19 @@
 ---
 // Framework tabs component using DaisyUI tabs
 // Documentation: https://daisyui.com/components/tab/
-import { Content as AstroContent } from '../../content/info/astrojs-styleguide.md';
-import { Content as TailwindContent } from '../../content/info/tailwind-styleguide.md';
-import { Content as DaisyContent } from '../../content/info/daisyui-styleguide.md';
-import { Content as StyleguideContent } from '../../content/info/styleguide.md';
+import { getEntry, render } from 'astro:content';
+
+// Get content entries
+const astroEntry = await getEntry('info', 'astrojs-styleguide');
+const tailwindEntry = await getEntry('info', 'tailwind-styleguide');
+const daisyEntry = await getEntry('info', 'daisyui-styleguide');
+const styleguideEntry = await getEntry('info', 'styleguide');
+
+// Render content components
+const { Content: AstroContent } = astroEntry ? await render(astroEntry) : { Content: null };
+const { Content: TailwindContent } = tailwindEntry ? await render(tailwindEntry) : { Content: null };
+const { Content: DaisyContent } = daisyEntry ? await render(daisyEntry) : { Content: null };
+const { Content: StyleguideContent } = styleguideEntry ? await render(styleguideEntry) : { Content: null };
 
 // Tab configuration with icons and content
 const tabs = [
@@ -49,39 +58,34 @@ const tabs = [
 ---
 
 <!-- DaisyUI Tabs: https://daisyui.com/components/tab/ -->
-<div class="mb-16">
-  <div role="tablist" class="tabs tabs-lifted">
-    {tabs.map((tab, index) => {
-      const Content = tab.content;
-      const tabId = `tab-${tab.id}`;
-      return (
-        <>
-          <input 
-            type="radio" 
-            name="framework_tabs" 
-            role="tab"
-            class="tab"
-            aria-label={tab.name}
-            id={tabId}
-            checked={index === 0} 
-          />
-          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-            <div class="flex items-center mb-4">
-              <span class="iconify mr-2 text-2xl" data-icon={tab.icon}></span>
-              <h3 class="text-xl font-bold">{tab.name}</h3>
-              {tab.badge && (
-                <span class={`badge ml-2 ${tab.badgeColor ? `badge-${tab.badgeColor}` : 'badge-primary'}`}>
-                  {tab.badge}
-                </span>
-              )}
-            </div>
-            <p class="text-sm text-base-content/70 mb-4">{tab.description}</p>
-            <div class="prose prose-sm md:prose-base max-w-none bg-base-200/30 p-4 md:p-6 rounded-lg">
-              <Content />
-            </div>
+<div role="tablist" class="tabs tabs-lifted">
+  {tabs.map((tab, index) => {
+    const Content = tab.content;
+    return (
+      <>
+        <input 
+          type="radio" 
+          name="framework_tabs" 
+          class="tab" 
+          aria-label={`${tab.name} ${tab.badge || ''}`}
+          checked={index === 0}
+        />
+        <div class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+          <div class="flex items-center mb-4">
+            <span class="iconify mr-2 text-2xl" data-icon={tab.icon}></span>
+            <h3 class="text-xl font-bold">{tab.name}</h3>
+            {tab.badge && (
+              <span class={`badge ml-2 ${tab.badgeColor ? `badge-${tab.badgeColor}` : 'badge-primary'}`}>
+                {tab.badge}
+              </span>
+            )}
           </div>
-        </>
-      );
-    })}
-  </div>
+          <p class="text-sm text-base-content/70 mb-4">{tab.description}</p>
+          <div class="prose prose-sm md:prose-base max-w-none bg-base-200/30 p-4 md:p-6 rounded-lg">
+            {Content && <Content />}
+          </div>
+        </div>
+      </>
+    );
+  })}
 </div>

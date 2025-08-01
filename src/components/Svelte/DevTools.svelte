@@ -1,5 +1,5 @@
 <script>
-  import { Chart } from 'svelte-echarts';
+  // import { Chart } from 'svelte-echarts'; // Temporarily disabled due to build issues
   import { init, use } from 'echarts/core';
   import { LineChart, BarChart, PieChart } from 'echarts/charts';
   import { TooltipComponent, LegendComponent, GridComponent, TitleComponent } from 'echarts/components';

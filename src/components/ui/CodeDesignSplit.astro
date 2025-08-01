@@ -1,0 +1,98 @@
+---
+interface Props {
+  code: string;
+  title: string;
+  description?: string;
+  language?: string;
+  design?: string;
+}
+
+import { Code } from 'astro/components';
+const { code, title, description, language = 'vue' } = Astro.props;
+
+// Generate a unique ID for the toggle
+const toggleId = `toggle-${title.toLowerCase().replace(/\s+/g, '-')}`;
+---
+
+<div class="w-full border border-base-300 rounded-lg overflow-hidden shadow-lg">
+  <!-- Header with title and toggle -->
+  <div class="bg-base-200 p-4 border-b border-base-300">
+    <div class="flex justify-between items-center">
+      <div>
+        <h3 class="text-xl font-bold text-base-content">{title}</h3>
+        {description && <p class="text-sm text-base-content/70 mt-1">{description}</p>}
+      </div>
+      
+      <div class="form-control">
+        <label class="label cursor-pointer gap-2">
+          <span class="label-text">Design</span>
+          <input type="checkbox" id={toggleId} class="toggle toggle-primary" />
+          <span class="label-text">Code</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Design View (visible by default) -->
+  <div class="design-view p-6 bg-base-100">
+    <slot />
+  </div>
+  
+  <!-- Code View (hidden by default) -->
+  <div id={`${toggleId}-code`} class="code-view hidden bg-base-300 p-4 max-h-[600px] overflow-auto">
+    <div class="mockup-code bg-base-200">
+      <pre class="px-4 py-2"><code>
+        {code}
+      </code></pre>
+    </div>
+  </div>
+</div>
+
+<!-- Toggle functionality -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('${toggleId}');
+    if (!toggle) return;
+    
+    const container = toggle.closest('.w-full');
+    if (!container) return;
+    
+    const designView = container.querySelector('.design-view');
+    const codeView = document.getElementById('${toggleId}-code');
+    
+    if (!designView || !codeView) return;
+    
+    toggle.addEventListener('change', (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (target.checked) {
+        designView.classList.add('hidden');
+        codeView.classList.remove('hidden');
+      } else {
+        designView.classList.remove('hidden');
+        codeView.classList.add('hidden');
+      }
+    });
+  });
+</script>
+
+<!-- TypeScript types are handled by the Astro component -->
+
+<style>
+  /* Smooth transitions for better UX */
+  .design-view, .code-view {
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  /* Better code block styling */
+  .mockup-code {
+    @apply rounded-lg overflow-hidden;
+  }
+  
+  .mockup-code pre {
+    @apply m-0 p-0 bg-transparent;
+  }
+  
+  .mockup-code code {
+    @apply text-sm;
+  }
+</style>

@@ -1,7 +1,7 @@
 ---
 // src/pages/solid-framework.astro
 import FrameworkLayout from '../layouts/FrameworkLayout.astro';
-import CodeBlock from '../components/ui/CodeBlock.astro';
+import { Code } from 'astro:components';
 import { Content as SolidContent } from '../content/info/solid-framework.md';
 import { Icon } from 'astro-icon/components';
 import DemoCard from '../components/ui/DemoCard.astro';
@@ -41,7 +41,7 @@ import solidFeaturesSource from '../components/Solid/Features.jsx?raw';
         <SolidFeatures client:only='solid-js' />
       </div>
       <div slot="code">
-        <CodeBlock code={solidFeaturesSource} lang="jsx" theme="github-dark" showLineNumbers={true} />
+        <Code code={solidFeaturesSource} lang="jsx" theme="github-dark" />
       </div>
     </DemoCard>
   </div>
