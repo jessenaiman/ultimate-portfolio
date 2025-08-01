@@ -1,6 +1,6 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/ui/Hero.astro';
+// src/pages/vue-framework.astro
+import FrameworkLayout from '../layouts/FrameworkLayout.astro';
 import { Content as VueContent } from '../content/info/vue-framework.md';
 import DemoCard from '../components/ui/DemoCard.astro';
 import { Code } from 'astro:components';
@@ -8,53 +8,44 @@ import { Code } from 'astro:components';
 // Import Vue components for interactive demos
 import TypeWriterDemo from '../components/Vue/demos/TypeWriterDemo.vue';
 import CounterDemo from '../components/Vue/demos/CounterDemo.vue';
+import VueHero from '../components/Vue/Hero.vue';
 
 // Import raw code for display
 import TypeWriterDemoRaw from '../components/Vue/demos/TypeWriterDemo.vue?raw';
 import CounterDemoRaw from '../components/Vue/demos/CounterDemo.vue?raw';
-
-// Define headline and subheading for this page
-const headline = "Vue.js Framework";
-const subheading = "The Progressive JavaScript Framework for building modern web interfaces.";
 ---
 
-<Layout title={headline} description={subheading}>
-  <!-- Use the unified Hero component -->
-  <Hero headline={headline} subheading={subheading} icon="logos:vue">
-    <!-- Actions slot for page-specific buttons -->
-    <div slot="actions" class="flex justify-center space-x-4">
-      <a href="#demos" class="btn btn-primary">View Demos</a>
-      <a href="https://vuejs.org" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Official Docs</a>
-    </div>
-  </Hero>
+<FrameworkLayout 
+  title="Vue.js Framework" 
+  description="The Progressive JavaScript Framework for building modern web interfaces."
+  learnMoreTitle="Learn more about Vue.js"
+  docsUrl="https://vuejs.org"
+>
+  <!-- Framework-specific hero -->
+  <div slot="hero">
+    <VueHero client:load />
+  </div>
+  
+  <!-- Markdown content goes in the content slot -->
+  <VueContent slot="content" />
 
-  <main class="container mx-auto px-4 py-16">
-    <article class="prose max-w-none mb-16">
-      <VueContent />
-    </article>
-
-    <div class="divider my-12" id="demos">Interactive Demos</div>
-
-    <!-- Interactive Demos Section -->
-    <section class="mb-16">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <DemoCard
-          title="TypeWriter Effect"
-          description="A simple typewriter effect created with Vue."
-          groupName="vue-typewriter-demo"
-        >
-          <TypeWriterDemo slot="demo" client:load />
-          <Code slot="source" code={TypeWriterDemoRaw} lang="vue" title="TypeWriterDemo.vue" />
-        </DemoCard>
-        <DemoCard
-          title="Counter"
-          description="A basic counter to demonstrate state management."
-          groupName="vue-counter-demo"
-        >
-          <CounterDemo slot="demo" client:load />
-          <Code slot="source" code={CounterDemoRaw} lang="vue" title="CounterDemo.vue" />
-        </DemoCard>
+  <!-- Interactive Demos - Slot for demos -->
+  <div slot="demos" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <DemoCard sourceFileName="TypeWriterDemo.vue">
+      <div slot="demo">
+        <TypeWriterDemo client:load />
       </div>
-    </section>
-  </main>
-</Layout>
+      <div slot="code">
+        <Code code={TypeWriterDemoRaw} lang="vue" theme="github-dark" />
+      </div>
+    </DemoCard>
+    <DemoCard sourceFileName="CounterDemo.vue">
+      <div slot="demo">
+        <CounterDemo client:load />
+      </div>
+      <div slot="code">
+        <Code code={CounterDemoRaw} lang="vue" theme="github-dark" />
+      </div>
+    </DemoCard>
+  </div>
+</FrameworkLayout>

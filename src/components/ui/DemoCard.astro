@@ -1,26 +1,34 @@
 ---
-import TabbedDemo from './TabbedDemo.astro';
-
+// src/components/ui/DemoCard.astro
 interface Props {
   title: string;
   description: string;
-  groupName: string; // Unique name for the tab group
+  iconName: string;
+  sourceFileName: string;
 }
 
-const { title, description, groupName } = Astro.props;
----
+const { 
+  title,
+  description,
+  iconName,
+  sourceFileName 
+} = Astro.props;
 
-<div class="space-y-4">
-  <div class="text-center md:text-left">
-    <h3 class="text-2xl font-bold">{title}</h3>
-    <p class="text-base-content/70">{description}</p>
-  </div>
-  <TabbedDemo {groupName}>
-    <div slot="demo">
+const uniqueId = `demo-card-${Math.random().toString(36).substring(2, 9)}`;
+---
+<div class="w-full bg-base-200/60 shadow-xl rounded-lg h-full flex flex-col">
+  <div role="tablist" class="tabs tabs-boxed tabs-sm p-2 bg-base-300/40 rounded-t-lg">
+    <input type="radio" name={uniqueId} role="tab" class="tab" aria-label="Demo" checked />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-b-lg flex-grow">
       <slot name="demo" />
     </div>
-    <div slot="source">
-      <slot name="source" />
+
+    <input type="radio" name={uniqueId} role="tab" class="tab" aria-label="Code" />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-b-lg p-4 flex-grow">
+      <div class="overflow-x-auto">
+        <h3 class="text-sm font-semibold mb-2">{sourceFileName}</h3>
+        <slot name="code" />
+      </div>
     </div>
-  </TabbedDemo>
+  </div>
 </div>

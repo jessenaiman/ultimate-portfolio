@@ -21,13 +21,6 @@ export const navigationItems: NavigationItem[] = [
     icon: 'mdi:home'
   },
   { 
-    name: 'resume', 
-    displayName: 'Resume', 
-    features: 'Professional Experience', 
-    path: '/resume',
-    icon: 'mdi:file-document'
-  },
-  { 
     name: 'portfolio', 
     displayName: 'Portfolio', 
     features: 'Project Showcase', 
@@ -76,13 +69,6 @@ export const navigationItems: NavigationItem[] = [
         features: 'Reactive UI Library', 
         path: '/solid-framework',
         icon: 'mdi:language-javascript'
-      },
-      { 
-        name: 'remix', 
-        displayName: 'Remix', 
-        features: 'Full Stack Framework', 
-        path: '/remix-framework',
-        icon: 'mdi:code-brackets'
       }
     ]
   },
@@ -134,11 +120,11 @@ export const navigationItems: NavigationItem[] = [
     path: '/blog',
     icon: 'mdi:briefcase'
   },
-      { 
-        name: 'math', 
-        displayName: 'Math Tools', 
-        features: 'Calculators & Visualizations', 
-        path: '/math',
-        icon: 'mdi:calculator'
-      }
+  { 
+    name: 'transitions', 
+    displayName: 'Transitions', 
+    features: 'Tailwind CSS Transitions & Effects', 
+    path: '/transitions',
+    icon: 'mdi:briefcase'
+  }
 ];

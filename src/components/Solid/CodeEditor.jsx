@@ -1,245 +1,216 @@
-import { createSignal, createEffect, Show, onMount, onCleanup } from 'solid-js';
-import * as monaco from 'monaco-editor';
+import { createSignal, createEffect, onMount } from 'solid-js';
+import { EditorView } from '@codemirror/view';
+import { EditorState } from '@codemirror/state';
+import { basicSetup } from '@codemirror/basic-setup';
+import { javascript } from '@codemirror/lang-javascript';
+import { html } from '@codemirror/lang-html';
+import { css } from '@codemirror/lang-css';
+import { oneDark } from '@codemirror/theme-one-dark';
 
-const Features = () => {
-  let editorContainer;
-  let editor;
-  let previewContainer;
-  const [activeTab, setActiveTab] = createSignal('playground');
-  const [code, setCode] = createSignal(defaultTemplate);
-  const [error, setError] = createSignal(null);
-  const [theme, setTheme] = createSignal('vs-dark');
-  const [previewCount, setPreviewCount] = createSignal(0);
-  const [selectedColor, setSelectedColor] = createSignal('#00DC82');
-  const [isMobile, setIsMobile] = createSignal(false);
-  const [isEditorReady, setIsEditorReady] = createSignal(false);
-
-  // Default template
-  const defaultTemplate = `<div class="max-w-md mx-auto p-4">
-  <header class="text-center mb-4">
-    <h1 class="text-2xl font-bold">Welcome to Coding!</h1>
-    <p class="opacity-70 text-sm">Edit this code to see live changes</p>
-  </header>
-
-  <div class="card bg-base-200 p-4 mb-4">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-        <span class="text-primary-content text-lg">🚀</span>
-      </div>
-      <div>
-        <h2 class="text-lg font-semibold">Interactive Demo</h2>
-        <p class="opacity-70 text-sm">Try editing this code!</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-2 gap-2 mb-4">
-    <div class="flex items-center text-success text-sm">
-      <span class="mr-1">✓</span> Responsive
-    </div>
-    <div class="flex items-center text-success text-sm">
-      <span class="mr-1">✓</span> Modern UI
-    </div>
-    <div class="flex items-center text-success text-sm">
-      <span class="mr-1">✓</span> Live Preview
-    </div>
-    <div class="flex items-center text-success text-sm">
-      <span class="mr-1">✓</span> Easy to Edit
-    </div>
-  </div>
-
-  <button class="w-full py-2 px-4 bg-linear-to-r from-[#00DC82] to-[#36E4DA] text-white rounded-lg hover:opacity-90 transition-opacity">
-    Click Me!
-  </button>
-</div>`;
-
-  onMount(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    // Initialize Monaco Editor
-    if (!editor && editorContainer) {
-      editor = monaco.editor.create(editorContainer, {
-        value: code(),
-        language: 'html',
-        theme: theme(),
-        minimap: { enabled: !isMobile() },
-        fontSize: 14,
-        lineNumbers: 'on',
-        roundedSelection: true,
-        scrollBeyondLastLine: false,
-        automaticLayout: true,
-        wordWrap: 'on',
-        suggestOnTriggerCharacters: true,
-        snippetSuggestions: 'on',
-        formatOnPaste: true,
-        formatOnType: true,
-        tabSize: 2,
-        folding: true,
-        glyphMargin: true,
-        lightbulb: { enabled: true },
-      });
-
-      editor.onDidChangeModelContent(() => {
-        setCode(editor.getValue());
-      });
-
-      setIsEditorReady(true);
+// Default code templates
+const defaultCode = {
+  html: `<!DOCTYPE html>
+<html>
+<head>
+  <title>My Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
     }
+    h1 {
+      color: #4F46E5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Page</h1>
+  <p>Edit this code to see live changes!</p>
+  
+  <script>
+    // Your JavaScript code here
+    console.log('Hello from the editor!');
+  </script>
+</body>
+</html>`,
+  css: `/* Add your CSS here */
+body {
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.6;
+}
 
-    // Cleanup
-    onCleanup(() => {
-      window.removeEventListener('resize', checkMobile);
-      if (editor) {
-        editor.dispose();
-      }
-    });
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+button {
+  background-color: #4F46E5;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #4338CA;
+}`,
+  js: `// JavaScript code goes here
+function greet(name = 'World') {
+  console.log(\`Hello, \${name}!\`);
+  return \`Hello, \${name}!\`;
+}
+
+// Example usage
+greet('Developer');
+
+// Add event listeners or other functionality here
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Document is ready!');
+});
+
+// ES6+ features work too
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+console.log(doubled);`
+};
+
+export default function CodeEditor() {
+  const [activeTab, setActiveTab] = createSignal('html');
+  const [code, setCode] = createSignal({
+    html: defaultCode.html,
+    css: defaultCode.css,
+    js: defaultCode.js
   });
+  
+  const [srcDoc, setSrcDoc] = createSignal('');
+  const [isPreview, setIsPreview] = createSignal(true);
+  let editorRef;
+  let editorView;
 
+  // Update the preview whenever code changes
   createEffect(() => {
-    if (editor) {
-      editor.updateOptions({
-        minimap: { enabled: !isMobile() },
-        lineNumbers: isMobile() ? 'off' : 'on',
+    const { html, css, js } = code();
+    setSrcDoc(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <style>${css}</style>
+      </head>
+      <body>${html}
+        <script>${js}</script>
+      </body>
+      </html>
+    `);
+  });
+
+  // Initialize CodeMirror editor
+  onMount(() => {
+    const updateCode = (value) => {
+      setCode(prev => ({
+        ...prev,
+        [activeTab()]: value
+      }));
+    };
+
+    const extensions = [
+      basicSetup,
+      oneDark,
+      activeTab() === 'html' ? html() :
+      activeTab() === 'css' ? css() :
+      javascript({ jsx: true, typescript: false }),
+      EditorView.updateListener.of(update => {
+        if (update.docChanged) {
+          updateCode(update.state.doc.toString());
+        }
+      })
+    ];
+
+    editorView = new EditorView({
+      state: EditorState.create({
+        doc: code()[activeTab()],
+        extensions
+      }),
+      parent: editorRef
+    });
+
+    return () => editorView.destroy();
+  });
+
+  // Update editor when tab changes
+  createEffect(() => {
+    if (editorView) {
+      const newState = EditorState.create({
+        doc: code()[activeTab()],
+        extensions: [
+          basicSetup,
+          oneDark,
+          activeTab() === 'html' ? html() :
+          activeTab() === 'css' ? css() :
+          javascript({ jsx: true, typescript: false })
+        ]
       });
-      monaco.editor.setTheme(theme());
+      editorView.setState(newState);
     }
   });
 
-  const renderPreview = (htmlContent) => {
-    try {
-      return htmlContent;
-    } catch (e) {
-      setError(e.message);
-      return '';
-    }
-  };
+  // Tab component
+  const Tab = ({ id, label }) => (
+    <button
+      class={`tab tab-lifted ${activeTab() === id ? 'tab-active' : ''}`}
+      onClick={() => setActiveTab(id)}
+    >
+      {label}
+    </button>
+  );
 
-  const examples = {
-    default: defaultTemplate,
-    counter: `
-    <div class="max-w-md mx-auto p-4">
-      <div class="text-center mb-4">
-        <h2 class="text-2xl font-bold text-gradient">Interactive Counter</h2>
-        <p class="text-gray-400 text-sm">Watch the number bounce!</p>
-      </div>
-      
-      <div class="bg-gray-800 rounded-xl p-6 relative overflow-hidden">
-        <div class="absolute inset-0 bg-linear-to-r from-[#00DC82]/10 to-[#36E4DA]/10"></div>
-        
-        <div class="relative">
-          <div class="flex justify-center mb-6">
-            <div class="counter-number text-5xl font-bold text-white transition-all duration-300 transform hover:scale-110" style="text-shadow: 0 0 20px rgba(0, 220, 130, 0.5)">
-              ${previewCount()}
-            </div>
-          </div>
-          
-          <div class="flex justify-center items-center space-x-4">
-            <button id="decrement" class="group relative px-6 py-3 rounded-lg bg-gray-900 text-white overflow-hidden transition-all duration-300 hover:scale-105">
-              <div class="absolute inset-0 bg-linear-to-r from-[#00DC82] to-[#36E4DA] opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              <div class="relative flex items-center">
-                <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
-                </svg>
-              </div>
-            </button>
-            
-            <button id="increment" class="group relative px-6 py-3 rounded-lg bg-gray-900 text-white overflow-hidden transition-all duration-300 hover:scale-105">
-              <div class="absolute inset-0 bg-linear-to-r from-[#00DC82] to-[#36E4DA] opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              <div class="relative flex items-center">
-                <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                </svg>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>`,
-    colorPalette: () => {
-      const colors = ['#00DC82', '#36E4DA', '#4C7AF0', '#FF5D01', '#FF3E00'];
-      return `
-      <div class="text-center space-y-4">
-        <h2 class="text-2xl text-gradient">Interactive Color Palette</h2>
-        <div class="grid grid-cols-5 gap-3">
-          ${colors.map(color => `
-            <button 
-              class="color-block p-8 rounded-lg transition-transform hover:scale-105 ${color === selectedColor() ? 'ring-2 ring-white' : ''}" 
-              style="background: ${color}"
-              data-color="${color}"
-            ></button>
-          `).join('')}
-        </div>
-        <div class="mt-4">
-          <p class="text-lg">Selected Color: <span class="font-mono">${selectedColor()}</span></p>
-        </div>
-      </div>`;
-    }
-  };
+  // Toggle preview button
+  const TogglePreview = () => (
+    <button
+      class="btn btn-sm btn-ghost absolute right-4 top-2 z-10"
+      onClick={() => setIsPreview(!isPreview())}
+      title={isPreview() ? 'Show Editor' : 'Show Preview'}
+    >
+      {isPreview() ? '✏️ Edit' : '👁️ Preview'}
+    </button>
+  );
 
   return (
-    <div class={`w-full ${isMobile() ? 'flex flex-col' : 'grid grid-cols-2'} gap-4`}>
-      <div class="flex flex-col h-full">
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex space-x-2">
-            <button
-              class={`px-3 py-1 rounded ${activeTab() === 'playground' ? 'bg-accent text-white' : 'bg-card hover:bg-accent/10'}`}
-              onClick={() => {
-                setActiveTab('playground');
-                editor.setValue(examples.default);
-              }}
-            >
-              Playground
-            </button>
-            <button
-              class={`px-3 py-1 rounded ${activeTab() === 'counter' ? 'bg-accent text-white' : 'bg-card hover:bg-accent/10'}`}
-              onClick={() => {
-                setActiveTab('counter');
-                editor.setValue(examples.counter);
-              }}
-            >
-              Counter
-            </button>
-            <button
-              class={`px-3 py-1 rounded ${activeTab() === 'colors' ? 'bg-accent text-white' : 'bg-card hover:bg-accent/10'}`}
-              onClick={() => {
-                setActiveTab('colors');
-                editor.setValue(examples.colorPalette());
-              }}
-            >
-              Colors
-            </button>
-          </div>
+    <div class="w-full h-full flex flex-col">
+      <div class="tabs tabs-boxed bg-base-200 p-1 rounded-lg mb-4">
+        <Tab id="html" label="HTML" />
+        <Tab id="css" label="CSS" />
+        <Tab id="js" label="JavaScript" />
+        <div class="flex-1" />
+        <TogglePreview />
+      </div>
+      
+      <div class="flex-1 flex flex-col md:flex-row gap-4">
+        <div class={`${isPreview() ? 'w-full md:w-1/2' : 'w-full'} h-full relative`}>
+          <div ref={editorRef} class="h-full w-full rounded-lg overflow-hidden" />
         </div>
         
-        <Show when={isEditorReady()}>
-          <div class="relative">
-            <div
-              ref={editorContainer}
-              class="grow min-h-[400px] border border-card rounded-lg overflow-hidden"
+        {isPreview() && (
+          <div class="w-full md:w-1/2 h-[400px] md:h-auto bg-base-100 rounded-lg overflow-hidden border border-base-300">
+            <iframe
+              srcDoc={srcDoc()}
+              title="preview"
+              sandbox="allow-scripts"
+              class="w-full h-full border-0"
             />
           </div>
-        </Show>
+        )}
       </div>
-
-      <div class="flex flex-col h-full">
-        <h3 class="text-lg font-semibold mb-2">Preview</h3>
-        <div
-          ref={previewContainer}
-          class={`preview-area grow p-4 border border-card rounded-lg ${theme() === 'vs-dark' ? 'dark' : 'light'}`}
-          innerHTML={renderPreview(code())}
-        />
-        <Show when={error()}>
-          <div class="mt-2 p-2 bg-red-500/10 border border-red-500 rounded text-red-500 text-sm">
-            {error()}
-          </div>
-        </Show>
+      
+      <div class="mt-4 text-xs text-base-content/60">
+        <p>💡 Tip: Edit the code to see live changes in the preview!</p>
       </div>
     </div>
   );
-};
-
-export default Features;
+}

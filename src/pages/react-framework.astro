@@ -1,8 +1,6 @@
 ---
 // src/pages/react-framework.astro
-// An honest demo of interactive React components in Astro.
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/ui/Hero.astro';
+import FrameworkLayout from '../layouts/FrameworkLayout.astro';
 import { Code } from 'astro:components';
 import { Content as ReactContent } from '../content/info/react-framework.md';
 import { Icon } from 'astro-icon/components';
@@ -17,42 +15,59 @@ import calculatorSource from '../components/React/Calculator.tsx?raw';
 
 ---
 
-<Layout title="React Framework Demo" description="An honest demonstration of interactive React components running in an Astro project.">
-  <Hero headline="React Framework Demo" subheading="Live, interactive React components hydrated on the client." />
-
-  <div class="container mx-auto px-4 py-16">
-    <!-- Markdown Content Section -->
-    <section class="prose collapse collapse-arrow border border-base-300 max-w-none mb-16 bg-base-200/30 p-6 rounded-lg">
-      <div class="collapse-title font-semibold text-xl">Learn more about React</div>
-      <div class="collapse-content text-sm">
-      <ReactContent />
+<FrameworkLayout 
+  title="React Framework Demo" 
+  description="An honest demonstration of interactive React components running in an Astro project."
+  learnMoreTitle="Learn more about React"
+  docsUrl="https://reactjs.org/docs/getting-started.html"
+>
+  <!-- Framework-specific hero -->
+  <div slot="hero" class="text-center py-8 sm:py-12 px-3 sm:px-6 lg:px-8 w-full">
+    <div class="max-w-4xl mx-auto w-full">
+      <!-- React icon -->
+      <div class="flex justify-center gap-3 mb-4 sm:mb-6">
+        <Icon name="mdi:react" class="w-12 h-12 sm:w-16 sm:h-16 text-primary" />
       </div>
-    </section>
+      
+      <!-- Headline and subheading -->
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4">React Framework Demo</h1>
+      <p class="text-base sm:text-lg md:text-xl mb-6 opacity-90">Live, interactive React components hydrated on the client.</p>
+      
+      <!-- Action buttons -->
+      <div class="flex flex-wrap justify-center gap-2 sm:gap-4">
+        <a href="#demos" class="btn btn-sm sm:btn-md btn-primary">View Demos</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Markdown content goes in the content slot -->
+  <ReactContent slot="content" />
 
-    <!-- Interactive Demos -->
-    <div class="space-y-12">
+  <!-- Interactive Demos -->
+  <div slot="demos" class="space-y-8">
 
       <!-- Color Picker Hero Demo -->
-      <label class="swap swap-flip w-full">
-        <input type="checkbox" class="hidden" />
+      <div class="w-full">
+        <div class="swap swap-flip w-full">
+          <input type="checkbox" class="hidden" id="color-picker-swap" />
         
-        <!-- Front Side: Live Demo -->
-        <div class="swap-off w-full">
-          <div class="card bg-base-200/60 shadow-xl">
-            <div class="card-body">
-              <div class="flex justify-between items-center">
-                <h3 class="card-title"><Icon name="mdi:eyedropper-variant" class="w-6 h-6 mr-2 text-primary"/>Interactive Color Picker</h3>
-                <div class="card-actions">
-                  <div class="btn btn-sm">View Source <Icon name="mdi:code-braces" class="w-4 h-4 ml-1"/></div>
+          <!-- Front Side: Live Demo -->
+          <div class="swap-off w-full">
+            <div class="card bg-base-200/60 shadow-xl">
+              <div class="card-body">
+                <div class="flex justify-between items-center">
+                  <h3 class="card-title"><Icon name="mdi:eyedropper-variant" class="w-6 h-6 mr-2 text-primary"/>Interactive Color Picker</h3>
+                  <div class="card-actions">
+                    <label for="color-picker-swap" class="btn btn-sm">View Source <Icon name="mdi:code-braces" class="w-4 h-4 ml-1"/></label>
+                  </div>
                 </div>
-              </div>
-              <p class="text-sm text-base-content/70">A simple, stateful color picker built with React and Framer Motion for animations.</p>
-              <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-                <ColorPickerHero client:only='react' />
+                <p class="text-sm text-base-content/70">A simple, stateful color picker built with React and Framer Motion for animations.</p>
+                <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
+                  <ColorPickerHero client:only='react' />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
         <!-- Back Side: Source Code -->
         <div class="swap-on w-full">
@@ -61,36 +76,38 @@ import calculatorSource from '../components/React/Calculator.tsx?raw';
               <div class="flex justify-between items-center">
                 <h3 class="card-title"><Icon name="mdi:code-braces" class="w-6 h-6 mr-2 text-primary"/>ColorPickerHero.tsx</h3>
                 <div class="card-actions">
-                  <div class="btn btn-sm">View Demo <Icon name="mdi:react" class="w-4 h-4 ml-1"/></div>
+                  <label for="color-picker-swap" class="btn btn-sm">View Demo <Icon name="mdi:react" class="w-4 h-4 ml-1"/></label>
                 </div>
               </div>
               <Code code={colorPickerSource} lang="tsx" theme="github-dark" />
             </div>
           </div>
         </div>
-      </label>
+      </div>
 
       <!-- Calculator Demo -->
-      <label class="swap swap-flip w-full">
-        <input type="checkbox" class="hidden" />
+      <div class="w-full">
+        <div class="swap swap-flip w-full">
+          <input type="checkbox" class="hidden" id="calculator-swap" />
 
-        <!-- Front Side: Live Demo -->
-        <div class="swap-off w-full">
-          <div class="card bg-base-200/60 shadow-xl">
-            <div class="card-body">
-              <div class="flex justify-between items-center">
-                <h3 class="card-title"><Icon name="mdi:calculator-variant" class="w-6 h-6 mr-2 text-accent"/>Calculator App</h3>
-                <div class="card-actions">
-                  <div class="btn btn-sm">View Source <Icon name="mdi:code-braces" class="w-4 h-4 ml-1"/></div>
+          <!-- Front Side: Live Demo -->
+          <div class="swap-off w-full">
+            <div class="card bg-base-200/60 shadow-xl">
+              <div class="card-body">
+                <div class="flex justify-between items-center">
+                  <h3 class="card-title"><Icon name="mdi:calculator-variant" class="w-6 h-6 mr-2 text-accent"/>Calculator App</h3>
+                  <div class="card-actions">
+                    <label for="calculator-swap" class="btn btn-sm">View Source <Icon name="mdi:code-braces" class="w-4 h-4 ml-1"/></label>
+                  </div>
                 </div>
-              </div>
-              <p class="text-sm text-base-content/70">A functional calculator with state management for handling user input and calculations.</p>
-              <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-                <Calculator client:only='react' />
+                <p class="text-sm text-base-content/70">A functional calculator with state management for handling user input and calculations.</p>
+                <!-- Reduced padding for calculator container - TailwindCSS spacing: https://tailwindcss.com/docs/padding -->
+                <div class="flex items-center justify-center p-2 bg-base-100 rounded-lg mt-4">
+                  <Calculator client:only='react' />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
         <!-- Back Side: Source Code -->
         <div class="swap-on w-full">
@@ -99,15 +116,15 @@ import calculatorSource from '../components/React/Calculator.tsx?raw';
               <div class="flex justify-between items-center">
                 <h3 class="card-title"><Icon name="mdi:code-braces" class="w-6 h-6 mr-2 text-accent"/>Calculator.tsx</h3>
                 <div class="card-actions">
-                  <div class="btn btn-sm">View Demo <Icon name="mdi:react" class="w-4 h-4 ml-1"/></div>
+                  <label for="calculator-swap" class="btn btn-sm">View Demo <Icon name="mdi:react" class="w-4 h-4 ml-1"/></label>
                 </div>
               </div>
               <Code code={calculatorSource} lang="tsx" theme="github-dark" />
             </div>
           </div>
         </div>
-      </label>
+      </div>
 
     </div>
   </div>
-</Layout>
+</FrameworkLayout>

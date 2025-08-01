@@ -25,7 +25,7 @@
   $: remaining = todos.filter(todo => !todo.completed).length;
 </script>
 
-<div class="w-full max-w-md mx-auto bg-base-100 p-6 rounded-lg shadow-md font-sans text-base-content">
+<div class="w-full h-full p-4 font-sans text-base-content">
   <div class="flex justify-between items-center mb-4">
     <h1 class="text-2xl font-bold">Svelte Todos</h1>
     {#if remaining > 0}

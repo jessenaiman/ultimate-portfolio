@@ -1,188 +1,140 @@
 <script>
-import MathTools from './MathTools.svelte';
-import { onMount } from 'svelte';
-import { fade, slide } from 'svelte/transition';
+  import { Chart } from 'svelte-echarts';
+  import { init, use } from 'echarts/core';
+  import { LineChart, BarChart, PieChart } from 'echarts/charts';
+  import { TooltipComponent, LegendComponent, GridComponent, TitleComponent } from 'echarts/components';
+  import { CanvasRenderer } from 'echarts/renderers';
+  import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
 
-let mounted = false;
-let activeTab = 'state';
-let count = 0;
-let todos = [];
-let newTodo = '';
-let showCompleted = false;
+  use([TooltipComponent, LegendComponent, GridComponent, LineChart, BarChart, PieChart, CanvasRenderer, TitleComponent]);
 
-// Reactive statements
-$: doubledCount = count * 2;
-$: completedTodos = todos.filter(todo => todo.completed).length;
-$: pendingTodos = todos.filter(todo => !todo.completed).length;
-$: filteredTodos = showCompleted ? todos : todos.filter(todo => !todo.completed);
+  let mounted = false;
 
-// Methods
-function addTodo() {
-    if (newTodo.trim()) {
-      todos = [...todos, { text: newTodo, completed: false, id: Date.now() }];
-      newTodo = '';
+  let projectData = [
+    {
+      title: "Project Completion Rate",
+      options: {
+        tooltip: { trigger: 'axis' },
+        legend: { data: ['Completion %'], textStyle: { color: '#9ca3af' } },
+        xAxis: { type: 'category', data: ['Q1', 'Q2', 'Q3', 'Q4'], axisLabel: { color: '#9ca3af' } },
+        yAxis: { type: 'value', axisLabel: { color: '#9ca3af' }, max: 100 },
+        series: [{ name: 'Completion %', data: [85, 92, 78, 95], type: 'line', smooth: true }]
+      },
+      chartType: 'line',
+    },
+    {
+      title: "Lines of Code by Language",
+      options: {
+        tooltip: { trigger: 'item' },
+        legend: { top: '5%', left: 'center', textStyle: { color: '#9ca3af' } },
+        series: [
+          {
+            name: 'Lines of Code',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: { borderRadius: 10, borderColor: 'hsl(var(--b1))', borderWidth: 2 },
+            label: { show: false, position: 'center' },
+            emphasis: { label: { show: true, fontSize: '20', fontWeight: 'bold' } },
+            labelLine: { show: false },
+            data: [
+              { value: 12000, name: 'TypeScript' },
+              { value: 8500, name: 'Svelte' },
+              { value: 6000, name: 'Astro' },
+              { value: 4500, name: 'CSS' }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      title: "Bug Resolution Time (Hours)",
+      options: {
+        tooltip: { trigger: 'axis' },
+        legend: { data: ['Time (h)'], textStyle: { color: '#9ca3af' } },
+        xAxis: { type: 'category', data: ['Jan', 'Feb', 'Mar', 'Apr'], axisLabel: { color: '#9ca3af' } },
+        yAxis: { type: 'value', axisLabel: { color: '#9ca3af' } },
+        series: [{ name: 'Time (h)', data: [12, 8, 15, 7], type: 'bar' }]
+      },
+      sortOrder: 'asc',
     }
+  ];
+
+  function toggleChartType(index) {
+    const currentType = projectData[index].chartType;
+    projectData[index].chartType = currentType === 'line' ? 'bar' : 'line';
+    projectData[index].options.series[0].type = projectData[index].chartType;
+    projectData = [...projectData]; // Trigger reactivity
   }
 
-function toggleTodo(id) {
-    todos = todos.map(todo => 
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    );
+  function sortBugData(index) {
+    const currentOrder = projectData[index].sortOrder;
+    const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+    projectData[index].sortOrder = newOrder;
+
+    const seriesData = projectData[index].options.series[0].data;
+    const axisData = projectData[index].options.xAxis.data;
+    
+    const zipped = axisData.map((item, i) => [item, seriesData[i]]);
+
+    zipped.sort((a, b) => newOrder === 'asc' ? a[1] - b[1] : b[1] - a[1]);
+
+    projectData[index].options.xAxis.data = zipped.map(item => item[0]);
+    projectData[index].options.series[0].data = zipped.map(item => item[1]);
+    projectData = [...projectData]; // Trigger reactivity
   }
 
-function removeTodo(id) {
-    todos = todos.filter(todo => todo.id !== id);
+  function randomizeData(index) {
+    const chart = projectData[index];
+    if (chart.options.series[0].type === 'line' || chart.options.series[0].type === 'bar') {
+      const newData = chart.options.series[0].data.map(() => Math.round(Math.random() * 100));
+      chart.options.series[0].data = newData;
+    } else if (chart.options.series[0].type === 'pie') {
+      const newData = chart.options.series[0].data.map(item => ({
+        ...item,
+        value: Math.round(Math.random() * 10000) + 2000
+      }));
+      chart.options.series[0].data = newData;
+    }
+    projectData = [...projectData]; // Trigger reactivity
   }
 
-onMount(() => {
+  onMount(() => {
     mounted = true;
   });
 </script>
 
-<section id="devtools" class="py-16 px-4 sm:px-6">
-  <div class="mx-auto">
-    {#if mounted}
-      <div in:slide={{ duration: 800, delay: 200 }} class="bg-gray-900/50 backdrop-blur-xl rounded-2xl border border-gray-800/50 overflow-hidden shadow-xl">
-        <!-- Header -->
-        <div class="border-b border-gray-800/50 p-4">
-          <h2 class="text-2xl font-semibold text-white">Svelte Developer Tools</h2>
-          <p class="text-gray-400 mt-1">Interactive examples of Svelte's reactive features</p>
-        </div>
-
-        <!-- Tabs -->
-        <div class="flex border-b border-gray-800/50">
-          <button
-            class={`px-4 py-3 text-sm font-medium transition-colors duration-200 ${
-              activeTab === 'state'
-                ? 'text-orange-400 border-b-2 border-orange-400'
-                : 'text-gray-400 hover:text-white'
-            }`}
-            on:click={() => activeTab = 'state'}
-          >
-            State Management
-          </button>
-          <button
-            class={`px-4 py-3 text-sm font-medium transition-colors duration-200 ${
-              activeTab === 'todo'
-                ? 'text-orange-400 border-b-2 border-orange-400'
-                : 'text-gray-400 hover:text-white'
-            }`}
-            on:click={() => activeTab = 'todo'}
-          >
-            Todo App
-          </button>
-        </div>
-
-        <!-- Content -->
-        <div class="p-6">
-          {#if activeTab === 'state'}
-            <div in:fade class="space-y-6">
-              <div class="space-y-4">
-                <h3 class="text-lg font-medium text-white">Complex Math</h3>
-                <MathTools />
-              </div>
-            </div>
-          {:else if activeTab === 'todo'}
-            <div in:fade class="space-y-6">
-              <div class="space-y-4">
-                <h3 class="text-lg font-medium text-white">Reactive Counter</h3>
-                <div class="flex items-center gap-4">
-                  <button
-                    on:click={() => count--}
-                    class="px-3 py-1 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-                  >
-                    -
-                  </button>
-                  <span class="text-xl text-white font-mono">{count}</span>
-                  <button
-                    on:click={() => count++}
-                    class="px-3 py-1 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors"
-                  >
-                    +
-                  </button>
-                </div>
-                <div class="text-gray-400">
-                  Doubled value (reactive): <span class="text-orange-400">{doubledCount}</span>
-                </div>
-              </div>
-
-              <div class="space-y-2">
-                <h3 class="text-lg font-medium text-white">How It Works</h3>
-                <pre class="bg-gray-800/50 p-4 rounded-lg text-sm font-mono text-gray-300 overflow-x-auto">
-let count = 0;
-$: doubledCount = count * 2;
-
-// No need for useState or useEffect!
-// Svelte handles reactivity automatically</pre>
-              </div>
-            </div>
-          {:else if activeTab === 'state'}
-            <div in:fade class="space-y-6">
-              <div class="flex gap-2">
-                <input
-                  type="text"
-                  bind:value={newTodo}
-                  placeholder="Add a new todo..."
-                  class="flex-1 px-4 py-2 rounded-lg bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500/50"
-                  on:keydown={(e) => e.key === 'Enter' && addTodo()}
-                />
-                <button
-                  on:click={addTodo}
-                  class="px-4 py-2 rounded-lg bg-orange-500/20 text-orange-400 hover:bg-orange-500/30 transition-colors"
-                >
-                  Add
-                </button>
-              </div>
-
-              <div class="flex items-center justify-between text-sm text-gray-400">
-                <div class="space-x-2">
-                  <span>Completed: {completedTodos}</span>
-                  <span>Pending: {pendingTodos}</span>
-                </div>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    bind:checked={showCompleted}
-                    class="rounded border-gray-700 bg-gray-800/50 text-orange-500 focus:ring-orange-500/50"
-                  />
-                  Show completed
-                </label>
-              </div>
-
-              <div class="space-y-2">
-                {#each filteredTodos as todo (todo.id)}
-                  <div
-                    in:slide|local={{ duration: 200 }}
-                    class="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 border border-gray-700/50"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={todo.completed}
-                      on:change={() => toggleTodo(todo.id)}
-                      class="rounded border-gray-700 bg-gray-800/50 text-orange-500 focus:ring-orange-500/50"
-                    />
-                    <span class={todo.completed ? 'line-through text-gray-500' : 'text-white'}>
-                      {todo.text}
-                    </span>
-                    <button
-                      on:click={() => removeTodo(todo.id)}
-                      class="ml-auto text-gray-500 hover:text-red-400 transition-colors"
-                    >
-                      ×
-                    </button>
-                  </div>
-                {/each}
-              </div>
-            </div>
-          {/if}
-        </div>
-      </div>
-    {/if}
-  </div>
-</section>
-
-<style>
-  input[type="checkbox"] {
-    @apply w-4 h-4 cursor-pointer;
-  }
-</style>
+<div class="w-full h-full p-4 bg-base-200 rounded-lg shadow-inner">
+  {#if mounted}
+    <div in:fade={{ duration: 500 }} class="carousel w-full h-full rounded-box">
+      {#each projectData as chart, i}
+        <div id={`slide${i + 1}`} class="carousel-item relative w-full flex flex-col p-4">
+          <h3 class="text-lg font-semibold text-center mb-2">{chart.title}</h3>
+          <div class="flex-grow h-64">
+            <Chart {init} options={chart.options} />
+          </div>
+          <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+            <a href={`#slide${i === 0 ? projectData.length : i}`} class="btn btn-circle btn-sm">❮</a> 
+            <a href={`#slide${i === projectData.length - 1 ? 1 : i + 2}`} class="btn btn-circle btn-sm">❯</a>
+          </div>
+          <div class="flex justify-center gap-2 pt-4">
+            <button class="btn btn-xs btn-outline" on:click={() => randomizeData(i)}>
+              Randomize Data
+            </button>
+            {#if i === 0}
+              <button class="btn btn-xs btn-outline" on:click={() => toggleChartType(i)}>
+                Switch to {chart.chartType === 'line' ? 'Bar' : 'Line'} Chart
+              </button>
+            {/if}
+            {#if i === 2}
+               <button class="btn btn-xs btn-outline" on:click={() => sortBugData(i)}>
+                Sort {chart.sortOrder === 'asc' ? 'Descending' : 'Ascending'}
+              </button>
+            {/if}
+          </div>
+        </div> 
+      {/each}
+    </div>
+  {/if}
+</div>

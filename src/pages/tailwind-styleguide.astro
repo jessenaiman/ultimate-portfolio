@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
 import FrameworkFeature from '../components/framework/Feature.astro';
-import CodeBlock from '../components/ui/CodeBlock.astro';
+import { Code } from 'astro:components';
 
 // Get the TailwindCSS markdown content
 const tailwindContent = await getEntry('info', 'tailwindcss');

@@ -9,19 +9,15 @@ const pageDescription = "Jesse Naiman's professional resume and cover letter";
 
 // Load resume and cover letter markdown content
 const resumeEntries = await getCollection('resume');
-const resumeEntry = resumeEntries.find(entry => entry.slug === 'resume');
-const coverEntry = resumeEntries.find(entry => entry.slug === 'cover');
+const resumeEntry = resumeEntries.find(entry => entry.id === 'resume.md');
+const coverEntry = resumeEntries.find(entry => entry.id === 'cover.md');
 
-// Parse markdown content to HTML
-const resumeHtml = resumeEntry ? marked.parse(resumeEntry.body) : '';
-const coverHtml = coverEntry ? marked.parse(coverEntry.body) : '';
+// Check if entries exist and parse markdown content to HTML
+const resumeHtml = resumeEntry?.body ? marked.parse(resumeEntry.body) : 'Resume content not found';
+const coverHtml = coverEntry?.body ? marked.parse(coverEntry.body) : 'Cover letter content not found';
 ---
 
-<Layout 
-  title={title}
-  primaryBallColor="#4F46E5" 
-  secondaryBallColor="#1E1B4B"
->
+<Layout title={title}>
   <Fragment set:html={`<meta name="description" content="${pageDescription}" />`} />
   <main class="main-content">    
     <!-- Print Button -->
@@ -39,22 +35,22 @@ const coverHtml = coverEntry ? marked.parse(coverEntry.body) : '';
     
     <!-- DaisyUI Tabs for Cover Letter and Resume -->
     <div class="w-full max-w-4xl mx-auto print:hidden">
-      <div role="tablist" class="tabs tabs-bordered tabs-lg justify-center">
-        <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Cover Letter" checked />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-8 mt-4">
+      <div class="tabs tabs-lift">
+        <input type="radio" name="resume_tabs" class="tab" aria-label="Cover Letter" checked />
+        <div class="tab-content bg-base-100 border-base-300 rounded-box p-8 mt-4">
           <div class="content-container">
-            <h1 class="page-title size-lg text-center">Cover Letter</h1>
-            <div class="markdown-content">
+            <h1 class="text-2xl font-bold text-center mb-6">Cover Letter</h1>
+            <div class="prose max-w-none">
               <div set:html={coverHtml} />
             </div>
           </div>
         </div>
 
-        <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Resume" />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-8 mt-4">
+        <input type="radio" name="resume_tabs" class="tab" aria-label="Resume" />
+        <div class="tab-content bg-base-100 border-base-300 rounded-box p-8 mt-4">
           <div class="content-container">
-            <h1 class="page-title size-lg text-center">Resume</h1>
-            <div class="markdown-content">
+            <h1 class="text-2xl font-bold text-center mb-6">Resume</h1>
+            <div class="prose max-w-none">
               <div set:html={resumeHtml} />
             </div>
           </div>

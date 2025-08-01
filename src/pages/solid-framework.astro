@@ -1,181 +1,48 @@
 ---
 // src/pages/solid-framework.astro
-// An honest demo of an interactive SolidJS component in Astro.
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/ui/Hero.astro';
-import { Code } from 'astro:components';
+import FrameworkLayout from '../layouts/FrameworkLayout.astro';
+import CodeBlock from '../components/ui/CodeBlock.astro';
 import { Content as SolidContent } from '../content/info/solid-framework.md';
+import { Icon } from 'astro-icon/components';
+import DemoCard from '../components/ui/DemoCard.astro';
 
 // Import interactive SolidJS components
 import SolidHero from '../components/Solid/Hero.jsx';
 import SolidFeatures from '../components/Solid/Features.jsx';
 
 // Import raw source code for display
-import solidHeroSource from '../components/Solid/Hero.jsx?raw';
 import solidFeaturesSource from '../components/Solid/Features.jsx?raw';
-
-const demos = [
-  {
-    id: 'solid-hero',
-    title: 'Interactive Hero',
-    description: 'A hero section with interactive elements, built with SolidJS.',
-    component: SolidHero,
-    source: solidHeroSource,
-  },
-  {
-    id: 'solid-features',
-    title: 'Features Section',
-    description: 'A features section demonstrating conditional rendering and component composition in SolidJS.',
-    component: SolidFeatures,
-    source: solidFeaturesSource,
-  },
-];
 ---
 
-<Layout title="SolidJS Framework Demo" description="An honest demonstration of interactive SolidJS components running in an Astro project.">
-  <Hero headline="SolidJS Framework Demo" subheading="Live, interactive SolidJS components hydrated on the client." />
-
-  <div class="container mx-auto px-4 py-16">
-    <!-- Markdown Content Section -->
-    <section class="prose max-w-none mb-16 bg-base-200/30 p-6 rounded-lg">
-      <SolidContent />
-    </section>
-
-    <!-- Interactive Demos -->
-    <div class="space-y-16">
-      <!-- Solid Hero Demo -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Live Demo -->
-        <div class="card bg-base-200/60 shadow-xl h-full">
-          <div class="card-body">
-            <h3 class="card-title">Interactive Hero</h3>
-            <p class="text-sm text-base-content/70">A hero section with interactive elements, built with SolidJS.</p>
-            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-              <SolidHero client:only='solid-js' />
-            </div>
-          </div>
-        </div>
-        <!-- Source Code Collapse -->
-        <div class="w-full">
-            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
-                <input type="checkbox" /> 
-                <div class="collapse-title text-xl font-medium">View Source Code</div>
-                <div class="collapse-content">
-                  <Code code={solidHeroSource} lang="jsx" theme="github-dark" />
-                </div>
-            </div>
-        </div>
-      </div>
-
-      <!-- Solid Features Demo -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <!-- Live Demo -->
-        <div class="card bg-base-200/60 shadow-xl h-full">
-          <div class="card-body">
-            <h3 class="card-title">Features Section</h3>
-            <p class="text-sm text-base-content/70">A features section demonstrating conditional rendering and component composition in SolidJS.</p>
-            <div class="min-h-[150px] flex items-center justify-center p-4 bg-base-100 rounded-lg mt-4">
-              <SolidFeatures client:only='solid-js' />
-            </div>
-          </div>
-        </div>
-        <!-- Source Code Collapse -->
-        <div class="w-full">
-            <div class="collapse collapse-arrow bg-base-200/60 shadow-xl">
-                <input type="checkbox" /> 
-                <div class="collapse-title text-xl font-medium">View Source Code</div>
-                <div class="collapse-content">
-                  <Code code={solidFeaturesSource} lang="jsx" theme="github-dark" />
-                </div>
-            </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Solid Ecosystem Section -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-bold mb-8 text-center">Solid Ecosystem</h2>
-      <div class="flex flex-wrap justify-center gap-3">
-        <div class="badge badge-lg p-4">Solid Router</div>
-        <div class="badge badge-lg p-4">Solid Start</div>
-        <div class="badge badge-lg p-4">Solid Store</div>
-        <div class="badge badge-lg p-4">Solid Element</div>
-        <div class="badge badge-lg p-4">Solid Primitives</div>
-        <div class="badge badge-lg p-4">Solid Motion</div>
-        <div class="badge badge-lg p-4">Solid UIKit</div>
-        <div class="badge badge-lg p-4">Solid Meta</div>
-      </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="text-center mb-16">
-      <div class="card bg-base-200 max-w-3xl mx-auto">
-        <div class="card-body">
-          <h2 class="card-title justify-center mb-4">Ready to start building with SolidJS?</h2>
-          <p class="mb-6">Get started with the official SolidJS documentation and tutorials.</p>
-          <div class="card-actions justify-center">
-            <a href="https://www.solidjs.com/guides/getting-started" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-              Start Learning
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Chat with SolidJS Expert Button -->
-  <div class="fixed bottom-4 right-4 z-50">
-    <button id="chat-button" class="btn btn-primary btn-circle">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-      </svg>
-    </button>
+<FrameworkLayout 
+  title="SolidJS Framework Demo" 
+  description="An honest demonstration of interactive SolidJS components running in an Astro project."
+  learnMoreTitle="Learn more about SolidJS"
+  docsUrl="https://www.solidjs.com/docs/latest"
+>
+  <!-- Framework-specific hero -->
+  <div slot="hero">
+    <SolidHero client:load />
   </div>
+  
+  <!-- Markdown content goes in the content slot -->
+  <SolidContent slot="content" />
 
-  <script is:inline>
-    // Tab switching functionality
-    document.addEventListener('DOMContentLoaded', () => {
-      const tabs = document.querySelectorAll('.tab');
-      const codeBlocks = document.querySelectorAll('.code-block');
-      
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Remove active class from all tabs
-          tabs.forEach(t => t.classList.remove('tab-active'));
-          // Add active class to clicked tab
-          tab.classList.add('tab-active');
-          
-          // Hide all code blocks
-          codeBlocks.forEach(block => block.classList.add('hidden'));
-          // Show the selected code block
-          const blockId = `${tab.dataset.tab}-block`;
-          document.getElementById(blockId).classList.remove('hidden');
-        });
-      });
-    });
-  </script>
+  <!-- Interactive Demos - Slot for demos -->
+  <div slot="demos" class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-  <!-- Flowise Chat Integration -->
-  <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-    document.getElementById('chat-button').addEventListener('click', () => {
-      Chatbot.init({
-        chatflowid: "5565a6be-fe2a-4866-9fc6-1f341513dd86",
-        apiHost: "https://flowise.omega-spiral.com",
-        chatflowConfig: {
-          // Send framework-specific context
-          topK: 5,
-          temperature: 0.7,
-          systemPrompt: "You are a SolidJS expert assistant. Help the user with SolidJS-related questions."
-        },
-        theme: {
-          button: {
-            backgroundColor: "#2C4F7C",
-            right: 20,
-            bottom: 80
-          }
-        }
-      })
-    })
-  </script>
-</Layout>
+    <DemoCard
+      title="Features Section"
+      description="A features section demonstrating conditional rendering and component composition in SolidJS."
+      iconName="mdi:view-list"
+      sourceFileName="Features.jsx"
+    >
+      <div slot="demo" class="p-4">
+        <SolidFeatures client:only='solid-js' />
+      </div>
+      <div slot="code">
+        <CodeBlock code={solidFeaturesSource} lang="jsx" theme="github-dark" showLineNumbers={true} />
+      </div>
+    </DemoCard>
+  </div>
+</FrameworkLayout>

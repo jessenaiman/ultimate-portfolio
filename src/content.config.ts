@@ -95,14 +95,11 @@ const education = defineCollection({
 const resume = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx,json}', base: './src/content/resume' }),
   schema: z.object({
+    title: z.string(),
+    employer: z.string(),
+    description: z.string(),
+    date: z.string(),
     section: z.string(),
-    order: z.number().optional(),
-    items: z.array(z.object({
-      title: z.string().optional(),
-      content: z.string().optional(),
-      date: z.string().optional(),
-      tags: z.array(z.string()).optional(),
-    })).optional(),
   }),
 });
 
