@@ -1,7 +1,7 @@
 ---
-title: "Web Programmer at Canwest"
-description: "Created tools for publishing online video content."
-pubDate: 2025-02-16
+title: Web Programmer at Canwest
+description: Created tools for publishing online video content.
+pubDate: '2025-02-16T00:00:00.000Z'
 ---
 # Web Programmer
 

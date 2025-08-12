@@ -16,11 +16,12 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "test:e2e": "playwright test -c playwright.config.ts"
+    "test:e2e": "playwright test -c playwright.config.ts",
+    "normalize-frontmatter": "node scripts/normalize-frontmatter.js"
   },
   "dependencies": {
     "@appwrite.io/pink-icons": "^1.0.0",
-    "@astrojs/db": "^0.15.1",
+    "@astrojs/db": "^0.17.1",
     "@astrojs/mdx": "^4.3.1",
     "@astrojs/react": "^4.3.0",
     "@astrojs/sitemap": "^3.4.2",
@@ -74,6 +75,7 @@
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitest/ui": "^3.2.4",
     "daisyui": "^5.0.43",
+    "gray-matter": "^4.0.3",
     "svelte": "^5.36.2",
     "vitest": "^3.2.4"
   }

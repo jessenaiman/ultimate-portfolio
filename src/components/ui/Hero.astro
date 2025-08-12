@@ -9,13 +9,13 @@ interface Props {
   bgImage?: string;
   bgGradient?: boolean;
   minHeight?: string;
-  icon?: string;
+  heroImage?: string;
 }
 
 const { 
   headline, 
   subheading, 
-  icon = "logos:astro-icon",
+  heroImage = "https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.webp",
   bgImage, 
   bgGradient = false
 } = Astro.props;
@@ -27,18 +27,17 @@ const {
 
 <div class="hero bg-gradient-to-br from-base-200 to-base-300 rounded-3xl mb-12 shadow-2xl transform transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20">
   <div class="hero-content text-center py-16 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
-      {/* Framework icons */}
-      <slot name="icons">
-        <div class="flex justify-center gap-4 mb-8">
-          <Icon name={icon} class="w-16 h-16" />
-        </div>
+    <div class="hero-content flex-col lg:flex-row">
+      {/* Hero image */}
+      <slot name="hero-image">
+        <img src={heroImage} alt="Hero Image" 
+        class="max-w-sm rounded-lg shadow-2xl" />
       </slot>
-      
-      {/* Headline and subheading */}
-      <h1 class="text-5xl md:text-7xl font-bold mb-4">{headline}</h1>
-      <p class="text-lg md:text-xl mb-8 opacity-90">{subheading}</p>
-      
+      <div>
+        {/* Headline and subheading */}
+        <h1 class="text-5xl md:text-7xl font-bold mb-4">{headline}</h1>
+        <p class="text-lg md:text-xl mb-8 opacity-90">{subheading}</p>
+      </div>
       {/* Action buttons */}
       <div class="flex flex-wrap justify-center gap-4">
         <slot name="actions" />

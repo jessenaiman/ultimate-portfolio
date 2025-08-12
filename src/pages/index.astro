@@ -1,26 +1,27 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/ui/Hero.astro';
-import HomeContent from '../content/home.mdx';
 import Cover from '../content/resume/cover.md';
 import Resume from '../content/resume/resume2.md';
+import ContactMeCard from '../components/ui/ContactMeCard.astro';
 ---
 
 <Layout title="Jesse Naiman - Senior Developer">
   <main>
-    <Hero 
-      headline="Jesse Naiman"
-      subheading="Senior Developer & Community Support. Over two decades of experience in web development, community support, and technical leadership. Specializing in creating efficient solutions to complex problems."
-    >
-      <div slot="actions" class="flex flex-wrap justify-center gap-4">
-        <a href="#resume-section" class="btn btn-primary scroll-smooth">
-          View Resume
-        </a>
-        <a href="mailto:jessenaiman@gmail.com" class="btn btn-outline">
-          Contact Me
-        </a>
+    <!-- Compact header to keep more above the fold (replaces tall hero) -->
+    <section class="card bg-base-100 shadow-md border border-base-300 mb-8">
+      <div class="card-body gap-4 lg:flex lg:items-center lg:justify-between">
+        <div>
+          <h1 class="text-2xl lg:text-3xl font-bold">Jesse Naiman</h1>
+          <p class="text-base-content/70 mt-2 max-w-3xl">
+            Senior Developer & Community Support — over two decades building efficient web solutions, leading teams, and simplifying complex problems.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="#resume-section" class="btn btn-primary">View Resume</a>
+          <a href="#contact" class="btn btn-outline">Contact Me</a>
+        </div>
       </div>
-    </Hero>
+    </section>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 py-20">
       <!-- Main content: Tabs -->
@@ -44,24 +45,9 @@ import Resume from '../content/resume/resume2.md';
         </div>
       </div>
 
-      <!-- Side content: Contact Card -->
-      <div class="lg:col-span-1">
-        <div class="card bg-base-100 shadow-xl sticky top-20">
-          <div class="card-body">
-            <h2 class="card-title text-3xl">Let's Work Together</h2>
-            <p class="text-base-content/80">Looking for a versatile developer who can bring your ideas to life? Let's connect and discuss how I can help with your next project.</p>
-            <div class="card-actions justify-start flex-col gap-4 mt-4">
-              <a href="tel:+14164208330" class="btn btn-outline w-full">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                +1 416 420 8330
-              </a>
-              <a href="mailto:jessenaiman@gmail.com" class="btn btn-outline w-full">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                jessenaiman@gmail.com
-              </a>
-            </div>
-          </div>
-        </div>
+      <!-- Side content: Contact Card (component includes Heyform + reveal) -->
+      <div id="contact" class="lg:col-span-1">
+        <ContactMeCard />
       </div>
     </div>
   </main>

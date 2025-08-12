@@ -121,10 +121,33 @@ export const navigationItems: NavigationItem[] = [
     icon: 'mdi:briefcase'
   },
   { 
-    name: 'transitions', 
-    displayName: 'Transitions', 
-    features: 'Tailwind CSS Transitions & Effects', 
-    path: '/transitions',
-    icon: 'mdi:briefcase'
+    name: 'web-design',
+    displayName: 'Web Design',
+    features: 'Web Design & Development',
+    path: '#',
+    icon: 'mdi:web',
+    children: [
+      {
+        name: 'transitions', 
+        displayName: 'Transitions', 
+        features: 'Tailwind CSS Transitions & Effects', 
+        path: '/transitions',
+        icon: 'mdi:briefcase'
+      },
+      {
+        name: 'effects', 
+        displayName: 'Effects', 
+        features: 'Tailwind CSS Effects', 
+        path: '/effects',
+        icon: 'mdi:briefcase'
+      },
+      {
+        name: 'layouts', 
+        displayName: 'Layouts', 
+        features: 'Tailwind CSS Layouts', 
+        path: '/design-layouts',
+        icon: 'mdi:briefcase'
+      }
+    ]
   }
 ];

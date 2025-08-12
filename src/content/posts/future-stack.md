@@ -1,9 +1,12 @@
 ---
-title: "Future Stack Developer"
-description: "Exploring the latest technologies and frameworks in web development."
-pubDate: 2024-06-01
-author: 'Jesse Naiman'
-tags: ["astro", "blogging", "learning in public"]
+title: Future Stack Developer
+description: Exploring the latest technologies and frameworks in web development.
+pubDate: '2024-06-01T00:00:00.000Z'
+author: Jesse Naiman
+tags:
+  - astro
+  - blogging
+  - learning in public
 ---
 
 ## Bridging Two Decades of Development with the Cutting Edge
