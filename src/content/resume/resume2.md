@@ -1,7 +1,9 @@
 ---
-title: 'Jesse Naiman - Future Stack Developer'
+title: 'Future Stack Developer'
 description: 'Future Stack Developer with nearly two decades of experience in web development, community support, and technical leadership'
-pubDate: 2025-02-16
+employer: "Jesse Naiman"
+date: "2025-01-25"
+section: "resume"
 ---
 # Jesse Naiman
 

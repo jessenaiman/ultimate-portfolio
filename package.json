@@ -19,6 +19,7 @@
     "test:e2e": "playwright test -c playwright.config.ts"
   },
   "dependencies": {
+    "@appwrite.io/pink-icons": "^1.0.0",
     "@astrojs/db": "^0.15.1",
     "@astrojs/mdx": "^4.3.1",
     "@astrojs/react": "^4.3.0",
@@ -40,6 +41,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@xtreat/astro-iconify": "^1.2.7",
+    "appwrite": "^17.0.2",
     "astro": "^5.12.5",
     "astro-expressive-code": "^0.41.3",
     "astro-icon": "^1.1.5",
@@ -51,6 +53,7 @@
     "marked": "^16.0.0",
     "mathjs": "^14.5.3",
     "monaco-editor": "^0.52.2",
+    "node-appwrite": "^17.0.0",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
