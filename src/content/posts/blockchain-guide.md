@@ -1,8 +1,8 @@
 ---
-tag:
-  - Hire
 title: Hire The Dice Wizard Storyteller
-description: Create an interconnected, immersive gaming experience that keeps players coming back for more.
+description: >-
+  Create an interconnected, immersive gaming experience that keeps players
+  coming back for more.
 intro: Elevate Your Store with a Resident Storyteller
 style:
   template: split
@@ -10,9 +10,11 @@ style:
   hero_template: image
   container: md
   hero_surface: surface-dark
-  hero_image_opacity: ""
-pubDate: 2024-04-03T12:14:12.256+02:00
+  hero_image_opacity: ''
+pubDate: '2024-04-03T10:14:12.256Z'
 thumbnail: /src/assets/elven-dice-grove2.jpg
+tags:
+  - Hire
 ---
 
 # A Guide for Web Developers Transitioning to Blockchain Development

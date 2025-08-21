@@ -1,7 +1,7 @@
 ---
-title: "Recruiter Questions for a Future Stack Developer"
-description: "Questions a recruiter might ask a Future Stack Developer."
-pubDate: 2025-01-24
+title: Recruiter Questions for a Future Stack Developer
+description: Questions a recruiter might ask a Future Stack Developer.
+pubDate: '2025-01-24T00:00:00.000Z'
 ---
 
 **Questions a Recruiter Might Ask:**

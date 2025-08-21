@@ -1,0 +1,83 @@
+---
+const EMAIL = import.meta.env.EMAIL as string | undefined;
+const PHONE = import.meta.env.PHONE as string | undefined;
+
+// Light obfuscation so the plain values aren’t in the HTML text
+const emailB64 = EMAIL ? Buffer.from(EMAIL).toString('base64') : '';
+const phoneB64 = PHONE ? Buffer.from(PHONE).toString('base64') : '';
+---
+
+<div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+  <div class="card-body">
+    <h2 class="card-title text-2xl">Let’s Work Together</h2>
+    <p class="text-base-content/80">
+      Prefer a quick message? Open the form. Employers can also reveal my direct contact info.
+    </p>
+
+    <div class="flex flex-col gap-3 mt-2">
+      <!-- Heyform modal trigger (opens on click) -->
+      <div
+        data-heyform-id="dJ4lEVR5"
+        data-heyform-type="modal"
+        data-heyform-custom-url="https://forms.dicewizard.win/form/"
+        data-heyform-size="large"
+        data-heyform-open-trigger="click"
+        data-heyform-trigger-background="#1d4ed8"
+        data-heyform-trigger-text="Open Form"
+        data-heyform-hide-after-submit="false"
+        data-heyform-auto-close="5"
+      >
+        <button class="heyform__trigger-button btn btn-primary w-full" type="button" onclick="HeyForm && HeyForm.openModal && HeyForm.openModal('dJ4lEVR5')">Open Form</button>
+      </div>
+
+      <!-- Reveal contact CTA for employers -->
+      <button id="reveal-contact-btn" class="btn btn-outline w-full" aria-controls="contact-details">
+        Reveal contact info
+      </button>
+    </div>
+
+    <div id="contact-details" class="card-actions justify-start flex-col gap-3 mt-4 hidden"
+         data-email-b64={emailB64} data-phone-b64={phoneB64}>
+      <a id="phone-link" class="btn btn-outline w-full"></a>
+      <a id="email-link" class="btn btn-outline w-full"></a>
+      <p class="text-sm text-base-content/60">Thanks for reaching out!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Load Heyform embed; safe to include more than once, but typically used on a single page -->
+<script src="https://www.unpkg.com/@heyform-inc/embed@latest/dist/index.umd.js"></script>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('reveal-contact-btn');
+    const details = document.getElementById('contact-details');
+    const phoneLink = document.getElementById('phone-link');
+    const emailLink = document.getElementById('email-link');
+
+    if (!btn || !details || !phoneLink || !emailLink) return;
+
+    btn.addEventListener('click', () => {
+      const emailB64 = details.dataset.emailB64 || '';
+      const phoneB64 = details.dataset.phoneB64 || '';
+
+      if (!emailB64 || !phoneB64) {
+        alert('Contact info not configured.');
+        return;
+      }
+
+      // Decode and reveal
+      const email = atob(emailB64);
+      const phone = atob(phoneB64);
+
+      phoneLink.href = `tel:${phone}`;
+      phoneLink.textContent = phone;
+
+      emailLink.href = `mailto:${email}`;
+      emailLink.textContent = email;
+
+      details.classList.remove('hidden');
+      btn.setAttribute('disabled', 'true');
+    });
+  });
+</script>

@@ -16,10 +16,12 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "test:e2e": "playwright test -c playwright.config.ts"
+    "test:e2e": "playwright test -c playwright.config.ts",
+    "normalize-frontmatter": "node scripts/normalize-frontmatter.js"
   },
   "dependencies": {
-    "@astrojs/db": "^0.15.1",
+    "@appwrite.io/pink-icons": "^1.0.0",
+    "@astrojs/db": "^0.17.1",
     "@astrojs/mdx": "^4.3.1",
     "@astrojs/prism": "^3.3.0",
     "@astrojs/react": "^4.3.0",
@@ -42,7 +44,11 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@xtreat/astro-iconify": "^1.2.7",
+<<<<<<< HEAD
     "animate.css": "^4.1.1",
+=======
+    "appwrite": "^17.0.2",
+>>>>>>> 106d9f6753a2c0396a0fa764247e972b944ba7b5
     "astro": "^5.12.5",
     "astro-expressive-code": "^0.41.3",
     "astro-icon": "^1.1.5",
@@ -54,6 +60,7 @@
     "marked": "^16.0.0",
     "mathjs": "^14.5.3",
     "monaco-editor": "^0.52.2",
+    "node-appwrite": "^17.0.0",
     "prism-react-renderer": "^2.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -75,6 +82,7 @@
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitest/ui": "^3.2.4",
     "daisyui": "^5.0.43",
+    "gray-matter": "^4.0.3",
     "svelte": "^5.36.2",
     "vitest": "^3.2.4"
   }

@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AppwriteComponent from '../components/appwrite/App.tsx';
+
+---
+
+<Layout title="Appwrite Ping Demo">
+  <AppwriteComponent client:only='react' />
+</Layout>

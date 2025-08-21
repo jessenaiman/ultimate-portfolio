@@ -5,27 +5,18 @@ description: "Employer for all things past, present and future"
 date: "2025-01-25"
 section: "cover"
 ---
+With nearly two decades of experience in web development, I have navigated an ever-evolving technological landscape, consistently adapting and innovating where many have stagnated. My expertise spans the foundational days of HTML, CSS, JavaScript, C#, and ASP.NET, connecting seamlessly to modern AI and blockchain technologies. I specialise in creating efficient, scalable, and future-proof solutions to complex problems
 
-Greetings Future Amazing Employer,
+My career highlights include significant achievements such as implementing Test-Driven Design (TDD) at Resolver, where I also introduced a jQuery solution that reduced an overtime initiative by approximately 30% through automation and refactoring
+At the Ontario Liberal Party, I led a system-wide upgrade from a rigid VB.NET system to a flexible OAuth API using MongoDB and Ruby on Rails. During critical election periods, I successfully managed hundreds of websites, demonstrating resilience and adaptability
 
-I have nearly two decades in web development, I’ve worked through technologies rise to necessity, only to be forgotten in code graveyard. My career has been a journey through an ever-changing landscape, adapting and thriving where many have stagnated. I bring rarity to the table: old man vibes with depth, versatility, and a relentless drive to innovate. 
+To showcase my current capabilities and proficiency in cutting-edge tools, I have developed two key projects:
 
-I have experitse that spans the early days of HTML, CSS, JavaScript, C#, asp.net, Git, responsive design, and old and modern frameworks, and I can connect all of it to modern AI and blockchain technologies.
+• Future Stack: This project is a comprehensive demonstration of modern frameworks, including Svelte, Vue, React, SolidJS, and Remix. It features advanced integrations such as image generation, ChatGPT, and Blockchain AI, alongside dynamic components and an interactive resume. It stands as proof of my ability to blend diverse technologies into seamless, responsive, accessible, and highly optimised solutions
 
-At Resolver, I implemented Test-Driven Design (TDD) before it was cool. I discovered jquery could reduce an overtime initiative by around ~30% by automating repetitive tasks and refactoring the vanilla javascript. I approach problem-solving with an efficient, scalable, and future-proof vision.
+• Dice Wizard Games: An e-commerce platform built with Astro.js, TailwindCSS, and View Transitions, this project exemplifies my commitment to responsive design, performance optimisation, and user-centric UX principles
 
-At the Ontario Liberal Party I led a system wide upgrade from a rigid VB.NET system to a flexible OAuth API using MongoDB and Ruby on Rails. I also managed hundreds of websites, which required changes frequently during critical election periods. These experiences taught me resilience, adaptability, and the importance of building systems that grow with your needs. 
+I am passionate about exploring new technologies and developing innovative solutions. My GitHub accounts, @ontariodungeons and @jessenaiman, contain various projects that reflect this enthusiasm
 
-The early days of coding had employers wary of github and open source in general, which makes showing you a portfolio of my work a challenge. For both my own sake of understanding and comparing modern web development, I’ve built two projects that showcase my skills: 
-    1. [Future Stack](https://fabulous-tartufo-6b7599.netlify.app/)  : A showcase of modern frameworks (Svelte, Vue, React, SolidJS, Remix), featuring image generation, chat GPT, Blockchain AI, a dynamic equation/graph component, and interactive resume. It’s more than a portfolio—it’s proof of my ability to blend cutting-edge tools into seamless solutions. It also is responsive, accessible, and optimized for performance beyond anything I would have built in 2015. 
-    2. [Dice Wizard Games](https://dice-wizard.netlify.app/blog/) : An e-commerce platform powered by Astro.js, TailwindCSS, and View Transitions. Beyond selling dice and running D&D campaigns, it highlights responsive design, performance optimization, and user-centric UX principles. This was a site built as an attempt to bring my in person business online, but it ended up being an onboard learning platform for me to dust off my skills and learn new ones.  
-
-I love installing new projects and tinkering with code, so my github accounts are stuffed with projects that I've worked on locally, but not professional projects due to NDA and privacy concerns.
-    • GitHub: @ontariodungeons | @jessenaiman 
-
-We're going to talk ethics at some point, and I want to demonstrate that I'm transparent and honest. I'm not afraid to lean into AI when the results are a better product,  I make no excuse for having AI assist with the draft and editing of this cover letter. Using AI as an assistant has helped me achieve my goal of an consice, yet convicing display of my talents, that does not take your time for granted.
-
-I look forward to the opportunity to discuss this position and my qualifications further. You can put the other resume away, you found your employee, enjoy the rest of your day.
-
-Sincerely,
-Jesse Naiman
+I am eager to discuss how my extensive experience and proven track record in full-stack development, technical leadership, and problem-solving can directly contribute to your team's success.
+Thank you for your time and consideration.

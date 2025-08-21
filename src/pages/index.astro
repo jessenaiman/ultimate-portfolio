@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 import Layout from "../layouts/Layout.astro";
 import { navigationItems } from "../data/navigation";
 import { cred } from "../data/site";
@@ -50,6 +51,31 @@ const featured = [
       </div>
     </div>
   </section>
+=======
+import Layout from '../layouts/Layout.astro';
+import Cover from '../content/resume/cover.md';
+import Resume from '../content/resume/resume2.md';
+import ContactMeCard from '../components/ui/ContactMeCard.astro';
+---
+
+<Layout title="Jesse Naiman - Senior Developer">
+  <main>
+    <!-- Compact header to keep more above the fold (replaces tall hero) -->
+    <section class="card bg-base-100 shadow-md border border-base-300 mb-8">
+      <div class="card-body gap-4 lg:flex lg:items-center lg:justify-between">
+        <div>
+          <h1 class="text-2xl lg:text-3xl font-bold">Jesse Naiman</h1>
+          <p class="text-base-content/70 mt-2 max-w-3xl">
+            Senior Developer & Community Support — over two decades building efficient web solutions, leading teams, and simplifying complex problems.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <a href="#resume-section" class="btn btn-primary">View Resume</a>
+          <a href="#contact" class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
+    </section>
+>>>>>>> 106d9f6753a2c0396a0fa764247e972b944ba7b5
 
   <!-- Featured Resource Cards -->
   <section class="py-10">
@@ -59,6 +85,7 @@ const featured = [
         <span class="badge badge-neutral hidden sm:inline">Curated • Updated</span>
       </div>
 
+<<<<<<< HEAD
       <!-- Ensure the most relevant items surface first -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {featured.map((item) => (
@@ -124,6 +151,21 @@ const featured = [
             ))}
           </div>
         </div>
+=======
+          <!-- Resume Tab -->
+          <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Resume" />
+          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <article class="prose lg:prose-xl max-w-none">
+              <Resume />
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side content: Contact Card (component includes Heyform + reveal) -->
+      <div id="contact" class="lg:col-span-1">
+        <ContactMeCard />
+>>>>>>> 106d9f6753a2c0396a0fa764247e972b944ba7b5
       </div>
     </div>
   </section>
