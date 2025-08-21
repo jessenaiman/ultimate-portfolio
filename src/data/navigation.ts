@@ -113,18 +113,34 @@ export const navigationItems: NavigationItem[] = [
       }
     ]
   },
-  { 
-    name: 'blog', 
-    displayName: 'Blog', 
-    features: 'Project Showcase', 
-    path: '/blog',
-    icon: 'mdi:briefcase'
+  {
+    name: 'design', 
+    displayName: 'Design', 
+    features: 'Web Design', 
+    path: '#',
+    icon: 'mdi:briefcase',
+    children: [
+      { 
+        name: 'effects', 
+        displayName: 'Effects', 
+        features: 'Tailwind CSS Effects', 
+        path: '/effects',
+        icon: 'mdi:briefcase'
+      },
+      { 
+        name: 'transitions', 
+        displayName: 'Transitions', 
+        features: 'Tailwind CSS Transitions & Effects', 
+        path: '/transitions',
+        icon: 'mdi:briefcase'
+      },
+      {
+        name: 'animation',
+        displayName: 'Animation',
+        features: 'Animate.css Demos',
+        path: '/animation',
+        icon: 'mdi:briefcase'
+      }
+    ] 
   },
-  { 
-    name: 'transitions', 
-    displayName: 'Transitions', 
-    features: 'Tailwind CSS Transitions & Effects', 
-    path: '/transitions',
-    icon: 'mdi:briefcase'
-  }
 ];

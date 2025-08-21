@@ -1,101 +1,130 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/ui/Hero.astro';
-import HomeContent from '../content/home.mdx';
-import Cover from '../content/resume/cover.md';
-import Resume from '../content/resume/resume.md';
-import Experience from '../content/experience.mdx';
+import Layout from "../layouts/Layout.astro";
+import { navigationItems } from "../data/navigation";
+import { cred } from "../data/site";
+import { Icon } from "astro-icon/components";
+
+// Extract sections from navigation data
+const findSection = (name: string) => navigationItems.find((n) => n.name === name);
+const frameworkDemos = findSection('framework-demos')?.children ?? [];
+const ai = findSection('ai')?.children ?? [];
+const design = findSection('design')?.children ?? [];
+
+// Manually curated examples and key pages
+const examples = [
+  { name: 'portfolio', displayName: 'Portfolio', features: 'Projects & Case Studies', path: '/portfolio', icon: 'mdi:briefcase' },
+  { name: 'resume', displayName: 'Resume', features: 'Experience & Skills', path: '/resume', icon: 'mdi:file-document' },
+  { name: 'test-dashboard', displayName: 'Dashboard', features: 'UI + Data Demo', path: '/test-dashboard', icon: 'mdi:view-dashboard' },
+  { name: 'live-code', displayName: 'Live Code', features: 'Interactive Coding', path: '/live-code', icon: 'mdi:code-brackets' },
+  { name: 'styleguide', displayName: 'Site Stack', features: 'Tech Stack Docs', path: '/styleguide', icon: 'mdi:layers' },
+  { name: 'daisyui-styleguide', displayName: 'daisyUI Guide', features: 'Theme & Components', path: '/daisyui-styleguide', icon: 'mdi:palette' },
+  { name: 'tailwind-styleguide', displayName: 'Tailwind Guide', features: 'Utilities & Layout', path: '/tailwind-styleguide', icon: 'mdi:tailwind' },
+  { name: 'astrojs-styleguide', displayName: 'Astro Guide', features: 'Astro Patterns', path: '/astrojs-styleguide', icon: 'mdi:asterisk' },
+];
+
+// Build featured list in priority order: Frameworks → Design → AI → Examples
+const featured = [
+  ...frameworkDemos,
+  ...design,
+  ...ai,
+  ...examples,
+];
 ---
 
-<Layout title="Jesse Naiman - Senior Developer">
-  <main>
-    <Hero 
-      headline="Jesse Naiman"
-      subheading="Senior Developer & Community Support. Over two decades of experience in web development, community support, and technical leadership. Specializing in creating efficient solutions to complex problems."
-    >
-      <div slot="actions" class="flex flex-wrap justify-center gap-4">
-        <a href="#resume-section" class="btn btn-primary scroll-smooth">
-          View Resume
-        </a>
-        <a href="mailto:jessenaiman@gmail.com" class="btn btn-outline">
-          Contact Me
-        </a>
+<Layout title="Home" description="Explore frameworks, design systems, AI demos, and real examples—curated for hiring managers and technical leaders.">
+  <!-- Hero Section (employer-focused) -->
+  <section class="hero min-h-[70vh]">
+    <div class="hero-content text-center">
+      <div class="max-w-3xl">
+        <h1 class="text-5xl md:text-6xl font-bold">
+          Hire a Full‑Stack Generalist who ships
+        </h1>
+        <p class="py-6 text-base-content/80 text-lg">
+          Proven delivery across React, Vue, Svelte, Solid, and Astro. Clean architecture, accessible UI, and pragmatic AI integrations.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="/portfolio" class="btn btn-primary">View Portfolio</a>
+          <a href="/resume" class="btn btn-outline">Resume</a>
+          <a href={cred.github} target="_blank" rel="noopener noreferrer" class="btn">GitHub</a>
+        </div>
       </div>
-    </Hero>
+    </div>
+  </section>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 px-4 py-20">
-      <!-- Main content: Tabs -->
-      <div id="resume-section" class="lg:col-span-2 scroll-mt-20">
-        <div role="tablist" class="tabs tabs-lifted shadow-lg border-primary/20 border rounded-box">
-          <!-- Cover Letter Tab -->
-          <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Cover Letter" checked />
-          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-            <article class="prose lg:prose-xl max-w-none">
-              <Cover />
-            </article>
-          </div>
+  <!-- Featured Resource Cards -->
+  <section class="py-10">
+    <div class="container mx-auto px-4">
+      <div class="flex items-end justify-between mb-6">
+        <h2 class="text-2xl md:text-3xl font-bold">Featured Resources</h2>
+        <span class="badge badge-neutral hidden sm:inline">Curated • Updated</span>
+      </div>
 
-          <!-- Resume Tab -->
-          <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Resume" />
-          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-            <article class="prose lg:prose-xl max-w-none">
-              <Resume />
-            </article>
-          </div>
+      <!-- Ensure the most relevant items surface first -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {featured.map((item) => (
+          <a href={item.path} class="card bg-base-100 shadow-sm hover:shadow-md transition group focus:outline-none focus-visible:ring focus-visible:ring-primary" aria-label={`Open ${item.displayName}`}> 
+            <div class="card-body p-5">
+              <div class="flex items-start gap-3">
+                {item.icon && (
+                  <div class="rounded-btn bg-base-200 p-2">
+                    <Icon name={item.icon} class="w-6 h-6 opacity-90 group-hover:opacity-100" />
+                  </div>
+                )}
+                <div class="flex-1">
+                  <div class="flex items-center gap-2">
+                    <h3 class="card-title text-lg leading-tight">{item.displayName}</h3>
+                    {(item as any).isNew && <span class="badge badge-primary">New</span>}
+                    {(item as any).badge && <span class={`badge ${(item as any).badgeColor ?? 'badge-secondary'}`}>{(item as any).badge}</span>}
+                  </div>
+                  <p class="text-base-content/70 text-sm">{item.features}</p>
+                </div>
+              </div>
+              <div class="card-actions justify-end mt-2">
+                <span class="btn btn-sm btn-ghost">Open</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-          <!-- Skills Tab -->
-          <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Skills" />
-          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-            <article class="prose lg:prose-xl max-w-none">
-              <HomeContent />
-            </article>
-          </div>
-
-          <!-- Experience Tab -->
-          <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Experience" />
-          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-            <article class="prose lg:prose-xl max-w-none">
-              <Experience />
-            </article>
+  <!-- Quick Sections -->
+  <section class="py-6">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Frameworks -->
+      <div class="card bg-base-100">
+        <div class="card-body p-5">
+          <h3 class="card-title mb-2">Frameworks</h3>
+          <div class="flex flex-wrap gap-2">
+            {frameworkDemos.map((f) => (
+              <a href={f.path} class="badge badge-outline hover:badge-primary">{f.displayName}</a>
+            ))}
           </div>
         </div>
       </div>
-
-      <!-- Side content: Contact Card -->
-      <div class="lg:col-span-1">
-        <div class="card bg-base-100 shadow-xl sticky top-20">
-          <div class="card-body">
-            <h2 class="card-title text-3xl">Let's Work Together</h2>
-            <p class="text-base-content/80">Looking for a versatile developer who can bring your ideas to life? Let's connect and discuss how I can help with your next project.</p>
-            <div class="card-actions justify-start flex-col gap-4 mt-4">
-              <a href="tel:+14164208330" class="btn btn-outline w-full">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                +1 416 420 8330
-              </a>
-              <a href="mailto:jessenaiman@gmail.com" class="btn btn-outline w-full">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                jessenaiman@gmail.com
-              </a>
-            </div>
+      <!-- Design -->
+      <div class="card bg-base-100">
+        <div class="card-body p-5">
+          <h3 class="card-title mb-2">Design</h3>
+          <div class="flex flex-wrap gap-2">
+            {design.map((d) => (
+              <a href={d.path} class="badge badge-outline hover:badge-primary">{d.displayName}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+      <!-- AI -->
+      <div class="card bg-base-100">
+        <div class="card-body p-5">
+          <h3 class="card-title mb-2">AI</h3>
+          <div class="flex flex-wrap gap-2">
+            {ai.map((a) => (
+              <a href={a.path} class="badge badge-outline hover:badge-primary">{a.displayName}</a>
+            ))}
           </div>
         </div>
       </div>
     </div>
-  </main>
+  </section>
 </Layout>
-
-<style>
-  @keyframes gradient-x {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-  
-  .animate-gradient-x {
-    animation: gradient-x 15s ease infinite;
-    background-size: 200% 200%;
-  }
-</style>
