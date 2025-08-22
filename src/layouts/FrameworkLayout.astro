@@ -1,6 +1,7 @@
 ---
 // src/layouts/FrameworkLayout.astro
-import BaseLayout from './BaseLayout.astro';
+// Now using the unified BaseLayout with framework variant
+import Layout from './Layout.astro';
 import { Icon } from 'astro-icon/components';
 
 interface Props {
@@ -8,42 +9,39 @@ interface Props {
   description: string;
   docsUrl?: string;
   learnMoreTitle?: string;
+  maxWidth?: 'none' | 'prose' | 'container' | 'screen' | 'wide';
 }
 
 const { 
   title, 
   description, 
   docsUrl,
-  learnMoreTitle = "Learn more about this framework"
+  learnMoreTitle = "Learn more about this framework",
+  maxWidth = 'wide'
 } = Astro.props;
 ---
 
-<BaseLayout {title} {description}>
+<Layout 
+  title={title} 
+  description={description}
+  variant="framework"
+  maxWidth={maxWidth}
+  padding="lg"
+  docsUrl={docsUrl}
+  learnMoreTitle={learnMoreTitle}
+>
   <!-- Hero Block -->
-  <slot name="hero" />
-
-  <!-- Markdown Content Block -->
-  <section class="mb-8">
-    <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-200 rounded-box">
-      <div class="collapse-title text-xl font-medium">
-        {learnMoreTitle}
-      </div>
-      <div class="collapse-content prose max-w-none p-4">
-        <slot name="content" />
-        {docsUrl && (
-          <div class="mt-4">
-            <a href={docsUrl} target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline">
-              Official Docs
-            </a>
-          </div>
-        )}
-      </div>
-    </div>
-  </section>
-
+  <div slot="hero">
+    <slot name="hero" />
+  </div>
+  
+  <!-- Content Block -->
+  <div slot="content">
+    <slot name="content" />
+  </div>
+  
   <!-- Demos Section -->
-  <div class="divider my-8" id="demos">Interactive Demos</div>
-  <section>
+  <div slot="demos">
     <slot name="demos" />
-  </section>
+  </div>
 </BaseLayout>

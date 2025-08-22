@@ -14,16 +14,8 @@ const subheading = "An Akash-powered chat interface demonstrating decentralized 
 ---
 
 <Layout title={headline} description={subheading}>
-  <Hero {headline} {subheading} icon="mdi:brain">
-    <div slot="actions" class="flex justify-center space-x-4">
-      <a href="#demo" class="btn btn-primary">View Demo</a>
-    </div>
-  </Hero>
 
   <main class="container mx-auto px-4 py-16">
-    <article class="prose max-w-none mb-16">
-      <BlockchainContent />
-    </article>
 
     <div class="divider my-12" id="demo">Interactive Demo</div>
 
@@ -39,5 +31,9 @@ const subheading = "An Akash-powered chat interface demonstrating decentralized 
         </DemoCard>
       </div>
     </section>
+    
+    <article class="prose max-w-none mb-16">
+      <BlockchainContent />
+    </article>
   </main>
 </Layout>

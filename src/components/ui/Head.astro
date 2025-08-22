@@ -1,12 +1,18 @@
 ---
 import { SEO } from "astro-seo";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title: string;
+  description?: string;
   bgColor?: string;
 }
 
-const { title, bgColor = "#0F1115" } = Astro.props;
+const { 
+  title, 
+  description = "Your comprehensive guide to building modern websites with Astro Framework",
+  bgColor = "#0F1115" 
+} = Astro.props;
 ---
 
 <head>
@@ -26,11 +32,12 @@ const { title, bgColor = "#0F1115" } = Astro.props;
     referrerpolicy="no-referrer"
   />
   <meta name="generator" content={Astro.generator} />
+  <ClientRouter />
   <meta name="view-transition" content="same-origin" />
   <SEO
     title={`${title} - Ultimate Forward Stack Developer`}
     titleTemplate="%s - Future Forward Development"
-    description="Your comprehensive guide to building modern websites with Astro Framework"
+    description={description}
     canonical="https://portfolio.omega-spiral.com/"
     noindex={false}
     nofollow={false}
@@ -44,8 +51,7 @@ const { title, bgColor = "#0F1115" } = Astro.props;
       optional: {
         locale: "en_US",
         siteName: "Jesse's Portfolio",
-        description:
-          "Discover the power of multi-framework development with our ultimate Astro template. From React to Vue, Svelte to Solid - experience them all in one blazing-fast website.",
+        description: description,
       },
       image: {
         alt: "Theme Preview",
@@ -93,4 +99,3 @@ const { title, bgColor = "#0F1115" } = Astro.props;
     }}
   />
 </head>
-

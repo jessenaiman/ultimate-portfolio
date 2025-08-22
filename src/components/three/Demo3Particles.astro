@@ -1,0 +1,44 @@
+---
+import CodeModal from "../ui/CodeModal.astro";
+
+// Code for this demo
+const demoCode = `// Demo 3: Dynamic Particle System
+import { initDemo3 } from '../../scripts/threeDemo3.js';
+
+// Initialize the demo when the component loads
+initDemo3();`;
+---
+
+<div class="card bg-base-100 shadow-xl">
+  <figure id="scene3-container" class="h-96 gui-container">
+    <canvas id="scene3" class="three-canvas"></canvas>
+  </figure>
+  <div class="card-body">
+    <div class="flex justify-between items-start">
+      <div>
+        <h2 class="card-title">3. Dynamic Particle System</h2>
+        <p>Control the behavior of this 5,000-particle system. Change the size, color, animation speed, and select different movement patterns.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('demo3-modal').showModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<CodeModal
+  id="demo3-modal"
+  title="Demo 3: Dynamic Particle System Code"
+  code={demoCode}
+  lang="javascript"
+  showLineNumbers={true}
+/>
+
+<script>
+  import { initDemo3 } from '/scripts/threeDemo3.js';
+  
+  // Execute the demo initialization after the component loads
+  initDemo3();
+</script>

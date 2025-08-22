@@ -1,0 +1,48 @@
+---
+import CodeModal from "../ui/CodeModal.astro";
+
+// Code for this demo
+const demoCode = `// Demo 2: Advanced Shader
+import { initDemo2 } from '../../scripts/threeDemo2.js';
+import { vertexShader } from '../../scripts/vertexShader.js';
+import { fragmentShader } from '../../scripts/fragmentShader.js';
+
+// Initialize the demo when the component loads
+initDemo2(vertexShader, fragmentShader);`;
+---
+
+<div class="card bg-base-100 shadow-xl">
+  <figure id="scene2-container" class="h-96 gui-container">
+    <canvas id="scene2" class="three-canvas"></canvas>
+  </figure>
+  <div class="card-body">
+    <div class="flex justify-between items-start">
+      <div>
+        <h2 class="card-title">2. Advanced Shader</h2>
+        <p>Manipulate a noise-based GLSL shader. Adjust the 3-color gradient, animation speed, and pattern complexity to create unique, flowing visuals.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('demo2-modal').showModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<CodeModal
+  id="demo2-modal"
+  title="Demo 2: Advanced Shader Code"
+  code={demoCode}
+  lang="javascript"
+  showLineNumbers={true}
+/>
+
+<script>
+  import { vertexShader } from '/scripts/vertexShader.js';
+  import { fragmentShader } from '/scripts/fragmentShader.js';
+  import { initDemo2 } from '/scripts/threeDemo2.js';
+  
+  // Execute the demo initialization after the component loads
+  initDemo2(vertexShader, fragmentShader);
+</script>

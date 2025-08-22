@@ -1,0 +1,46 @@
+---
+import CodeModal from "../ui/CodeModal.astro";
+
+// Code for this demo
+const demoCode = `// Demo 1: Basic Geometry & Lighting
+import { initDemo1 } from '../../scripts/threeDemo1.js';
+
+// Initialize the demo when the component loads
+initDemo1();`;
+
+
+---
+
+<div class="card bg-base-100 shadow-xl">
+  <figure id="scene1-container" class="h-96 gui-container">
+    <canvas id="scene1" class="three-canvas"></canvas>
+  </figure>
+  <div class="card-body">
+    <div class="flex justify-between items-start">
+      <div>
+        <h2 class="card-title">1. Geometry & Lighting</h2>
+        <p>Experiment with basic scene controls. Change the light color and toggle the visibility of each shape using the panel in the top-right corner.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('demo1-modal').showModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<CodeModal
+  id="demo1-modal"
+  title="Demo 1: Geometry & Lighting Code"
+  code={demoCode}
+  lang="javascript"
+  showLineNumbers={true}
+/>
+
+<script>
+  import { initDemo1 } from '/scripts/threeDemo1.js';
+  
+  // Execute the demo initialization after the component loads
+  initDemo1();
+</script>

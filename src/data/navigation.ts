@@ -120,25 +120,46 @@ export const navigationItems: NavigationItem[] = [
     path: '#',
     icon: 'mdi:briefcase',
     children: [
+      {
+        name: 'layouts',
+        displayName: 'Layouts',
+        features: 'Tailwind CSS Layouts',
+        path: '/design/design-layouts',
+        icon: 'mdi:briefcase'
+      },
       { 
         name: 'effects', 
         displayName: 'Effects', 
         features: 'Tailwind CSS Effects', 
-        path: '/effects',
+        path: '/design/effects',
         icon: 'mdi:briefcase'
       },
       { 
         name: 'transitions', 
         displayName: 'Transitions', 
         features: 'Tailwind CSS Transitions & Effects', 
-        path: '/transitions',
+        path: '/design/transitions',
         icon: 'mdi:briefcase'
       },
       {
         name: 'animation',
         displayName: 'Animation',
         features: 'Animate.css Demos',
-        path: '/animation',
+        path: '/design/animation',
+        icon: 'mdi:briefcase'
+      },
+      {
+        name: 'mobile',
+        displayName: 'Mobile',
+        features: 'Mobile Demos',
+        path: '/design/mobile',
+        icon: 'mdi:briefcase'
+      },
+      {
+        name: 'three',
+        displayName: 'Three.js',
+        features: 'Three.js Demos',
+        path: '/design/three',
         icon: 'mdi:briefcase'
       }
     ] 

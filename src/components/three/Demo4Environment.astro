@@ -1,0 +1,44 @@
+---
+import CodeModal from "../ui/CodeModal.astro";
+
+// Code for this demo
+const demoCode = `// Demo 4: Environment Mapping
+import { initDemo4 } from '../../scripts/threeDemo4.js';
+
+// Initialize the demo when the component loads
+initDemo4();`;
+---
+
+<div class="card bg-base-100 shadow-xl">
+  <figure id="scene4-container" class="h-96 gui-container">
+    <canvas id="scene4" class="three-canvas"></canvas>
+  </figure>
+  <div class="card-body">
+    <div class="flex justify-between items-start">
+      <div>
+        <h2 class="card-title">4. Physical Materials</h2>
+        <p>Adjust PBR (Physically-Based Rendering) properties. Switch between shapes and environments, and experiment with clearcoat and transmission (glass) effects.</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('demo4-modal').showModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<CodeModal
+  id="demo4-modal"
+  title="Demo 4: Environment Mapping Code"
+  code={demoCode}
+  lang="javascript"
+  showLineNumbers={true}
+/>
+
+<script>
+  import { initDemo4 } from '/scripts/threeDemo4.js';
+  
+  // Execute the demo initialization after the component loads
+  initDemo4();
+</script>
