@@ -1,20 +1,20 @@
 ---
 // src/pages/solid-framework.astro
-import FrameworkLayout from '../layouts/FrameworkLayout.astro';
+import Layout from '../../layouts/Layout.astro';
 import { Code } from 'astro:components';
-import { Content as SolidContent } from '../content/info/solid-framework.md';
+import { Content as SolidContent } from '../../content/info/solid-framework.md';
 import { Icon } from 'astro-icon/components';
-import DemoCard from '../components/ui/DemoCard.astro';
+import DemoCard from '../../components/ui/DemoCard.astro';
 
 // Import interactive SolidJS components
-import SolidHero from '../components/Solid/Hero.jsx';
-import SolidFeatures from '../components/Solid/Features.jsx';
+import SolidHero from '../../components/Solid/Hero.jsx';
+import SolidFeatures from '../../components/Solid/Features.jsx';
 
 // Import raw source code for display
-import solidFeaturesSource from '../components/Solid/Features.jsx?raw';
+import solidFeaturesSource from '../../components/Solid/Features.jsx?raw';
 ---
 
-<FrameworkLayout 
+<Layout 
   title="SolidJS Framework Demo" 
   description="An honest demonstration of interactive SolidJS components running in an Astro project."
   learnMoreTitle="Learn more about SolidJS"
@@ -45,4 +45,4 @@ import solidFeaturesSource from '../components/Solid/Features.jsx?raw';
       </div>
     </DemoCard>
   </div>
-</FrameworkLayout>
+</Layout>

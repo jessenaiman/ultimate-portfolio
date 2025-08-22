@@ -1,10 +1,11 @@
 ---
 // Modern framework documentation with professional DaisyUI 5+ tabbed interface
 // Documentation: https://daisyui.com/components/tab/
-import BaseLayout from "../layouts/DaisyuiLayout.astro";
+import BaseLayout from "../layouts/Layout.astro";
 import FrameworkTabs from "../components/framework/FrameworkTabs.astro";
 import FrameworkFeature from "../components/framework/Feature.astro";
 import { Code } from "astro:components";
+import GradientBorder from "../components/ui/GradientBorder.astro";
 
 // Tab configuration and content is now managed inside FrameworkTabs.astro
 
@@ -518,6 +519,100 @@ const daisyuiFeatures = [
           </div>
         </div>
       </section>
+    </section>
+    
+    <!-- Gradient Border Demo Section -->
+    <section id="gradient-demo" class="space-y-12">
+      <h2 class="text-3xl font-bold">Gradient Border Demo</h2>
+      
+      <p class="text-lg text-base-content/80 max-w-3xl">
+        Animated gradient borders using daisyUI theme colors with different animation speeds.
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+          <div class="card-body items-center text-center">
+            <h3 class="text-xl font-semibold mb-4">Slow Animation</h3>
+            <div class="w-full h-32 flex items-center justify-center bg-base-200 rounded-lg mb-4">
+              <span class="text-base-content/60">8-second cycle</span>
+            </div>
+            <p class="text-base-content/80">Subtle gradient animation with longer duration.</p>
+          </div>
+        </div>
+        
+        <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+          <div class="card-body items-center text-center">
+            <h3 class="text-xl font-semibold mb-4">Medium Animation</h3>
+            <div class="w-full h-32 flex items-center justify-center bg-base-200 rounded-lg mb-4">
+              <span class="text-base-content/60">6-second cycle</span>
+            </div>
+            <p class="text-base-content/80">Balanced animation speed for most use cases.</p>
+          </div>
+        </div>
+        
+        <div class="card bg-base-100 shadow-xl border border-base-300 overflow-hidden">
+          <div class="card-body items-center text-center">
+            <h3 class="text-xl font-semibold mb-4">Fast Animation</h3>
+            <div class="w-full h-32 flex items-center justify-center bg-base-200 rounded-lg mb-4">
+              <span class="text-base-content/60">3-second cycle</span>
+            </div>
+            <p class="text-base-content/80">Vibrant effect with rapid color transitions.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-12">
+        <h3 class="text-2xl font-bold mb-6">Responsive Breakpoints Reference</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-base-200 p-6 rounded-lg">
+            <h4 class="text-lg font-bold mb-2">
+              <code class="bg-base-300 px-2 py-1 rounded">sm</code> (640px)
+            </h4>
+            <p class="text-base-content/80">Small devices (landscape phones)</p>
+          </div>
+          <div class="bg-base-200 p-6 rounded-lg">
+            <h4 class="text-lg font-bold mb-2">
+              <code class="bg-base-300 px-2 py-1 rounded">md</code> (768px)
+            </h4>
+            <p class="text-base-content/80">Medium devices (tablets)</p>
+          </div>
+          <div class="bg-base-200 p-6 rounded-lg">
+            <h4 class="text-lg font-bold mb-2">
+              <code class="bg-base-300 px-2 py-1 rounded">lg</code> (1024px)
+            </h4>
+            <p class="text-base-content/80">Large devices (desktops)</p>
+          </div>
+          <div class="bg-base-200 p-6 rounded-lg">
+            <h4 class="text-lg font-bold mb-2">
+              <code class="bg-base-300 px-2 py-1 rounded">xl</code> (1280px)
+            </h4>
+            <p class="text-base-content/80">Extra large devices (large desktops)</p>
+          </div>
+          <div class="bg-base-200 p-6 rounded-lg">
+            <h4 class="text-lg font-bold mb-2">
+              <code class="bg-base-300 px-2 py-1 rounded">2xl</code> (1536px)
+            </h4>
+            <p class="text-base-content/80">2X large devices (extra large desktops)</p>
+          </div>
+        </div>
+        <div class="mt-8 p-6 bg-info/10 rounded-lg border border-info/20">
+          <h4 class="text-lg font-bold mb-4">Usage Examples</h4>
+          <div class="space-y-4">
+            <div>
+              <p class="font-mono text-sm bg-base-300 p-3 rounded mb-2">md:flex-row</p>
+              <p class="text-base-content/80">Apply flex-row on medium screens and larger</p>
+            </div>
+            <div>
+              <p class="font-mono text-sm bg-base-300 p-3 rounded mb-2">lg:grid-cols-3</p>
+              <p class="text-base-content/80">Use 3 columns on large screens and larger</p>
+            </div>
+            <div>
+              <p class="font-mono text-sm bg-base-300 p-3 rounded mb-2">sm:p-4</p>
+              <p class="text-base-content/80">Apply padding of 1rem on small screens and larger</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 

@@ -22,9 +22,7 @@ const isActive = (path: string) => currentPath === path || (path !== '/' && curr
               {!item.children ? (
                 <a 
                   href={item.path}
-                  class:list={[
-                    isActive(item.path) ? 'active' : ''
-                  ]}
+                  class={isActive(item.path) ? 'active' : ''}
                 >
                   {item.icon && <Icon name={item.icon} class="w-4 h-4" />}
                   {item.displayName}
@@ -35,14 +33,12 @@ const isActive = (path: string) => currentPath === path || (path !== '/' && curr
                     {item.icon && <Icon name={item.icon} class="w-4 h-4" />}
                     {item.displayName}
                   </summary>
-                  <ul>
+                  <ul class="menu menu-sm bg-base-100 rounded-t-none p-2 shadow-lg z-10 w-52">
                     {item.children.map((child) => (
                       <li>
                         <a 
                           href={child.path}
-                          class:list={[
-                            isActive(child.path) ? 'active' : ''
-                          ]}
+                          class={isActive(child.path) ? 'active' : ''}
                         >
                           {child.icon && <Icon name={child.icon} class="w-4 h-4" />}
                           {child.displayName}
@@ -69,28 +65,23 @@ const isActive = (path: string) => currentPath === path || (path !== '/' && curr
             {!item.children ? (
               <a 
                 href={item.path}
-                class:list={[
-                  'btn btn-ghost',
-                  isActive(item.path) ? 'btn-active' : ''
-                ]}
+                class={isActive(item.path) ? 'active' : ''}
               >
                 {item.icon && <Icon name={item.icon} class="w-4 h-4" />}
                 {item.displayName}
               </a>
             ) : (
               <details>
-                <summary class="btn btn-ghost">
+                <summary>
                   {item.icon && <Icon name={item.icon} class="w-4 h-4" />}
                   {item.displayName}
                 </summary>
-                <ul class="p-2 bg-base-100 rounded-box z-10 w-52 shadow-lg">
+                <ul class="menu menu-sm bg-base-100 rounded-t-none p-2 shadow-lg z-10 w-52">
                   {item.children.map((child) => (
                     <li>
                       <a 
                         href={child.path}
-                        class:list={[
-                          isActive(child.path) ? 'active' : ''
-                        ]}
+                        class={isActive(child.path) ? 'active' : ''}
                       >
                         {child.icon && <Icon name={child.icon} class="w-4 h-4" />}
                         {child.displayName}

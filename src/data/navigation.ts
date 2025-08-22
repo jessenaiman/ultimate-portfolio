@@ -46,7 +46,7 @@ export const navigationItems: NavigationItem[] = [
         name: 'react', 
         displayName: 'React', 
         features: 'UI Library', 
-        path: '/react-framework',
+        path: '/frameworks/react-framework',
         icon: 'mdi:react'
       },
       { 

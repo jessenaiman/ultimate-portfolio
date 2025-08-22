@@ -1,21 +1,21 @@
 ---
 // src/pages/react-framework.astro
-import FrameworkLayout from '../layouts/FrameworkLayout.astro';
+import Layout from '../../layouts/Layout.astro';
 import { Code } from 'astro:components';
-import { Content as ReactContent } from '../content/info/react-framework.md';
+import { Content as ReactContent } from '../../content/info/react-framework.md';
 import { Icon } from 'astro-icon/components';
 
 // Import interactive React components
-import ColorPickerHero from '../components/React/ColorPickerHero.tsx';
-import Calculator from '../components/React/Calculator.tsx';
+import ColorPickerHero from '../../components/React/ColorPickerHero.tsx';
+import Calculator from '../../components/React/Calculator.tsx';
 
 // Import raw source code for display in modals
-import colorPickerSource from '../components/React/ColorPickerHero.tsx?raw';
-import calculatorSource from '../components/React/Calculator.tsx?raw';
+import colorPickerSource from '../../components/React/ColorPickerHero.tsx?raw';
+import calculatorSource from '../../components/React/Calculator.tsx?raw';
 
 ---
 
-<FrameworkLayout 
+<Layout 
   title="React Framework Demo" 
   description="An honest demonstration of interactive React components running in an Astro project."
   learnMoreTitle="Learn more about React"
@@ -127,4 +127,4 @@ import calculatorSource from '../components/React/Calculator.tsx?raw';
 
     </div>
   </div>
-</FrameworkLayout>
+</Layout>

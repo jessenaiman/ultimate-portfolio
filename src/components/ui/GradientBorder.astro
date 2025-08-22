@@ -1,0 +1,69 @@
+---
+/**
+ * Gradient Border Component
+ * Creates visually stunning animated gradient borders using daisyUI theme colors
+ * 
+ * Props:
+ * - children: Content to be wrapped with gradient border
+ * - animationSpeed: Speed of gradient animation (default: 'slow')
+ * - borderRadius: Border radius class (default: 'rounded-lg')
+ * - borderWidth: Border width class (default: 'p-1')
+ * - className: Additional classes to apply
+ */
+
+const {
+  children,
+  animationSpeed = 'slow',
+  borderRadius = 'rounded-lg',
+  borderWidth = 'p-1',
+  className = ''
+} = Astro.props;
+
+// Animation speed mappings
+const animationClass = (
+  animationSpeed === 'fast' ? 'animate-gradient-fast' :
+  animationSpeed === 'medium' ? 'animate-gradient-medium' :
+  'animate-gradient-slow'
+);
+---
+
+<div class={`relative ${borderRadius} ${className}`}>
+  <!-- Animated gradient border -->
+  <div class={`
+    absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent
+    bg-[length:200%_200%] ${animationClass} ${borderRadius} ${borderWidth}
+    opacity-80 blur-sm
+  `}></div>
+  
+  <!-- Solid border for better definition -->
+  <div class={`
+    absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent
+    bg-[length:200%_200%] ${animationClass} ${borderRadius} ${borderWidth}
+    opacity-90
+  `}></div>
+  
+  <!-- Content area with background -->
+  <div class={`relative bg-base-100 ${borderRadius} overflow-hidden`}>
+    <slot />
+  </div>
+</div>
+
+<style>
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .animate-gradient-slow {
+    animation: gradient 8s ease infinite;
+  }
+  
+  .animate-gradient-medium {
+    animation: gradient 6s ease infinite;
+  }
+  
+  .animate-gradient-fast {
+    animation: gradient 3s ease infinite;
+  }
+</style>

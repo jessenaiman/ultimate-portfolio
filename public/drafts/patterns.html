@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Development Patterns Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        main::-webkit-scrollbar {
+            width: 8px;
+        }
+        main::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        main::-webkit-scrollbar-thumb {
+            background-color: #94a3b8;
+            border-radius: 20px;
+            border: 3px solid #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 lg:w-72 bg-white shadow-lg flex-shrink-0">
+            <div class="p-6 border-b border-slate-200">
+                <h1 class="text-2xl font-bold text-slate-900">Dev Patterns</h1>
+                <p class="text-sm text-slate-500 mt-1">Your guide to web architecture</p>
+            </div>
+            <nav class="p-4">
+                <ul id="sidebar-nav">
+                    <li><a href="#mvc" class="nav-link block font-medium rounded-lg px-4 py-2.5 text-slate-700 hover:bg-slate-200 transition-colors duration-200">Model-View-Controller</a></li>
+                    <li><a href="#microservices" class="nav-link block font-medium rounded-lg px-4 py-2.5 text-slate-700 hover:bg-slate-200 transition-colors duration-200">Microservices</a></li>
+                    <li><a href="#component-based" class="nav-link block font-medium rounded-lg px-4 py-2.5 text-slate-700 hover:bg-slate-200 transition-colors duration-200">Component-Based</a></li>
+                    <li><a href="#state-management" class="nav-link block font-medium rounded-lg px-4 py-2.5 text-slate-700 hover:bg-slate-200 transition-colors duration-200">State Management</a></li>
+                    <li><a href="#repository" class="nav-link block font-medium rounded-lg px-4 py-2.5 text-slate-700 hover:bg-slate-200 transition-colors duration-200">Repository Pattern</a></li>
+                    <li><a href="#api-gateway" class="nav-link block font-medium rounded-lg px-4 py-2.5 text-slate-700 hover:bg-slate-200 transition-colors duration-200">API Gateway</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+            
+            <!-- MVC Section -->
+            <section id="mvc" class="pattern-content bg-white p-8 rounded-xl shadow-sm">
+                <h2 class="text-4xl font-bold text-slate-900 border-b pb-4 mb-6">Model-View-Controller (MVC)</h2>
+                
+                <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">Developer Focus: How to Use It</h3>
+                <p class="leading-relaxed mb-4">MVC separates an application into three logical components, making it easier to manage complexity. This separation of concerns is the core principle for developers to follow.</p>
+                <ul class="list-disc list-inside space-y-2 leading-relaxed">
+                    <li><strong>Model:</strong> Write plain objects with no knowledge of the UI. This part should contain all your business logic, data access, and validation rules. For example, a `User` model would handle fetching user data from a database and validating new user sign-ups.</li>
+                    <li><strong>View:</strong> Keep your view layer "dumb." Its only job is to display data passed to it by the controller and to capture user input. Avoid putting business logic in your templates. Use template engines to render data from the model.</li>
+                    <li><strong>Controller:</strong> This is the traffic cop. It receives HTTP requests, uses the model to fetch or update data, and then selects a view to render, passing the model's data to it. A controller action should be lean, delegating the heavy lifting to the model.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">History</h3>
+                <p class="leading-relaxed">The MVC pattern was first described in 1979 by Trygve Reenskaug, then working on Smalltalk at Xerox PARC. Its original purpose was to map the traditional input, processing, and output roles into the domain of graphical user interfaces. It gained widespread popularity with the rise of web frameworks in the early 2000s.</p>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Frameworks & Libraries</h3>
+                <p class="leading-relaxed">Many foundational web frameworks are built on the MVC pattern:</p>
+                <ul class="list-disc list-inside space-y-2 mt-2">
+                    <li><strong>Ruby on Rails:</strong> A classic example of an MVC framework.</li>
+                    <li><strong>Django (Python):</strong> Often called a "Model-Template-View" (MTV) framework, but it follows the same principles.</li>
+                    <li><strong>ASP.NET MVC (C#):</strong> Microsoft's framework for building web apps using the MVC design.</li>
+                    <li><strong>Laravel (PHP):</strong> A popular PHP framework that heavily utilizes MVC.</li>
+                    <li><strong>Spring MVC (Java):</strong> A module within the Spring Framework for building MVC-based web applications.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Free Online Resources</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><a href="https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Microsoft Docs: Get started with ASP.NET Core MVC</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Glossary/MVC" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">MDN Web Docs: MVC Glossary</a></li>
+                </ul>
+            </section>
+
+            <!-- Microservices Section -->
+            <section id="microservices" class="pattern-content bg-white p-8 rounded-xl shadow-sm hidden">
+                <h2 class="text-4xl font-bold text-slate-900 border-b pb-4 mb-6">Microservices Architecture</h2>
+                
+                <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">Developer Focus: How to Use It</h3>
+                <p class="leading-relaxed mb-4">This pattern structures an application as a collection of loosely coupled, independently deployable services. The key is to break down your application by business capability.</p>
+                <ul class="list-disc list-inside space-y-2 leading-relaxed">
+                    <li><strong>Service Boundaries:</strong> Define clear boundaries for each service. A good rule of thumb is the "single responsibility principle" applied to a business domain. For example, in an e-commerce app, you might have separate services for `Orders`, `Products`, `Users`, and `Payments`.</li>
+                    <li><strong>Communication:</strong> Services communicate over a network, typically via lightweight mechanisms like HTTP/REST APIs or asynchronous messaging queues (like RabbitMQ or Kafka). Avoid direct database sharing between services.</li>
+                    <li><strong>Decentralized Data:</strong> Each microservice should own its own data and database. This ensures loose coupling. If one service needs data from another, it should ask for it via an API call.</li>
+                    <li><strong>Deployment:</strong> Embrace automation. Each service should have its own continuous integration and continuous delivery (CI/CD) pipeline. Containerization with Docker and orchestration with Kubernetes are standard tools here.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">History</h3>
+                <p class="leading-relaxed">The term "microservices" emerged around 2011-2012 from discussions among software architects. It grew out of the challenges faced with large, monolithic applications, drawing inspiration from Service-Oriented Architecture (SOA). Pioneers like Netflix and Amazon popularized the pattern by demonstrating its effectiveness at scale.</p>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Frameworks & Libraries</h3>
+                <p class="leading-relaxed">While you can build microservices with any language, these frameworks provide excellent tooling:</p>
+                <ul class="list-disc list-inside space-y-2 mt-2">
+                    <li><strong>Spring Boot (Java):</strong> A dominant choice in the Java ecosystem for building standalone microservices quickly.</li>
+                    <li><strong>Express.js (Node.js):</strong> A minimal and flexible framework, great for building lightweight API services.</li>
+                    <li><strong>FastAPI (Python):</strong> A modern, high-performance Python framework for building APIs.</li>
+                    <li><strong>Go kit (Go):</strong> A programming toolkit for building microservices in Go, providing structure and best practices.</li>
+                    <li><strong>Micronaut (JVM):</strong> A modern JVM framework designed for building modular, easily testable microservice applications.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Free Online Resources</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Martin Fowler: Microservices</a></li>
+                    <li><a href="https://microservices.io/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Microservices.io - Pattern Reference</a></li>
+                    <li><a href="https://learn.microsoft.com/en-us/training/modules/dotnet-microservices/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Microsoft Learn: Build your first microservice with .NET</a></li>
+                </ul>
+            </section>
+
+            <!-- Component-Based Section -->
+            <section id="component-based" class="pattern-content bg-white p-8 rounded-xl shadow-sm hidden">
+                <h2 class="text-4xl font-bold text-slate-900 border-b pb-4 mb-6">Component-Based Architecture</h2>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">Developer Focus: How to Use It</h3>
+                <p class="leading-relaxed mb-4">This pattern is the foundation of modern front-end development. The UI is broken down into a tree of encapsulated, reusable components.</p>
+                <ul class="list-disc list-inside space-y-2 leading-relaxed">
+                    <li><strong>Identify Components:</strong> Look at your UI mockups and break them down into a hierarchy of components. A search results page might have a `SearchBar` component, a `FilterSidebar` component, and a `ResultsList` component, which in turn contains multiple `ResultItem` components.</li>
+                    <li><strong>Encapsulation:</strong> Each component should manage its own state and logic. Its HTML, CSS, and JavaScript should be self-contained. This makes them predictable and easy to reason about.</li>
+                    <li><strong>Props for Data Down:</strong> Parent components pass data down to child components via "props" (properties). This is a one-way data flow, which makes the application easier to debug.</li>
+                    <li><strong>Events for Actions Up:</strong> When a child component needs to communicate something back to a parent (like a button click), it should emit an event. The parent component listens for this event and handles the logic.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">History</h3>
+                <p class="leading-relaxed">The idea of component-based software engineering has been around since the 1990s with technologies like JavaBeans and COM/DCOM. However, it became the dominant paradigm for the web with the release of Facebook's React library in 2013, which popularized the concept of a Virtual DOM and a declarative, component-based approach to building UIs.</p>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Frameworks & Libraries</h3>
+                <p class="leading-relaxed">This pattern is the defining feature of modern JavaScript frameworks:</p>
+                <ul class="list-disc list-inside space-y-2 mt-2">
+                    <li><strong>React:</strong> A UI library where everything is a component.</li>
+                    <li><strong>Vue.js:</strong> A progressive framework with a focus on approachable, component-based architecture (Single File Components).</li>
+                    <li><strong>Angular:</strong> A full-fledged framework that uses a component-based model with modules and dependency injection.</li>
+                    <li><strong>Svelte:</strong> A radical new approach that compiles your components into highly efficient imperative code at build time.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Free Online Resources</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><a href="https://react.dev/learn/thinking-in-react" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Thinking in React - Official React Docs</a></li>
+                    <li><a href="https://vuejs.org/guide/essentials/component-basics.html" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Vue.js Component Basics - Official Vue Docs</a></li>
+                    <li><a href="https://angular.io/guide/component-overview" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Introduction to Angular components - Official Angular Docs</a></li>
+                </ul>
+            </section>
+            
+            <!-- State Management Section -->
+            <section id="state-management" class="pattern-content bg-white p-8 rounded-xl shadow-sm hidden">
+                <h2 class="text-4xl font-bold text-slate-900 border-b pb-4 mb-6">State Management Patterns</h2>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">Developer Focus: How to Use It</h3>
+                <p class="leading-relaxed mb-4">As applications grow, managing state that is shared across many components becomes complex ("prop drilling"). Centralized state management patterns provide a single source of truth for your application's state.</p>
+                <ul class="list-disc list-inside space-y-2 leading-relaxed">
+                    <li><strong>Central Store:</strong> All shared application state is held in a single, global object called the "store".</li>
+                    <li><strong>State is Read-Only:</strong> Components can read from the store, but they cannot directly modify it. This prevents unpredictable changes from anywhere in the app.</li>
+                    <li><strong>Changes via Actions/Mutations:</strong> To change the state, you must dispatch an "action" (an object describing what happened). A "reducer" or "mutation" function then takes this action and the current state to produce the *new* state.</li>
+                    <li><strong>Unidirectional Data Flow:</strong> This enforces a predictable cycle: an action is dispatched from the UI, the store's state is updated by a reducer, and the UI re-renders based on the new state.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">History</h3>
+                <p class="leading-relaxed">Facebook introduced the Flux architecture in 2014 to solve state management issues they were facing with their large-scale React applications. In 2015, Dan Abramov and Andrew Clark created Redux, which was inspired by Flux but simplified its concepts and incorporated ideas from the Elm language. Redux quickly became the de facto standard for state management in the React ecosystem and inspired similar libraries for other frameworks.</p>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Frameworks & Libraries</h3>
+                <p class="leading-relaxed">These libraries implement centralized state management:</p>
+                <ul class="list-disc list-inside space-y-2 mt-2">
+                    <li><strong>Redux (with Redux Toolkit):</strong> The most popular state management library, framework-agnostic but most commonly used with React.</li>
+                    <li><strong>Vuex / Pinia (Vue):</strong> The official state management solutions for Vue.js applications. Pinia is the newer, more lightweight recommendation.</li>
+                    <li><strong>NgRx / NGXS (Angular):</strong> State management libraries for Angular inspired by Redux.</li>
+                    <li><strong>Zustand / Jotai (React):</strong> Lighter-weight, modern alternatives to Redux that use React hooks.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Free Online Resources</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><a href="https://redux.js.org/introduction/getting-started" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Redux Official Docs - Getting Started</a></li>
+                    <li><a href="https://pinia.vuejs.org/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Pinia Official Docs (for Vue)</a></li>
+                    <li><a href="https://www.geeksforgeeks.org/system-design/state-method-design-patterns-in-javascript/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">GeeksForGeeks: State Design Patterns in JS</a></li>
+                </ul>
+            </section>
+            
+            <!-- Repository Section -->
+            <section id="repository" class="pattern-content bg-white p-8 rounded-xl shadow-sm hidden">
+                <h2 class="text-4xl font-bold text-slate-900 border-b pb-4 mb-6">Repository Pattern</h2>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">Developer Focus: How to Use It</h3>
+                <p class="leading-relaxed mb-4">The Repository pattern acts as an intermediary between your application's business logic (domain layer) and the data source (persistence layer). It provides an abstraction that makes your code cleaner and more testable.</p>
+                <ul class="list-disc list-inside space-y-2 leading-relaxed">
+                    <li><strong>Create an Interface:</strong> Define an interface for each of your main business objects (or "aggregate roots"). For example, `IProductRepository`. This interface would have methods like `getById(id)`, `getAll()`, `add(product)`, `update(product)`.</li>
+                    <li><strong>Implement the Interface:</strong> Create a concrete class that implements this interface, e.g., `ProductRepository`. This class will contain the actual data access logic, using a specific technology like an ORM (Entity Framework, SQLAlchemy) or direct database queries.</li>
+                    <li><strong>Use Dependency Injection:</strong> Your business logic (e.g., in a service or controller) should not create an instance of `ProductRepository` directly. Instead, it should depend on the `IProductRepository` interface. Use a dependency injection container to provide the concrete implementation at runtime.</li>
+                    <li><strong>Benefits:</strong> This decouples your business logic from the database. You can easily swap out the data source (e.g., from SQL Server to PostgreSQL) by just changing the repository implementation. It also makes unit testing much easier, as you can provide a mock "in-memory" repository instead of hitting a real database.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">History</h3>
+                <p class="leading-relaxed">The Repository pattern was formally described by Martin Fowler in his influential 2002 book, "Patterns of Enterprise Application Architecture." It is a key pattern within the broader context of Domain-Driven Design (DDD), which aims to create a strong link between the software model and the business domain it represents.</p>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Frameworks & Libraries</h3>
+                <p class="leading-relaxed">The Repository pattern is a design principle rather than a specific library. It's commonly implemented by developers using Object-Relational Mappers (ORMs):</p>
+                <ul class="list-disc list-inside space-y-2 mt-2">
+                    <li><strong>Entity Framework (C# / .NET):</strong> The `DbContext` can be seen as a Unit of Work, and `DbSet<T>` can act as a generic repository. Developers often build their own repository abstractions on top of it.</li>
+                    <li><strong>SQLAlchemy (Python):</strong> A powerful ORM that can be used to implement the repository pattern in Python applications.</li>
+                    <li><strong>TypeORM / Prisma (Node.js / TypeScript):</strong> Modern ORMs in the TypeScript/JavaScript ecosystem that facilitate implementing the repository pattern.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Free Online Resources</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><a href="https://deviq.com/design-patterns/repository-pattern/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">DevIQ: Repository Pattern Explained</a></li>
+                    <li><a href="https://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Microsoft Docs: Designing the infrastructure persistence layer</a></li>
+                    <li><a href="https://medium.com/@hunterfreas/repository-pattern-what-is-it-and-why-do-we-use-it-6a6a8e781711" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Medium: Repository Pattern — What Is It, and Why do we Use It?</a></li>
+                </ul>
+            </section>
+            
+            <!-- API Gateway Section -->
+            <section id="api-gateway" class="pattern-content bg-white p-8 rounded-xl shadow-sm hidden">
+                <h2 class="text-4xl font-bold text-slate-900 border-b pb-4 mb-6">API Gateway Pattern</h2>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-6 mb-3">Developer Focus: How to Use It</h3>
+                <p class="leading-relaxed mb-4">An API Gateway acts as a single entry point for all clients. It sits in front of your backend services (especially in a microservices architecture) and routes requests to the appropriate service. It simplifies the client and handles cross-cutting concerns.</p>
+                <ul class="list-disc list-inside space-y-2 leading-relaxed">
+                    <li><strong>Request Routing:</strong> The primary job of the gateway is to route incoming requests to the correct downstream service. For example, a request to `/api/orders` would be routed to the Order service.</li>
+                    <li><strong>Request Aggregation:</strong> To reduce chattiness between the client and backend, the gateway can make multiple calls to different microservices and aggregate the results into a single response. This is sometimes called the "Backend for Frontend" (BFF) pattern.</li>
+                    <li><strong>Offload Cross-Cutting Concerns:</strong> Don't implement the same logic in every microservice. The gateway is the perfect place to handle things like:
+                        <ul class="list-disc list-inside ml-6 mt-2">
+                            <li>Authentication and Authorization (e.g., validating JWTs)</li>
+                            <li>Rate Limiting and Throttling</li>
+                            <li>SSL Termination</li>
+                            <li>Caching</li>
+                            <li>Logging and Monitoring</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">History</h3>
+                <p class="leading-relaxed">The API Gateway pattern emerged as a direct consequence of the shift towards microservices architecture. As companies broke down their monoliths into many small services, they needed a way to manage the complexity of client-to-service communication. The gateway provided a solution to avoid creating a "distributed monolith" where clients were tightly coupled to every single microservice.</p>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Frameworks & Libraries</h3>
+                <p class="leading-relaxed">You can use managed cloud services or self-hosted open-source solutions:</p>
+                <ul class="list-disc list-inside space-y-2 mt-2">
+                    <li><strong>Amazon API Gateway / Azure API Management / Google Cloud API Gateway:</strong> Managed services from major cloud providers.</li>
+                    <li><strong>Kong:</strong> A popular, open-source API gateway, built for performance and extensibility.</li>
+                    <li><strong>Tyk:</strong> An open-source API gateway and management platform.</li>
+                    <li><strong>Ocelot (.NET):</strong> A lightweight API gateway for .NET Core applications.</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-slate-800 mt-8 mb-3">Free Online Resources</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><a href="https://www.nginx.com/learn/api-gateway/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">NGINX: What Is an API Gateway?</a></li>
+                    <li><a href="https://www.osohq.com/learn/api-gateway-patterns-for-microservices" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Oso: API Gateway Patterns for Microservices</a></li>
+                    <li><a href="https://cloud.google.com/api-gateway/docs/tutorials" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Google Cloud: API Gateway Tutorials</a></li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.pattern-content');
+            const activeLinkClasses = ['bg-blue-600', 'text-white', 'shadow-md'];
+            const inactiveLinkClasses = ['text-slate-700', 'hover:bg-slate-200'];
+
+            function updateContent(hash) {
+                // Default to the first link if hash is invalid or empty
+                const targetHash = hash || navLinks[0].getAttribute('href');
+                
+                // Hide all sections
+                contentSections.forEach(section => {
+                    section.classList.add('hidden');
+                });
+
+                // Deactivate all links
+                navLinks.forEach(link => {
+                    link.classList.remove(...activeLinkClasses);
+                    link.classList.add(...inactiveLinkClasses);
+                });
+
+                // Find and show the target section and activate the link
+                const targetSection = document.querySelector(targetHash);
+                const targetLink = document.querySelector(`a[href="${targetHash}"]`);
+
+                if (targetSection && targetLink) {
+                    targetSection.classList.remove('hidden');
+                    targetLink.classList.add(...activeLinkClasses);
+                    targetLink.classList.remove(...inactiveLinkClasses);
+                }
+            }
+
+            // Handle clicks on nav links
+            document.getElementById('sidebar-nav').addEventListener('click', (event) => {
+                if (event.target.tagName === 'A') {
+                    event.preventDefault();
+                    const hash = event.target.getAttribute('href');
+                    // The history.pushState call was removed because it can cause security errors 
+                    // in sandboxed environments (like this one).
+                    // history.pushState(null, null, hash); 
+                    updateContent(hash);
+                }
+            });
+
+            // Handle back/forward browser buttons
+            window.addEventListener('popstate', () => {
+                updateContent(window.location.hash);
+            });
+
+            // Initial load
+            updateContent(window.location.hash);
+        });
+    </script>
+
+</body>
+</html>

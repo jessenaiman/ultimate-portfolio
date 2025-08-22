@@ -5,219 +5,71 @@
 // TailwindCSS 4+ Typography: https://tailwindcss.com/docs/typography-plugin
 import Head from "../components/ui/Head.astro";
 import Navbar from "../components/ui/Navbar.astro";
-import { navigationItems } from "../data/navigation";
 import Footer from "../components/ui/Footer.astro";
 import "../styles/global.css";
 
-interface Props {
-  // Core metadata
-  title: string;
-  description?: string;
-  
-  // Layout options
-  maxWidth?: 'none' | 'prose' | 'container' | 'screen' | 'wide';
-  variant?: 'default' | 'documentation' | 'showcase' | 'blog' | 'framework';
-  
-  // Visual customization
-  bgColor?: string;
-  showHeader?: boolean;
-  showFooter?: boolean;
-  fullWidth?: boolean;
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
-  
-  // Framework layout specific
-  docsUrl?: string;
-  learnMoreTitle?: string;
-}
-
-const { 
-  // Core metadata
-  title, 
-  description = "Professional web development portfolio showcasing modern frameworks and best practices", 
-  
-  // Layout options
-  maxWidth = 'prose',
-  variant = 'default',
-  
-  // Visual customization
-  bgColor,
+// Simple, modern props (no variants)
+const {
+  title,
+  description = "Professional web development portfolio showcasing modern frameworks and best practices",
   showHeader = true,
   showFooter = true,
   fullWidth = false,
-  padding = 'md',
-  
-  // Framework layout specific
-  docsUrl,
-  learnMoreTitle = "Learn more about this framework"
+  // Layout tuning
+  maxWidth = "screen", // "prose" | "screen" | "wide"
+  padding = "md", // "none" | "sm" | "md" | "lg"
 } = Astro.props;
 
-// Calculate padding classes based on padding prop
-const paddingClasses = {
-  none: '',
-  sm: 'py-4',
-  md: 'py-8',
-  lg: 'py-12',
-  xl: 'py-16',
-}[padding];
+// Max width + padding mappings
+const maxWidthClass = (
+  maxWidth === "prose" ? "max-w-prose" :
+  maxWidth === "wide" ? "max-w-7xl" :
+  "max-w-screen-xl"
+);
 
-// Calculate max width classes based on maxWidth prop
-const maxWidthClasses = {
-  none: '',
-  prose: 'max-w-prose',
-  container: 'container',
-  screen: 'max-w-screen-lg',
-  wide: 'max-w-screen-xl',
-}[maxWidth];
+const paddingClass = (
+  padding === "none" ? "p-0" :
+  padding === "sm" ? "p-4 sm:p-6" :
+  padding === "lg" ? "p-8 sm:p-12" :
+  "p-6 sm:p-8"
+);
 
-// Variant-specific classes
-const variantClasses = {
-  default: '',
-  documentation: 'prose dark:prose-invert max-w-none',
-  showcase: 'max-w-none',
-  blog: 'prose dark:prose-invert max-w-4xl mx-auto',
-  framework: 'max-w-none',
-}[variant];
+// For wide mode, we don't want the container class which limits width
+const containerClass = maxWidth === "wide" ? "" : "container mx-auto";
 ---
 
 <!-- Dynamic theme and smooth scrolling -->
-<html lang="en" class:list={["scroll-smooth"]}>
-  <Head title={title} description={description} bgColor={bgColor}>
+<html lang="en" class="scroll-smooth" transition:name="root" transition:animate="fade">
+  <Head title={title} description={description}>
     <slot name="head" />
   </Head>
   
   <!-- Animated background elements -->
-  <div class:list={["fixed", "inset-0", "-z-10", "overflow-hidden"]}>
-    <div class:list={[
-      "absolute", 
-      "inset-0", 
-      "bg-gradient-to-br", 
-      "from-base-100", 
-      "via-base-200/80", 
-      "to-base-100/80",
-      "dark:from-base-300", 
-      "dark:via-base-200/90", 
-      "dark:to-base-100/90",
-      "transition-colors", 
-      "duration-500"
-    ]}></div>
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-base-100 via-base-200/80 to-base-100/80 transition-colors duration-500"></div>
     <div 
-      class:list={["absolute", "inset-0", "opacity-20", "dark:opacity-10"]} 
+      class="absolute inset-0 opacity-20" 
       style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM0NDQiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIwOS0xLjc5MS00LTQtNHMtNCAxLjc5MS00IDQgMS43OTEgNCA0IDQgNC0xLjc5MSA0LTR6bS0yIDBjMCAxLjEwNC0uODk2IDItMiAycy0yLS44OTYtMi0yIC44OTYtMiAyLTIgMiAuODk2IDIgMnoiLz48L2c+PC9nPjwvc3Zn')"
     ></div>
   </div>
 
   <body 
-    class:list={[
-      'min-h-screen flex flex-col',
-      'bg-base-100 text-base-content',
-      'transition-all duration-300 ease-in-out',
-      'antialiased',
-      'font-sans',
-      'relative',
-      'scroll-smooth', // For smooth scrolling to anchors
-      variant === 'showcase' && 'overflow-x-hidden',
-      variant === 'documentation' && 'bg-base-200/50',
-      variant === 'blog' && 'bg-base-200/30',
-      variant === 'framework' && 'bg-base-200/20',
-      padding === 'none' ? 'p-0' :
-      padding === 'sm' ? 'p-2 md:p-4' :
-      padding === 'md' ? 'p-4 md:p-6' :
-      padding === 'lg' ? 'p-6 md:p-8' :
-      padding === 'xl' ? 'p-8 md:p-12' : 'p-4 md:p-6',
-      // Add haptic feedback for touch devices
-      'active:scale-[0.99] active:opacity-90 transition-transform duration-100 ease-out'
-    ]}
-    data-layout-variant={variant}
+    class={`min-h-screen flex flex-col bg-base-100 text-base-content transition-all duration-300 ease-in-out antialiased font-sans relative scroll-smooth ${paddingClass} active:scale-[0.99] active:opacity-90 transition-transform duration-100 ease-out`}
+    transition:name="page-container"
   >
     <!-- Header with improved glass effect and border -->
     {showHeader && (
-      <header class:list={[
-        "sticky", 
-        "top-0", 
-        "z-50", 
-        "backdrop-blur-sm", 
-        "bg-base-100/80", 
-        "dark:bg-base-200/50",
-        "border-b", 
-        "border-base-200",
-        "dark:border-base-300"
-      ]}>
-        <Navbar items={navigationItems} currentPath={Astro.url.pathname} />
+      <header class="sticky top-0 z-50 backdrop-blur-sm bg-base-100/80 border-b border-base-200">
+        <Navbar />
       </header>
     )}
 
     <!-- Main content with improved spacing and container -->
-    <main 
-      class:list={[
-        'flex-1',
-        'w-full',
-        'mx-auto',
-        'transition-all duration-300',
-        'fluid-space-y', // Apply fluid spacing to direct children
-        fullWidth ? 'max-w-full px-0' :
-        maxWidth === 'none' ? 'w-full' :
-        maxWidth === 'prose' ? 'w-full max-w-prose px-4' :
-        maxWidth === 'container' ? 'container px-4' :
-        maxWidth === 'screen' ? 'w-full max-w-screen-xl px-4' :
-        maxWidth === 'wide' ? 'w-full max-w-7xl px-4' : 'w-full max-w-5xl px-4',
-        variant === 'documentation' && 'pt-8',
-        variant === 'blog' && 'pt-8',
-        variant === 'framework' && 'pt-8',
-        // Add container queries support
-        '@container',
-        'break-words', // Better text wrapping
-        'hyphens-auto' // Better hyphenation for long words
-      ]}
-      data-scroll-container
-      data-scroll-section
-    >
-      {variant === 'blog' ? (
-        <article class:list={["container", "mx-auto", "px-4", maxWidthClasses]}>
-          <header class:list={["mb-8"]}>
-            <slot name="header" />
-          </header>
-          <div class:list={[variantClasses]}>
-            <slot />
-          </div>
-        </article>
-      ) : variant === 'framework' ? (
-        <div class:list={["space-y-8"]}>
-          <slot name="hero" />
-          <div class:list={["container", "mx-auto", "px-4", maxWidthClasses]}>
-            <div class:list={["space-y-8"]}>
-              <div class="collapse collapse-arrow border border-base-300 bg-base-200 rounded-box">
-                <div class="collapse-title text-xl font-medium">
-                  {learnMoreTitle}
-                </div>
-                <div class="collapse-content prose max-w-none p-4">
-                  <slot name="content" />
-                  {docsUrl && (
-                    <div class="mt-4">
-                      <a 
-                        href={docsUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        class="btn btn-sm btn-outline"
-                      >
-                        Official Docs
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div class="divider my-8" id="demos">Interactive Demos</div>
-              <slot name="demos" />
-            </div>
-          </div>
-        </div>
-      ) : fullWidth ? (
-        <>
-          <slot name="hero" />
-          <slot />
-        </>
+    <main class="flex-1 w-full transition-all duration-300 fluid-space-y break-words hyphens-auto" transition:name="main-content">
+      {fullWidth ? (
+        <slot />
       ) : (
-        <div class:list={["container", "mx-auto", "px-4", maxWidthClasses, variantClasses]}>
-          <slot name="hero" />
+        <div class={`${containerClass} px-4 w-full ${maxWidthClass} ${paddingClass}`} transition:name="content-wrapper">
           <slot />
         </div>
       )}
@@ -225,7 +77,7 @@ const variantClasses = {
     
     <!-- Sticky footer with glass effect -->
     {showFooter && (
-      <footer class:list={["footer", "footer-center", "bg-base-200/80", "dark:bg-base-300/80", "text-base-content", "border-t", "border-base-300/50", "p-6", "backdrop-blur-sm", "transition-colors", "duration-500"]}>
+      <footer class="footer footer-center bg-base-200/80 text-base-content border-t border-base-300/50 p-6 backdrop-blur-sm transition-colors duration-500">
         <Footer />
       </footer>
     )}

@@ -1,21 +1,21 @@
 ---
 // src/pages/vue-framework.astro
-import FrameworkLayout from '../layouts/FrameworkLayout.astro';
-import { Content as VueContent } from '../content/info/vue-framework.md';
-import DemoCard from '../components/ui/DemoCard.astro';
+import Layout from '../../layouts/Layout.astro';
+import { Content as VueContent } from '../../content/info/vue-framework.md';
+import DemoCard from '../../components/ui/DemoCard.astro';
 import { Code } from 'astro:components';
 
 // Import Vue components for interactive demos
-import TypeWriterDemo from '../components/Vue/demos/TypeWriterDemo.vue';
-import CounterDemo from '../components/Vue/demos/CounterDemo.vue';
-import VueHero from '../components/Vue/Hero.vue';
+import TypeWriterDemo from '../../components/Vue/demos/TypeWriterDemo.vue';
+import CounterDemo from '../../components/Vue/demos/CounterDemo.vue';
+import VueHero from '../../components/Vue/Hero.vue';
 
 // Import raw code for display
 import TypeWriterDemoRaw from '../components/Vue/demos/TypeWriterDemo.vue?raw';
 import CounterDemoRaw from '../components/Vue/demos/CounterDemo.vue?raw';
 ---
 
-<FrameworkLayout 
+<Layout 
   title="Vue.js Framework" 
   description="The Progressive JavaScript Framework for building modern web interfaces."
   learnMoreTitle="Learn more about Vue.js"
@@ -48,4 +48,4 @@ import CounterDemoRaw from '../components/Vue/demos/CounterDemo.vue?raw';
       </div>
     </DemoCard>
   </div>
-</FrameworkLayout>
+</Layout>
