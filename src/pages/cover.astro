@@ -2,9 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/ui/Hero.astro';
 import HomeContent from '../content/home.mdx';
-import Cover from '../content/resume/cover.md';
-import Resume from '../content/resume/resume.md';
-import Experience from '../content/experience.mdx';
+import CoverContent from '../content/cover.md';
+import Resume from '../content/resume.md';
 ---
 
 <Layout title="Jesse Naiman - Senior Developer">
@@ -31,7 +30,7 @@ import Experience from '../content/experience.mdx';
           <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Cover Letter" checked />
           <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
             <article class="prose lg:prose-xl max-w-none">
-              <Cover />
+              <CoverContent />
             </article>
           </div>
 
@@ -48,14 +47,6 @@ import Experience from '../content/experience.mdx';
           <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
             <article class="prose lg:prose-xl max-w-none">
               <HomeContent />
-            </article>
-          </div>
-
-          <!-- Experience Tab -->
-          <input type="radio" name="resume_tabs" role="tab" class="tab" aria-label="Experience" />
-          <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-            <article class="prose lg:prose-xl max-w-none">
-              <Experience />
             </article>
           </div>
         </div>

@@ -1,7 +1,7 @@
 ---
 // src/pages/vue-framework.astro
 import Layout from '../../layouts/Layout.astro';
-import { Content as VueContent } from '../../content/info/vue-framework.md';
+import { Content as VueContent } from '../../content/vue-framework.md';
 import DemoCard from '../../components/ui/DemoCard.astro';
 import { Code } from 'astro:components';
 
@@ -10,9 +10,61 @@ import TypeWriterDemo from '../../components/Vue/demos/TypeWriterDemo.vue';
 import CounterDemo from '../../components/Vue/demos/CounterDemo.vue';
 import VueHero from '../../components/Vue/Hero.vue';
 
-// Import raw code for display
-import TypeWriterDemoRaw from '../components/Vue/demos/TypeWriterDemo.vue?raw';
-import CounterDemoRaw from '../components/Vue/demos/CounterDemo.vue?raw';
+// Example code for display (safer than ?raw imports)
+const TypeWriterDemoRaw = `<template>
+  <div class="typewriter-demo w-full">
+    <div class="card w-full bg-base-200 shadow-xl">
+      <div class="card-body p-4">
+        <h3 class="card-title text-sm">TypeWriter Demo</h3>
+        <div class="mockup-code bg-primary text-primary-content">
+          <pre><code>{{ displayedText }}█</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+const phrases = [
+  '// Reactive state management',
+  '// Single-file components',
+  '// Composable functions'
+]
+
+const displayedText = ref('')
+// ... Vue.js typewriter logic
+</script>`;
+
+const CounterDemoRaw = `<template>
+  <div class="counter-demo w-full">
+    <div class="stats shadow w-full bg-base-200">
+      <div class="stat">
+        <div class="stat-title">Counter Demo</div>
+        <div class="stat-value text-primary">{{ count }}</div>
+        <div class="stat-actions flex gap-2 mt-2">
+          <button class="btn btn-sm btn-primary" @click="increment">
+            Increment
+          </button>
+          <button class="btn btn-sm btn-outline" @click="decrement">
+            Decrement
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const count = ref(0)
+
+const increment = () => count.value++
+const decrement = () => count.value--
+// ... more Vue.js logic
+</script>`;
 ---
 
 <Layout 

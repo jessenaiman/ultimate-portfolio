@@ -1,0 +1,28 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Content } from "../../content/dungeons.mdx";
+
+const headline = "Dungeons & Dragons Adventures";
+const subheading = "RPG stories, adventures, and tales from the gaming table.";
+---
+
+<Layout title={headline} description={subheading}>
+
+  <main class="container mx-auto px-4 py-16">
+
+    <div class="hero bg-gradient-to-r from-secondary to-accent text-secondary-content rounded-box mb-12">
+      <div class="hero-content text-center py-12">
+        <div class="max-w-md">
+          <h1 class="text-4xl font-bold">{headline}</h1>
+          <p class="py-6 text-lg">{subheading}</p>
+        </div>
+      </div>
+    </div>
+
+    <article class="prose prose-lg max-w-none">
+      <Content />
+    </article>
+
+  </main>
+
+</Layout>

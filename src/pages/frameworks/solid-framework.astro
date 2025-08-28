@@ -2,7 +2,7 @@
 // src/pages/solid-framework.astro
 import Layout from '../../layouts/Layout.astro';
 import { Code } from 'astro:components';
-import { Content as SolidContent } from '../../content/info/solid-framework.md';
+import { Content as SolidContent } from '../../content/solid-framework.md';
 import { Icon } from 'astro-icon/components';
 import DemoCard from '../../components/ui/DemoCard.astro';
 
@@ -31,12 +31,7 @@ import solidFeaturesSource from '../../components/Solid/Features.jsx?raw';
   <!-- Interactive Demos - Slot for demos -->
   <div slot="demos" class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-    <DemoCard
-      title="Features Section"
-      description="A features section demonstrating conditional rendering and component composition in SolidJS."
-      iconName="mdi:view-list"
-      sourceFileName="Features.jsx"
-    >
+    <DemoCard sourceFileName="Features.jsx">
       <div slot="demo" class="p-4">
         <SolidFeatures client:only='solid-js' />
       </div>

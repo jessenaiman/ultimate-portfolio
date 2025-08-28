@@ -7,11 +7,10 @@ import { Icon } from "astro-icon/components";
 // Extract sections from navigation data
 const findSection = (name: string) => navigationItems.find((n) => n.name === name);
 const frameworkDemos = findSection('framework-demos')?.children ?? [];
-const ai = findSection('ai')?.children ?? [];
-const design = findSection('design')?.children ?? [];
 
 // Manually curated examples and key pages
 const examples = [
+  { name: 'chat', displayName: 'AI Assistant', features: 'Professional AI Chat', path: '/chat', icon: 'mdi:chat-processing', isNew: true, badge: 'New', badgeColor: 'success' },
   { name: 'portfolio', displayName: 'Portfolio', features: 'Projects & Case Studies', path: '/portfolio', icon: 'mdi:briefcase' },
   { name: 'resume', displayName: 'Resume', features: 'Experience & Skills', path: '/resume', icon: 'mdi:file-document' },
   { name: 'test-dashboard', displayName: 'Dashboard', features: 'UI + Data Demo', path: '/test-dashboard', icon: 'mdi:view-dashboard' },
@@ -36,13 +35,11 @@ const externalTools = [
   }
 ];
 
-// Build featured list in priority order: Frameworks → Design → AI → Examples
+// Build featured list: Frameworks → Examples → External Tools
 const featured = [
-  ...externalTools,
   ...frameworkDemos,
-  ...design,
-  ...ai,
   ...examples,
+  ...externalTools,
 ];
 ---
 
@@ -195,36 +192,14 @@ const featured = [
 
   <!-- Quick Sections -->
   <section class="py-6">
-    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="container mx-auto px-4">
       <!-- Frameworks -->
-      <div class="card bg-base-100">
+      <div class="card bg-base-100 max-w-md mx-auto">
         <div class="card-body p-5">
           <h3 class="card-title mb-2">Frameworks</h3>
           <div class="flex flex-wrap gap-2">
             {frameworkDemos.map((f) => (
               <a href={f.path} class="badge badge-outline hover:badge-primary">{f.displayName}</a>
-            ))}
-          </div>
-        </div>
-      </div>
-      <!-- Design -->
-      <div class="card bg-base-100">
-        <div class="card-body p-5">
-          <h3 class="card-title mb-2">Design</h3>
-          <div class="flex flex-wrap gap-2">
-            {design.map((d) => (
-              <a href={d.path} class="badge badge-outline hover:badge-primary">{d.displayName}</a>
-            ))}
-          </div>
-        </div>
-      </div>
-      <!-- AI -->
-      <div class="card bg-base-100">
-        <div class="card-body p-5">
-          <h3 class="card-title mb-2">AI</h3>
-          <div class="flex flex-wrap gap-2">
-            {ai.map((a) => (
-              <a href={a.path} class="badge badge-outline hover:badge-primary">{a.displayName}</a>
             ))}
           </div>
         </div>

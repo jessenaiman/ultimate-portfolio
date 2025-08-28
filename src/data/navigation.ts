@@ -13,24 +13,24 @@ export interface NavigationItem {
 
 // Main navigation data structure
 export const navigationItems: NavigationItem[] = [
-  { 
-    name: 'home', 
-    displayName: 'Home', 
-    features: 'Main Page', 
+  {
+    name: 'home',
+    displayName: 'Home',
+    features: 'Main Page',
     path: '/',
     icon: 'mdi:home'
   },
-  { 
-    name: 'portfolio', 
-    displayName: 'Portfolio', 
-    features: 'Project Showcase', 
+  {
+    name: 'portfolio',
+    displayName: 'Portfolio',
+    features: 'Project Showcase',
     path: '/portfolio',
     icon: 'mdi:briefcase'
   },
-  { 
-    name: 'stack', 
-    displayName: 'Website Stack', 
-    features: 'Technology Stack Documentation', 
+  {
+    name: 'stack',
+    displayName: 'Website Stack',
+    features: 'Technology Stack Documentation',
     path: '/styleguide',
     icon: 'mdi:layers',
   },
@@ -42,126 +42,81 @@ export const navigationItems: NavigationItem[] = [
     icon: 'mdi:code-tags',
     children: [
       // Updated framework demo paths to avoid reserved words (see: https://docs.astro.build/en/core-concepts/routing/)
-      { 
-        name: 'react', 
-        displayName: 'React', 
-        features: 'UI Library', 
+      {
+        name: 'react',
+        displayName: 'React',
+        features: 'UI Library',
         path: '/frameworks/react-framework',
         icon: 'mdi:react'
       },
-      { 
-        name: 'vue', 
-        displayName: 'Vue', 
-        features: 'Progressive Framework', 
-        path: '/vue-framework',
+      {
+        name: 'vue',
+        displayName: 'Vue',
+        features: 'Progressive Framework',
+        path: '/frameworks/vue-framework',
         icon: 'mdi:vuejs'
       },
-      { 
-        name: 'svelte', 
-        displayName: 'Svelte', 
-        features: 'Compiler as Framework', 
-        path: '/svelte-framework',
+      {
+        name: 'svelte',
+        displayName: 'Svelte',
+        features: 'Compiler as Framework',
+        path: '/frameworks/svelte-framework',
         icon: 'mdi:language-typescript'
       },
-      { 
-        name: 'solid', 
-        displayName: 'SolidJS', 
-        features: 'Reactive UI Library', 
-        path: '/solid-framework',
+      {
+        name: 'solid',
+        displayName: 'SolidJS',
+        features: 'Reactive UI Library',
+        path: '/frameworks/solid-framework',
         icon: 'mdi:language-javascript'
       }
     ]
   },
   {
-    name: 'ai',
-    displayName: 'AI & Machine Learning',
-    features: 'AI Solutions & Demos',
-    path: '#',
-    icon: 'mdi:robot',
-    children: [
-      { 
-        name: 'ai-overview',
-        displayName: 'AI Overview',
-        features: 'AI Capabilities',
-        path: '/ai/overview',
-        icon: 'mdi:view-dashboard',
-        isNew: true
-      },
-      { 
-        name: 'chat-gpt', 
-        displayName: 'Chat GPT', 
-        features: 'AI Assistant', 
-        path: '/ai/flowise-chat',
-        icon: 'mdi:chat',
-        isNew: true
-      },
-      { 
-        name: 'pollinate-ai', 
-        displayName: 'Pollinate AI', 
-        features: 'AI Generation Tools', 
-        path: '/pollinate-ai',
-        icon: 'mdi:flower-pollen',
-        isNew: true
-      },
-      { 
-        name: 'blockchain-ai', 
-        displayName: 'Blockchain AI', 
-        features: 'Web3 AI Integration', 
-        path: '/blockchain-ai',
-        icon: 'mdi:link-variant',
-        isNew: true
-      }
-    ]
+    name: 'chat',
+    displayName: 'AI Assistant',
+    features: 'Professional AI Chat Assistant',
+    path: '/chat',
+    icon: 'mdi:chat-processing',
+    isNew: true,
+    badge: 'New',
+    badgeColor: 'success'
   },
   {
-    name: 'design', 
-    displayName: 'Design', 
-    features: 'Web Design', 
+    name: 'blog',
+    displayName: 'Developer Blog',
+    features: 'Technical Articles & Insights',
     path: '#',
-    icon: 'mdi:briefcase',
+    icon: 'mdi:blog-outline',
     children: [
       {
-        name: 'layouts',
-        displayName: 'Layouts',
-        features: 'Tailwind CSS Layouts',
-        path: '/design/design-layouts',
-        icon: 'mdi:briefcase'
-      },
-      { 
-        name: 'effects', 
-        displayName: 'Effects', 
-        features: 'Tailwind CSS Effects', 
-        path: '/design/effects',
-        icon: 'mdi:briefcase'
-      },
-      { 
-        name: 'transitions', 
-        displayName: 'Transitions', 
-        features: 'Tailwind CSS Transitions & Effects', 
-        path: '/design/transitions',
-        icon: 'mdi:briefcase'
+        name: 'camp',
+        displayName: 'Summer Camp Chronicles',
+        features: 'Game development stories',
+        path: '/blog/camp',
+        icon: 'mdi:campfire'
       },
       {
-        name: 'animation',
-        displayName: 'Animation',
-        features: 'Animate.css Demos',
-        path: '/design/animation',
-        icon: 'mdi:briefcase'
+        name: 'dungeons',
+        displayName: 'Dungeons & Dragons',
+        features: 'RPG adventures and stories',
+        path: '/blog/dungeons',
+        icon: 'mdi:dungeon'
       },
       {
-        name: 'mobile',
-        displayName: 'Mobile',
-        features: 'Mobile Demos',
-        path: '/design/mobile',
-        icon: 'mdi:briefcase'
+        name: 'storyteller',
+        displayName: 'Storyteller Services',
+        features: 'Professional storytelling services',
+        path: '/blog/storyteller',
+        icon: 'mdi:book-open-page-variant'
       },
       {
-        name: 'three',
-        displayName: 'Three.js',
-        features: 'Three.js Demos',
-        path: '/design/three',
-        icon: 'mdi:briefcase'
+        name: 'web-programmer',
+        displayName: 'Web Programming',
+        features: 'Programming insights and tutorials',
+        path: '/blog/web-programmer',
+        icon: 'mdi:code-braces'
       }
-    ] 
-  },
+    ]
+  }
 ];
