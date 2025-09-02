@@ -1,9 +1,8 @@
 ---
-// Modern framework documentation with professional DaisyUI 5+ tabbed interface
-// Documentation: https://daisyui.com/components/tab/
 import BaseLayout from "../layouts/Layout.astro";
 import FrameworkTabs from "../components/framework/FrameworkTabs.astro";
 import FrameworkFeature from "../components/framework/Feature.astro";
+import InteractiveDemos from "../components/ui/InteractiveDemos.astro";
 import { Code } from "astro:components";
 import GradientBorder from "../components/ui/GradientBorder.astro";
 
@@ -637,6 +636,19 @@ const daisyuiFeatures = [
     .animate-fade-in {
       animation: fadeIn 0.3s ease-out forwards;
     }
-  </style>
+  </div>
+
+  <!-- Interactive Demos Section -->
+  <section class="mt-20">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Interactive Component Demos</h2>
+      <p class="text-lg text-base-content/70 max-w-2xl mx-auto">
+        Explore live examples of DaisyUI components and see how they work in practice.
+        Click buttons, fill forms, and interact with the demos below.
+      </p>
+    </div>
+
+    <InteractiveDemos />
+  </section>
 
 </BaseLayout>
