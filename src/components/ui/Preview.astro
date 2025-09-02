@@ -1,0 +1,36 @@
+---
+import PreviewWrapper from './Preview/PreviewWrapper';
+
+interface Props {
+  title?: string;
+  description?: string;
+  showDemo?: boolean;
+  className?: string;
+  demoTitle?: string;
+}
+
+const {
+  title = "Preview Component",
+  description,
+  showDemo = true,
+  className = "",
+  demoTitle = "Demo"
+} = Astro.props;
+---
+
+<div class={`preview-container w-full border rounded-lg bg-background ${className}`}>
+  <!-- Header Section -->
+  <div class="preview-header border-b bg-muted/50 p-4">
+    <div class="flex justify-between items-center">
+      <div>
+        <h2 class="text-lg font-semibold">{title}</h2>
+        {description && <p class="text-sm text-muted-foreground mt-1">{description}</p>}
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview Content Area -->
+  <div class={`preview-content p-6 ${showDemo ? '' : 'opacity-50'} transition-opacity duration-300`}>
+    <slot />
+  </div>
+</div>

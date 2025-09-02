@@ -1,0 +1,34 @@
+---
+import { Input } from '../input';
+import { Label } from '../label';
+
+interface Props {
+  title: string;
+  value: string;
+  placeholder?: string;
+  width?: string;
+  maxLength?: number;
+  isDisabled?: boolean;
+}
+
+const {
+  title,
+  value,
+  placeholder = "",
+  width = "w-[300px]",
+  maxLength,
+  isDisabled = false
+} = Astro.props;
+---
+
+<div class="flex items-center gap-4 py-4">
+  <Label className="text-sm font-medium">{title}</Label>
+  <Input
+    type="text"
+    value={value}
+    placeholder={placeholder}
+    maxLength={maxLength}
+    disabled={isDisabled}
+    className={width}
+  />
+</div>

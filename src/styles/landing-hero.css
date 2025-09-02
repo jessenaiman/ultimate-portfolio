@@ -1,0 +1,104 @@
+.landing-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 6rem 1rem;
+  min-height: 80vh;
+}
+
+.hero-main-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.landing-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-base-content);
+}
+
+.landing-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  max-width: 600px;
+  margin: 0 auto;
+  color: oklch(from var(--color-base-content) l c h / 0.8);
+}
+
+.landing-gradient-blur {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150%;
+  max-width: 1200px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero-new-badge-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: oklch(from var(--color-primary) l c h / 0.1);
+  border: 1px solid oklch(from var(--color-primary) l c h / 0.3);
+  transition: all 0.3s ease;
+}
+
+.hero-new-badge-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px oklch(from var(--color-primary) l c h / 0.2);
+}
+
+.hero-new-badge {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.hero-new-badge-text {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--color-base-content);
+}
+
+.landing-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-primary-content);
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  gap: 0.5rem;
+}
+
+.landing-button:hover {
+  background-color: oklch(from var(--color-primary) calc(l + 0.05) c h);
+  transform: scale(1.05);
+}
+
+.button-arrow-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: oklch(from var(--color-primary-content) l c h / 0.2);
+}
+
+.button-arrow-circle svg {
+  stroke: var(--color-primary-content);
+}

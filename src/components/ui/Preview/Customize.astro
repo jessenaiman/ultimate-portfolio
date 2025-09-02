@@ -1,0 +1,12 @@
+---
+interface Props {
+  children?: any;
+}
+
+const { children } = Astro.props;
+---
+
+<div class="preview-options border rounded-lg p-4 bg-muted/20">
+  <h2 class="text-base font-medium text-foreground mb-4">Customize</h2>
+  {children}
+</div>

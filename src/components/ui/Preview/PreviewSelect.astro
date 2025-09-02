@@ -1,0 +1,36 @@
+---
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../select';
+import { Label } from '../label';
+
+interface Props {
+  title: string;
+  value: string;
+  options: Array<{ value: string; label: string }>;
+  width?: string;
+  isDisabled?: boolean;
+}
+
+const {
+  title,
+  value,
+  options,
+  width = "w-[200px]",
+  isDisabled = false
+} = Astro.props;
+---
+
+<div class="flex items-center gap-4 py-4">
+  <Label className="text-sm font-medium">{title}</Label>
+  <Select value={value} disabled={isDisabled}>
+    <SelectTrigger className={width}>
+      <SelectValue placeholder="Select an option" />
+    </SelectTrigger>
+    <SelectContent>
+      {options.map((option) => (
+        <SelectItem key={option.value} value={option.value}>
+          {option.label}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+</div>
