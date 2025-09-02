@@ -44,7 +44,7 @@ const info = defineCollection({
       if (typeof tags === 'string') return [tags];
       return tags || [];
     }),
-    contentType: z.literal('info').default('info'),
+    contentType: z.string().default('info'),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),

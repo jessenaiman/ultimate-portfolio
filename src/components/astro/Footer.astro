@@ -1,0 +1,54 @@
+---
+import { Icon } from 'astro-icon/components';
+import { getCollection } from 'astro:content';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+  <!-- About/Logo Section -->
+  <aside>
+    <div class="flex flex-col items-start">
+      <h2 class="text-xl font-bold">Jesse Naiman</h2>
+      <p class="mt-2">Future Stack Dev</p>
+      <p class="mt-1">Aurora, Ontario</p>
+    </div>
+  </aside>
+  
+  <!-- AI & ML Section -->
+  <nav>
+    <h6 class="footer-title">AI & Machine Learning</h6>
+    <a href="/ai/overview" class="link link-hover">AI Overview</a>
+    <a href="/ai/flowise-chat" class="link link-hover">Chat GPT</a>
+    <a href="/pollinate-ai" class="link link-hover">Pollinate AI</a>
+    <a href="/blockchain-ai" class="link link-hover">Blockchain AI</a>
+  </nav>
+  
+  <!-- Quality Control Section -->
+  <nav>
+    <h6 class="footer-title">Quality Control</h6>
+    <a href="/test-dashboard" class="link link-hover">Test Dashboard</a>
+    <a href="/qa-process" class="link link-hover">QA Process</a>
+    <a href="/testing" class="link link-hover">Testing Tools</a>
+    <a href="/reports" class="link link-hover">Reports</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title">Resources</h6>
+    <a href="/documentation" class="link link-hover">Documentation</a>
+    <a href="/tutorials" class="link link-hover">Tutorials</a>
+    <a href="/blog" class="link link-hover">Blog</a>
+    <a href="/support" class="link link-hover">Support</a>
+  </nav>
+  <nav>
+    <h6 class="footer-title">Connect</h6>
+
+    <p class="mt-4 text-sm">&copy; {currentYear} {'Jesse Naiman'}</p>
+  </nav>
+</footer>
+
+<!-- Secondary Footer with Credits -->
+<div class="bg-base-300 py-4 text-center text-sm text-base-content/70">
+  <div class="flex flex-col md:flex-row justify-center items-center gap-2">
+    <span>Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="link link-hover">Astro</a></span>
+    <span class="hidden md:inline">
+</div>

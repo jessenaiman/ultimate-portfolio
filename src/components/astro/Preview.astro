@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  className?: string;
+}
+const { title, description, className = "" } = Astro.props as Props;
+---
+
+<section class={`preview-block space-y-4 ${className}`}>
+  <header class="space-y-1">
+    <h3 class="text-base font-semibold text-foreground">{title}</h3>
+    {description && <p class="text-sm text-muted-foreground">{description}</p>}
+  </header>
+
+  <div class="preview-panel relative border rounded-lg p-4 bg-background/50">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .preview-block :where(.preview-panel) {
+    backdrop-filter: var(--preview-backdrop, blur(0));
+  }
+</style>

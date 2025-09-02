@@ -1,12 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Hero from "../components/ui/Hero.astro";
-import DemoCard from "../components/ui/DemoCard.astro";
+import Hero from "../components/astro/Hero.astro";
+import DemoCard from "../components/astro/DemoCard.astro";
 import { Code } from 'astro:components';
 import { Content as ChatContent } from "../content/pollinate-ai.md";
 
 // Import the main interactive component
-import InteractiveShowcase from "../components/React/Assistant/InteractiveShowcase.tsx";
+import InteractiveShowcase from "../components/react/Assistant/InteractiveShowcase.tsx";
 
 // Safe code example instead of ?raw import
 const chatSource = `import React, { useState, useRef, useEffect } from 'react';

@@ -7,7 +7,7 @@ tags:
   - astro
   - blogging
   - learning in public
-contentType: "post"
+contentType: "info"
 featured: true
 thumbnail: 'https://docs.astro.build/assets/rose.webp'
 ---

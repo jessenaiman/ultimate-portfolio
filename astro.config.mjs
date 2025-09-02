@@ -29,20 +29,20 @@ export default defineConfig({
     react({
       include: [
         "**/components/ui/**/*.{jsx,tsx}",
-        "**/components/React/**/*.{tsx}"
+        "**/components/react/**/*.{tsx}"
       ],
       exclude: [
-        "**/components/React/reactbits/**"
+        "**/components/react/reactbits/**"
       ]
     }), 
     svelte({
-      include: ["**/Svelte/**/*.svelte"],
+      include: ["**/svelte/**/*.svelte"],
     }), 
     vue({
       include: ["**/*.vue", "**/Vue/**/*.{jsx,tsx}"],
     }), 
     solidJs({
-      include: ["**/Solid/**/*.{jsx,tsx}"],
+      include: ["**/solid/**/*.{jsx,tsx}"],
     }), 
     sitemap(), 
     astroExpressiveCode({
@@ -54,8 +54,7 @@ export default defineConfig({
         },
       }
     }), 
-    mdx(), 
-    db()
+    mdx()
   ],
   build: {
     format: 'file',

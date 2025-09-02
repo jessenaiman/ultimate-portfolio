@@ -1,0 +1,10 @@
+---
+import { navigationItems } from "../../data/navigation";
+import { NavBar } from "../react/navigation/NavBar";
+
+const currentPath = Astro.url.pathname;
+---
+
+<div>
+  <NavBar client:load items={navigationItems} currentPath={currentPath} />
+</div>

@@ -34,11 +34,11 @@ trigger: always_on
 ```
 src/
 ├── components/  # Reusable UI components
-│   ├── Astro/   # Astro-specific components
-│   ├── React/   # React components
-│   ├── Svelte/  # Svelte components
-│   ├── Solid/   # Solid components
-│   ├── Vue/     # Vue components
+│   ├── astro/   # Astro-specific components
+│   ├── react/   # React components
+│   ├── svelte/  # Svelte components
+│   ├── solid/   # Solid components
+│   ├── vue/     # Vue components
 │   └── ui/      # Shared UI components
 ├── layouts/     # Page layout templates
 ├── pages/       # Route-based page components
@@ -50,18 +50,14 @@ src/
 
 ## Styling System
 
-shadcn is integrated as a Tailwind CSS plugin that provides pre-styled component classes. It is NOT a separate CSS framework.
+shadcn is integrated as a Tailwind CSS plugin that provides pre-styled component classes.
 
 ```css
 /* From src/styles/global.css */
 @import "tailwindcss";
 ```
-
-- **Component-First Approach**: Start building UI elements with daisyUI component classes like `btn`, `card`, `modal`, `drawer`
-- **Semantic Colors**: Use daisyUI theme-aware color classes (`bg-primary`, `text-accent`, `border-secondary`)
 - **DO NOT** use arbitrary Tailwind color utilities like `bg-blue-500` as they bypass the theme system
-- **Component Structure**: Follow daisyUI's component structure (e.g., `card` → `card-body` → `card-title`)
-
+- **Component Structure**: Follow shadcn documentation
 #### Examples:
 
 ```html
@@ -79,7 +75,7 @@ shadcn is integrated as a Tailwind CSS plugin that provides pre-styled component
 
 ### Tailwind CSS Utility Layer
 
-Tailwind CSS provides utility classes for all custom styling needs beyond daisyUI components.
+Tailwind CSS provides utility classes for all custom styling needs beyond shadcn components.
 
 - **Primary Use Cases**:
   - Layout (Flexbox, Grid): `flex`, `grid`, `grid-cols-3`
@@ -98,7 +94,7 @@ Tailwind CSS provides utility classes for all custom styling needs beyond daisyU
 
 ### Framework-Specific Components
 
-- Each framework (React, Svelte, Solid, Vue) has its own folder in `src/components/`
+- Each framework (react, svelte, solid, vue) has its own folder in `src/components/`
 - Use appropriate file extensions (`.tsx`, `.svelte`, `.vue`) 
 - Always add appropriate client directives (`client:load`, `client:visible`, etc.)
 

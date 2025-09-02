@@ -101,7 +101,7 @@ export const navigationItems: NavigationItem[] = [
         displayName: 'Dungeons & Dragons',
         features: 'RPG adventures and stories',
         path: '/blog/dungeons',
-        icon: 'mdi:dungeon'
+        icon: 'mdi:campfire'
       },
       {
         name: 'storyteller',
